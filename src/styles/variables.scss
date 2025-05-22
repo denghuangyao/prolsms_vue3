@@ -1,0 +1,31 @@
+$color-primary: #3557cc;
+// 默认设计稿的宽度
+$designWidth: 1920;
+// 默认设计稿的高度
+$designHeight: 1080;
+//1920*1080设计稿，适配3840x2160分辨率，100px => vw(100)
+@function pxTovw($px) {
+  @return calc($px / $designWidth) * 100vw;
+}
+// px 转为 vh 的函数
+@function pxTovh($px) {
+  @return calc($px / $designHeight) * 100vh;
+}
+// props-dpr
+@mixin props-dpr($props, $values) {
+  @if length($props) == 1 {
+    @if length($values) == 1 {
+      #{$props}: px2vw($values);
+    } @else {
+      $valueStr: ();
+      @each $value in $values {
+        $valueStr: append($valueStr, px2vw($value));
+      }
+      #{$props}: $valueStr;
+    }
+  } @else {
+    @each $prop in $props {
+      #{$prop}: px2vw(nth($values, index($props, $prop)));
+    }
+  }
+}
