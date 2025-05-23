@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import { User, Lock, Iphone } from '@element-plus/icons-vue'
+import { Lock, Iphone } from '@element-plus/icons-vue'
+import IconEpUser from "~icons/ep/user"
 let formRef = ref<FormInstance>();
 const loginForm = reactive({
     username: "",
@@ -28,12 +29,13 @@ let language = ref("");
 let languageSwitch = (lang: string) => {
     language.value = lang;
 }
+let isOpen = ref(false)
 let handleLogin = () => {
-    
-
+    isOpen.value = true
 }
 </script>
 <template>
+    <Modal v-model="isOpen" />
     <div class="login_container">
         <div class="login_logo_div">
             <div class="login_title_box">
@@ -63,7 +65,7 @@ let handleLogin = () => {
                     <div>
                         <el-form-item prop="username">
                             <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on"
-                                placeholder="请输入用户名" :prefix-icon="User">
+                                placeholder="请输入用户名" :prefix-icon="IconEpUser">
                             </el-input>
                             <div class="iconFormItem">
                                 <!-- <img src="assets/images/login/L_user.png" /> -->
