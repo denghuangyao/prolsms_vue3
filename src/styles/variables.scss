@@ -1,10 +1,20 @@
 $color-primary: #3557cc;
+$fontSize: 14px;
+$fontColor: #181f47;
+//字体
+$font-family:
+  Microsoft YaHei,
+  Arial,
+  Avenir,
+  Helvetica,
+  sans-serif;
 // 默认设计稿的宽度
 $designWidth: 1920;
 // 默认设计稿的高度
 $designHeight: 1080;
 //1920*1080设计稿，适配3840x2160分辨率，100px => vw(100)
 @function pxTovw($px) {
+  // @return calc($px) px;
   @return calc($px / $designWidth) * 100vw;
 }
 // px 转为 vh 的函数
