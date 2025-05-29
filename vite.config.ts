@@ -8,10 +8,19 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
+
+//mock配置
+import { ConfigEnv } from 'vite'
+import { viteMockServe } from 'vite-plugin-mock'
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }: ConfigEnv) => ({
   plugins: [
     vue(),
+    viteMockServe({
+      mockPath: 'src/mock', // mock文件存放目录
+      enable: command === 'serve', // 只在开发服务器启用
+      logger: true, // 是否在控制台显示请求日志
+    }),
     // vueDevTools(),
     AutoImport({
       // 自动导入 Vue 相关函数
@@ -20,10 +29,10 @@ export default defineConfig({
         //解决引入非组件方法ElMessage，自动导入配置增强
         ElementPlusResolver({
           // 自动导入组件的同时导入对应的方法
-          importStyle: 'sass',
+          // importStyle: 'sass',
           // 关键：启用自动导入组件方法
-          directives: true,
-          version: '2.9.6', // 与安装的 Element Plus 版本一致
+          // directives: true,
+          // version: '2.9.10', // 与安装的 Element Plus 版本一致
         }),
         // 自动导入图标组件
         IconsResolver({
@@ -39,9 +48,7 @@ export default defineConfig({
         }),
         //1.配置ElementPlus采用sass样式配色系统
         ElementPlusResolver({
-          importStyle: 'sass',
-          // 自动导入图标组件
-          // ssr: true,
+          // importStyle: 'sass',
         }),
       ],
     }),
@@ -65,4 +72,16 @@ export default defineConfig({
       },
     },
   },
-})
+  server: {
+    // host: '0.0.0.0', // 监听所有地址，允许ip访问
+    cors: true,
+    port: 3000,
+    proxy: {
+      '/api': {
+        path: 'http://127.0.0.1:8080',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
+}))

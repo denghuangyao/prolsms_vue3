@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import { type FormInstance, type FormRules } from 'element-plus'
 import { Lock, Iphone } from '@element-plus/icons-vue'
 import IconEpUser from "~icons/ep/user"
+import { login } from '@/apis/user'
+import { useRouter } from 'vue-router'
+const router = useRouter();
 let formRef = ref<FormInstance>();
 const loginForm = reactive({
     username: "",
@@ -30,8 +33,16 @@ let languageSwitch = (lang: string) => {
     language.value = lang;
 }
 let isOpen = ref(false)
-let handleLogin = () => {
-    isOpen.value = true
+let handleLogin = async () => {
+    formRef.value?.validate(async (valid: boolean) => {
+        if (valid) {
+            let res = await login(loginForm.username, loginForm.password);
+            formRef.value?.resetFields();
+            ElMessage.success("登录成功！");
+            router.replace("/")
+        }
+    })
+    // isOpen.value = true
 }
 </script>
 <template>
