@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export default defineStore('permission', () => {
+export const usePermissionStore = defineStore('permission', () => {
   let permissions = ref<string[]>([])
   const setPermissions = (permis: string[]) => {
     permissions.value = permis
@@ -9,3 +9,6 @@ export default defineStore('permission', () => {
   const getPermission = () => permissions.value
   return { setPermissions, getPermission }
 })
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(usePermissionStore, import.meta.hot))
+}

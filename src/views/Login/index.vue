@@ -5,6 +5,7 @@ import { Lock, Iphone } from '@element-plus/icons-vue'
 import IconEpUser from "~icons/ep/user"
 import { login } from '@/apis/user'
 import { useRouter } from 'vue-router'
+import { usePermissionStore } from "@/stores/modules/permissionStore"
 const router = useRouter();
 let formRef = ref<FormInstance>();
 const loginForm = reactive({
@@ -32,11 +33,14 @@ let language = ref("");
 let languageSwitch = (lang: string) => {
     language.value = lang;
 }
-let isOpen = ref(false)
+let isOpen = ref(false);
+const permissionStore = usePermissionStore();
 let handleLogin = async () => {
     formRef.value?.validate(async (valid: boolean) => {
         if (valid) {
             let res = await login(loginForm.username, loginForm.password);
+            console.log("res--", res)
+            permissionStore.setPermissions(res?.user?.permission || [])
             formRef.value?.resetFields();
             ElMessage.success("登录成功！");
             router.replace("/")

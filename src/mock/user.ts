@@ -14,7 +14,7 @@ export default [
           result: {
             user: {
               username,
-              permission: ['WHP'],
+              permission: ['weihuapin:menu', 'whp:jichuguanli', 'whp:jichuxinxi'],
             },
             token: Mock.Random.guid(),
           },
