@@ -2,6 +2,13 @@ interface TreeConfigOptions {
   //遍历子属性名称：默认'children'
   childProps: string
 }
+/**
+ *
+ * @param tree
+ * @param getValue
+ * @param options
+ * @returns
+ */
 function traverseTreeValues<T, V>(
   tree: T[],
   getValue: (node: T) => V,
@@ -25,4 +32,25 @@ function traverseTreeValues<T, V>(
   }
   return results
 }
-export { traverseTreeValues }
+
+function filterTree<T extends Record<string, any>>(
+  tree: T[],
+  filter: (node: T) => boolean,
+  option?: TreeConfigOptions,
+): T[] {
+  let { childProps } = option || { childProps: 'children' }
+  const _filterTree = (nodes: T[]): T[] => {
+    return nodes.filter((node: Record<string, any>) => {
+      if (filter(node as T)) {
+        if (node[childProps]) {
+          node[childProps] = _filterTree(node[childProps])
+        }
+        return true
+      }
+      return false
+    })
+  }
+  return _filterTree(tree)
+}
+
+export { traverseTreeValues, filterTree }

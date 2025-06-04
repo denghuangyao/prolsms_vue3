@@ -1,1 +1,2 @@
-// export * from './access.ts'
+export * from './access'
+export * from './permission'

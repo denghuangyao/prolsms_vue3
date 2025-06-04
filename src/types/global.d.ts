@@ -1,5 +1,5 @@
 import 'vue-router'
-// import type { RouterMeta as IRouterMeta } from 'vue-router'
+import type { RouterMeta as IRouterMeta } from 'vue-router'
 declare module 'vue-router' {
   interface RouterMeta extends IRouterMeta {
     key?: string //路由权限表唯一标识
