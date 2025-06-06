@@ -5,6 +5,11 @@ declare module 'vue-router' {
     key?: string //路由权限表唯一标识
     label?: string //菜单名称
     icon?: string //菜单图标
+    /**
+     * 当前路由在菜单中不展现
+     * @default false
+     */
+    hideInMenu?: boolean
   }
 }
 export {}

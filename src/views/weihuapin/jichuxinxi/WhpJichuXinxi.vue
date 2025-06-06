@@ -1,9 +1,7 @@
 <template>
-    危化品基础信息
+    危化品基础信息..
 </template>
+<script setup lang="ts">
+</script>
 <!-- <script lang="ts" src="./whpJichuXinxi.ts"></script> -->
-<style scoped lang="scss">
-.cascader {
-    margin-right: pxTovw(10);
-}
-</style>
+<style scoped lang="scss"></style>

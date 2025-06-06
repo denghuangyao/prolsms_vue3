@@ -1,6 +1,7 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios'
 import qs from 'qs'
 import router from '@/router'
+import { useAccessStore } from '@/stores'
 /**
  * axios传递参数方式：data，params
  * params：url格式传参，拼接在url上：url?name=value&name1=value1
@@ -27,6 +28,10 @@ const app = axios.create({
 app.interceptors.request.use(
   (config) => {
     //请求带token
+    const token = useAccessStore().accessToken
+    if (token) {
+      config.headers['authorization'] = `Bearer ${token}`
+    }
     // 获取请求方法，并转换为大写
     const method = config.method?.toUpperCase()
     if (method == 'POST') {
@@ -50,7 +55,7 @@ app.interceptors.response.use(
   (response) => {
     console.log('response-拦截-', response)
     let code = response.data?.code
-    if (code !== 200) {
+    if (code !== 0) {
       return Promise.reject(response)
     }
     return response

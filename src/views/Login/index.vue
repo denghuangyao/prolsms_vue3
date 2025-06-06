@@ -3,9 +3,9 @@ import { reactive, ref } from 'vue'
 import { type FormInstance, type FormRules } from 'element-plus'
 import { Lock, Iphone } from '@element-plus/icons-vue'
 import IconEpUser from "~icons/ep/user"
-import { login } from '@/apis/user'
+import { login } from '@/apis'
 import { useRouter } from 'vue-router'
-import { usePermissionStore, useAccessStore } from "@/stores"
+import { useUserStore, useAccessStore } from "@/stores"
 const router = useRouter();
 let formRef = ref<FormInstance>();
 const loginForm = reactive({
@@ -34,13 +34,14 @@ let languageSwitch = (lang: string) => {
     language.value = lang;
 }
 let isOpen = ref(false);
-const permissionStore = usePermissionStore();
+const userStore = useUserStore();
 const accessStore = useAccessStore();
 let handleLogin = async () => {
     formRef.value?.validate(async (valid: boolean) => {
         if (valid) {
             let res = await login(loginForm.username, loginForm.password);
-            permissionStore.setPermissions(res.user.permission || [])
+            console.log("-res-", res)
+            userStore.setUserInfo(res.user)
             if (res.token) {
                 accessStore.setAccessToken(res.token)
             }

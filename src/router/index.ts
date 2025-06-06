@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory, type RouteRecord, type RouterMeta } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import { routes, coreRouteNames, accessRoutes } from './routes'
-import { usePermissionStore, useAccessStore } from '@/stores'
+import { useAccessStore, useUserStore, useAuthStore } from '@/stores'
 import { LOGIN_PATH, defaultHomePath } from '@/constants'
 import { generateAccess } from './access'
 const router = createRouter({
@@ -14,11 +14,12 @@ const router = createRouter({
     return to.hash ? { behavior: 'smooth', el: to.hash } : { left: 0, top: 0 }
   },
 })
-router.beforeEach((to, from) => {
-  const permissionStore = usePermissionStore()
+router.beforeEach(async (to, from) => {
+  const userStore = useUserStore()
   const accessStore = useAccessStore()
+  const authStore = useAuthStore()
 
-  console.log('beforeEach-', to, routes, coreRouteNames, accessStore.accessToken, LOGIN_PATH)
+  console.log('beforeEach-', from.name, to.name, coreRouteNames, accessStore.accessToken)
   //基本路由：不需要权限拦截
   if (coreRouteNames.includes(to.name)) {
     //已经登录过，跳login会重定向到首页
@@ -41,7 +42,7 @@ router.beforeEach((to, from) => {
     //跳转非登录页
     if (to.fullPath !== LOGIN_PATH) {
       return {
-        to: LOGIN_PATH,
+        path: LOGIN_PATH,
         query: to.path === defaultHomePath ? {} : { redirect: encodeURIComponent(to.fullPath) },
         replace: true,
       }
@@ -49,17 +50,37 @@ router.beforeEach((to, from) => {
     //跳转到登录页
     return to
   }
+  if (accessStore.isCheckedAccess) {
+    return true
+  }
   //accessRoutes
-  console.log('accessRoutes--', accessRoutes)
-  //过滤路由表 /path
-  let permissions = permissionStore.getPermission()
-  generateAccess({
+  console.log('accessRoutes--', JSON.parse(JSON.stringify(accessRoutes)))
+  //过滤路由表,生成动态路由表 /path
+  let userInfo = userStore?.userInfo || (await authStore.fetchUserInfo())
+  let permissions = userInfo?.permission ?? []
+  const { accessibleRoutes, accessibleMenus } = generateAccess({
     router,
     permissions,
     routes: accessRoutes,
   })
-  if (permissions.includes(to.meta.key as string)) {
+  // 保存菜单信息和路由信息
+  accessStore.setAccessRoutes(accessibleRoutes)
+  accessStore.setAccessMenus(accessibleMenus)
+  accessStore.setIsCheckedAccess(true)
+  let redirectPath: string
+  if (from.query.redirect) {
+    redirectPath = from.query.redirect as string
+  } else if (to.path === defaultHomePath) {
+    redirectPath = defaultHomePath
+  } else if (userInfo.homePath && to.path === userInfo.homePath) {
+    redirectPath = userInfo.homePath
+  } else {
+    redirectPath = to.fullPath
   }
-  return true
+  console.log('-redirectPath-', redirectPath)
+  return {
+    ...router.resolve(decodeURIComponent(redirectPath)),
+    replace: true,
+  }
 })
 export default router

@@ -1,5 +1,6 @@
 import { type MockMethod } from 'vite-plugin-mock'
-import Mock from 'mockjs'
+import { useResponseSuccess, useResponseError } from './utils/response'
+import { MOCK_USERS } from './utils/mock-data'
 export default [
   {
     url: '/user/login',
@@ -7,24 +8,33 @@ export default [
     response: ({ body }: any) => {
       console.log('==== Mock Request Body: =======', body) // 自定义日志
       const { username, password } = body
-      if (username === 'denny' && password === '123456') {
-        return {
-          code: 200,
-          message: '登录成功',
-          result: {
-            user: {
-              username,
-              permission: ['weihuapin:menu', 'whp:jichuguanli', 'whp:jichuxinxi'],
-            },
-            token: Mock.Random.guid(),
+      const findUser = MOCK_USERS.find(
+        (user) => user.username === username && user.password === password,
+      )
+      if (findUser) {
+        return useResponseSuccess({
+          user: {
+            ...findUser,
           },
-        }
+          token: findUser.token,
+        })
       } else {
-        return {
-          code: 500,
-          message: '用户名或密码错误',
-          result: null,
-        }
+        return useResponseError('用户名或密码错误')
+      }
+    },
+  },
+  {
+    url: '/user/info',
+    method: 'get',
+    response: (request: any) => {
+      let token = request.headers.authorization
+      token = token?.replace(/Bearer /, '')
+      console.log('==== Mock Request Body: =======', token)
+      const findUser = MOCK_USERS.find((user) => user.token === token)
+      if (findUser) {
+        return useResponseSuccess({ ...findUser })
+      } else {
+        return useResponseError('获取用户信息失败')
       }
     },
   },

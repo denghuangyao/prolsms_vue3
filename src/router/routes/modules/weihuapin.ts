@@ -6,7 +6,7 @@ const routes: RouteRecordRaw[] = [
       label: 'hazardousChemicals',
       icon: 'dh_whp',
     },
-    path: '/chemicals',
+    path: 'chemicals',
     children: [
       {
         meta: {
@@ -15,7 +15,7 @@ const routes: RouteRecordRaw[] = [
           icon: 'jcxx_menu',
         },
         name: 'chemicalsBasicManagement',
-        path: '/chemicals/basicManagement',
+        path: 'basicManagement',
         children: [
           {
             meta: {
@@ -23,7 +23,7 @@ const routes: RouteRecordRaw[] = [
               label: 'basicInformation',
             },
             name: 'chemicalsBasicInformation',
-            path: '/chemicals/basicInformation',
+            path: 'basicInformation',
             component: () => import('@/views/weihuapin/jichuxinxi/WhpJichuXinxi.vue'),
           },
         ],

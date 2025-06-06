@@ -1,0 +1,8 @@
+export interface BasicUserInfo {
+  avatar: string //头像
+  realName: string //用户昵称
+  userId: number //用户id
+  username: string //用户名
+  permission: string[] //权限
+  [key: string]: any
+}
