@@ -10,7 +10,7 @@
       "@/*": ["./src/*"]
     },
     "allowJs": true, //编译时允许有js
-    // "verbatimModuleSyntax": true, //导入type类型
+    "verbatimModuleSyntax": true, //导入type类型
     "types": ["vite/client", "element-plus/global", "unplugin-icons/types/vue"]
   }
 }

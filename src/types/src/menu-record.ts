@@ -1,5 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
-
+import type { Component } from 'vue'
 type ExRouteRecordRaw = RouteRecordRaw & {
   parent?: string
   parents?: string[]
@@ -14,6 +14,7 @@ interface MenuRecordRaw {
   parents?: string[] //所有父级路径
   path: string //菜单唯一路径
   children?: MenuRecordRaw[] //子菜单
+  icon?: Component | string //图标名
   /**
    * 是否显示菜单
    * @default true

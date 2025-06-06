@@ -1,0 +1,27 @@
+/**更多下拉项*/
+.wl-dropdown {
+  cursor: pointer;
+
+  &:hover {
+    color: $color-primary !important;
+  }
+}
+
+.wl-dropdown-item {
+  .el-dropdown-menu__item {
+    height: pxTovw(30);
+    line-height: pxTovw(30);
+    color: $fontColor;
+  }
+
+  .el-dropdown-menu__item.activeItem {
+    background-color: #ebf0ff;
+    color: $color-primary;
+  }
+
+  .el-dropdown-menu__item:not(.activeItem):focus,
+  .el-dropdown-menu__item:not(.activeItem):hover {
+    color: $color-primary;
+    background-color: transparent;
+  }
+}

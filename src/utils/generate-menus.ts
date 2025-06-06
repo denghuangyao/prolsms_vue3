@@ -1,4 +1,5 @@
 import { filterTree, mapTree } from '@/utils'
+import type { Component } from 'vue'
 import type { RouteMeta, Router, RouteRecordRaw } from 'vue-router'
 import type { ExRouteRecordRaw, MenuRecordRaw } from '@/types'
 export function generateMenus(routes: RouteRecordRaw[], router: Router): MenuRecordRaw[] {
@@ -27,7 +28,7 @@ export function generateMenus(routes: RouteRecordRaw[], router: Router): MenuRec
     const resultPath = (redirect as string) || path //还有链接形式的
     return {
       key: key as string | undefined,
-      icon,
+      icon: icon as Component | string,
       label: name,
       children: resultChildren,
       parent: route.parent,

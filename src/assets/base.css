@@ -34,6 +34,9 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
+
+  --el-menu-base-level-padding: 0px;
+  --deny: red;
 }
 
 @media (prefers-color-scheme: dark) {

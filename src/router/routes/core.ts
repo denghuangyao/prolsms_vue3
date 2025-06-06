@@ -15,18 +15,8 @@ const coreRoutes: RouteRecordRaw[] = [
     path: '/',
     name: 'root',
     component: () => import('@/views/Layout/Layout.vue'),
-    children: [
-      // {
-      //   meta: {
-      //     key: 'whp:jichuxinxi',
-      //     label: 'basicInformation',
-      //   },
-      //   name: 'chemicalsBasicInformation',
-      //   path: 'basicInformation',
-      //   component: () => import('@/views/weihuapin/jichuxinxi/WhpJichuXinxi.vue'),
-      // },
-    ],
-    // redirect: defaultHomePath,
+    children: [],
+    redirect: defaultHomePath,
   },
   {
     //登录页

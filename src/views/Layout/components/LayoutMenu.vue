@@ -1,47 +1,77 @@
 <template>
     <div class="left-menu-box">
-        <!-- 相应模块第二级菜单 -->
-        <div class="second-menu-box" v-for="(secondItem) in menuData" :key="secondItem.key">
+        <el-menu class="second-menu-box" default-active="1">
+            <template v-for="(secondItem, index) in menuData" :key="secondItem.key">
+                <el-sub-menu :index="`${index + 1}`" v-if="secondItem?.children?.length">
+                    <template #title>
+                        <div class="second-menu-item">
+                            <el-icon class="item-icon-left">
+                                <i-ep-add-location />
+                            </el-icon>
+                            <div class="item-text">{{ secondItem.label }}</div>
+                        </div>
+                    </template>
+                    <el-menu-item class="second-menu-item" :index="`${index + idx + 2}-${idx + 1}`"
+                        v-for="(item, idx) in secondItem.children">{{
+                            item.label
+                        }}</el-menu-item>
+                </el-sub-menu>
+                <el-menu-item class="second-menu-item" :index="`${index + 1}`" v-else>
+                    <i-ep-menu />
+                    <span>{{ secondItem.label }}</span>
+                </el-menu-item>
+            </template>
+        </el-menu>
+
+    </div>
+</template>
+<script setup lang="ts">
+import type { MenuRecordRaw } from '@/types';
+import { onMounted, reactive } from 'vue';
+import { useAccessStore } from '@/stores';
+const accessStore = useAccessStore();
+
+onMounted(() => {
+
+})
+let menuData = reactive<MenuRecordRaw[]>(accessStore.accessMenus)
+</script>
+<!-- 
+相应模块第二级菜单
+<div class="second-menu-box" v-for="(secondItem) in menuData" :key="secondItem.key">
             <div class="second-menu-item" @click="clickSecond(secondItem)"
                 :class="{ activeLeftMenu: secondIndex == secondItem.key && (!showThirdMenu(secondItem) || hiddenThird[secondItem.key]) }">
-                <!-- svg、文字、箭头 -->
+                svg、文字、箭头
                 <svg-icon class="item-icon-left" :icon-class="secondItem.icon || 'nodata'" />
                 <div class="item-text">
-                    {{ getMenuName(secondItem) }}{{ secondItem.weichuliXiaoxi ? `（${secondItem.weichuliXiaoxi}）` : '' }}
+                    {{ secondItem.label }}{{ secondItem.weichuliXiaoxi ? `（${secondItem.weichuliXiaoxi}）` : '' }}
                 </div>
-                <div @click.stop="changeShowThird(secondItem)" v-if="showThirdMenu(secondItem)" class="item-icon-right"
-                    :class="{ 'hiddenThird': hiddenThird[secondItem.key] }">
+<div @click.stop="changeShowThird(secondItem)" v-if="showThirdMenu(secondItem)" class="item-icon-right"
+    :class="{ 'hiddenThird': hiddenThird[secondItem.key] }">
                     <svg-icon icon-class="jt" />
                 </div>
-            </div>
+</div>
 
-            <!-- 下属三级菜单 -->
-            <div class="third-menu-box" v-if="showThirdMenu(secondItem)">
+下属三级菜单
+<div class="third-menu-box" v-if="showThirdMenu(secondItem)">
                 <div class="third-menu-item" v-for="(thirdItem) in secondItem.children" :key="thirdItem.key"
                     @click="clickThird(thirdItem)"
                     :class="{ 'activeLeftMenu': thirdIndex == thirdItem.key, 'showThird': !hiddenThird[secondItem.key] }">
-                    <!-- 小圆点、文字 -->
+                    小圆点、文字
                     <div class="item-dot"></div>
-                    <div class="item-text">
-                        <!-- <wl-tooltip overflow effect="dark" :content="$t(`topSubMenu.${thirdItem.label}`)"
-                            placement="top"> -->
-                        <div class="textell">{{ $t(`topSubMenu.${thirdItem.label}`) }}</div>
-                        <!-- </wl-tooltip> -->
-                        <!-- 新消息提示 -->
-                        <div v-for="item in getUnreadList(thirdItem)" :key="item.key"
-                            :class="{ 'yichangtxFlag': isUnread(item.unreadFlagKey) }">
+<div class="item-text">
+                        <div class="textell">{{ thirdItem.label }}</div>
+ </wl-tooltip>
+新消息提示
+<div v-for="item in getUnreadList(thirdItem)" :key="item.key"
+    :class="{ 'yichangtxFlag': isUnread(item.unreadFlagKey) }">
                         </div>
-                    </div>
-                </div>
-            </div>
+</div>
+</div>
+</div>
 
-        </div>
-    </div>
-</template>
-
+</div>
 <script>
-// import { wllib } from "src/wlframe";
-// import { getCaidanList } from "src/utils/wl_xm_utils";
 export default {
     props: {
         activeIndex: {
@@ -330,15 +360,6 @@ export default {
         showThirdMenu(second) {
             return wllib.detect.wlIsNotNullArray(second.children);
         },
-        getMenuName(item) {
-            // console.log(item,'getMenuName--item');
-            if (item.meta && item.meta.isNotLangKey) {
-                return item.label;
-            }
-            else {
-                return this.$t(`topMenu.${item.label}`);
-            }
-        },
         ChangeMenuType() {
             this.orgViewData = getMenuTreeConfByMenuType();
         },
@@ -449,7 +470,7 @@ export default {
     },
 };
 </script>
-
+-->
 <style lang="scss" scoped>
 .left-menu-box {
     height: 100%;
