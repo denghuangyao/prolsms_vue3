@@ -1,4 +1,5 @@
-$color-primary: #3557cc;
+$color-primary: #3557cc; //与elmentui的全局css变量冲突了
+$color-hover: #516bc5;
 $fontSize: 14px;
 $fontColor: #181f47;
 //字体
@@ -39,4 +40,3 @@ $designHeight: 1080;
     }
   }
 }
-$-menu-base-level-padding: 0;

@@ -1,24 +1,31 @@
 <template>
     <div class="left-menu-box">
         <el-menu class="second-menu-box" default-active="1">
-            <template v-for="(secondItem, index) in menuData" :key="secondItem.key">
+            <!-- 模块二级菜单 -->
+            <template v-for="(secondItem, index) in menuData" :key="secondItem.permission">
                 <el-sub-menu :index="`${index + 1}`" v-if="secondItem?.children?.length">
                     <template #title>
-                        <div class="second-menu-item">
-                            <el-icon class="item-icon-left">
-                                <i-ep-add-location />
-                            </el-icon>
-                            <div class="item-text">{{ secondItem.label }}</div>
-                        </div>
+                        <el-icon class="item-icon-left">
+                            <i-ep-add-location />
+                        </el-icon>
+                        <el-badge is-dot class="item-text textell" :offset="[-3, 15]">
+                            {{ secondItem.label }}
+                        </el-badge>
                     </template>
+                    <!-- 下属三级菜单 -->
                     <el-menu-item class="second-menu-item" :index="`${index + idx + 2}-${idx + 1}`"
-                        v-for="(item, idx) in secondItem.children">{{
-                            item.label
-                        }}</el-menu-item>
+                        v-for="(item, idx) in secondItem.children">
+                        <el-badge is-dot class="item-text textell" :offset="[-3, 15]">
+                            {{ item.label }}
+                        </el-badge>
+                        <!-- <div class="item-text textell">{{ item.label }}</div> -->
+                    </el-menu-item>
                 </el-sub-menu>
                 <el-menu-item class="second-menu-item" :index="`${index + 1}`" v-else>
                     <i-ep-menu />
-                    <span>{{ secondItem.label }}</span>
+                    <el-badge class="item-text textell" :offset="[-3, 15]">
+                        {{ secondItem.label }}
+                    </el-badge>
                 </el-menu-item>
             </template>
         </el-menu>
@@ -472,148 +479,51 @@ export default {
 </script>
 -->
 <style lang="scss" scoped>
+@mixin menuitem {
+    font-weight: 500;
+    font-family: $font-family;
+}
+
 .left-menu-box {
     height: 100%;
     width: pxTovw(200);
+    box-sizing: border-box;
+
+    :deep(.el-menu-item.is-active) {
+        background-color: $color-hover;
+    }
 
     .second-menu-box {
         width: 100%;
         box-sizing: border-box;
+        border-right: none;
+
+
+        .item-text {
+            flex: 1;
+
+            &.textell {
+                max-width: 104px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+
+
+
+        :deep(.el-sub-menu__title) {
+            @include menuitem;
+        }
+
+        .item-icon-left {
+            width: pxTovw(17);
+            height: pxTovw(17);
+            margin-right: pxTovw(12);
+        }
 
         .second-menu-item {
-            box-sizing: border-box;
-            position: relative;
-            cursor: pointer;
-            width: pxTovw(200);
-            height: pxTovw(50);
-            padding-left: pxTovw(20);
-            background: $color-primary;
-            display: flex;
-            align-items: center;
-            font-size: $fontSize;
-            font-family: $font-family;
-            font-weight: 500;
-            color: #fff;
-
-            .item-icon-left {
-                width: pxTovw(17);
-                height: pxTovw(17);
-                margin-right: pxTovw(12);
-            }
-
-            .item-text {
-                flex: 1;
-            }
-
-            .item-icon-right {
-                width: pxTovw(16);
-                height: pxTovw(16);
-                margin-right: pxTovw(10);
-                display: flex;
-                align-items: center;
-
-                :deep(.svg-icon) {
-                    width: pxTovw(10);
-                    height: pxTovw(10);
-                    vertical-align: 0;
-                    transition: transform 0.3s;
-                    transform: rotate(0deg);
-                }
-            }
-
-            .hiddenThird {
-                :deep(.svg-icon) {
-                    transform: rotate(-90deg);
-                }
-            }
-
-            :deep(.svg-icon) {
-                fill: #fff;
-            }
-
-            .yichangtxFlag {
-                height: 8px;
-                width: 8px;
-                border-radius: 50%;
-                background: #ff7200;
-                display: block;
-                position: absolute;
-                top: 14px;
-                right: 65px;
-            }
-        }
-
-        .third-menu-box {
-            .third-menu-item {
-                position: relative;
-                padding-left: pxTovw(55);
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                height: 0;
-                opacity: 0;
-                pointer-events: none;
-                transition: all 0.3s;
-                font-size: $fontSize;
-                font-family: $font-family;
-                font-weight: 400;
-                color: #fff;
-                background: $color-primary;
-
-                .item-dot {
-                    min-width: pxTovw(4);
-                    height: pxTovw(4);
-                    margin-right: pxTovw(10);
-                    background: #fff;
-                    border-radius: 50%;
-                }
-
-                .item-text {
-                    flex: 1;
-                    display: flex;
-                    align-items: center;
-                    flex-flow: nowrap;
-
-                    .textell {
-                        max-width: 104px;
-                        overflow: hidden;
-                        white-space: nowrap;
-                        text-overflow: ellipsis;
-                    }
-
-                    .yichangtxFlag {
-                        height: 8px;
-                        width: 8px;
-                        border-radius: 50%;
-                        background: #ff7200;
-                        display: block;
-                        transform: translate(3px, -6px);
-                    }
-                }
-            }
-
-            .showThird {
-                height: pxTovw(50);
-                opacity: 1;
-                pointer-events: auto;
-            }
-        }
-
-        .activeLeftMenu {
-            background: #5576e5 !important;
-            position: relative;
-
-            &::after {
-                content: "";
-                width: pxTovw(6);
-                height: pxTovw(20);
-                background: #fff;
-                border-radius: 0 pxTovw(4) pxTovw(4) 0;
-                position: absolute;
-                left: pxTovw(-3);
-                top: 50%;
-                transform: translate(0, -50%);
-            }
+            @include menuitem;
         }
     }
 }

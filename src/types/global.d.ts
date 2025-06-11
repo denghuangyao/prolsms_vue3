@@ -1,15 +1,18 @@
-import 'vue-router'
-import type { RouterMeta as IRouterMeta } from 'vue-router'
-declare module 'vue-router' {
-  interface RouterMeta extends IRouterMeta {
-    key?: string //路由权限表唯一标识
-    label?: string //菜单名称
-    icon?: Component | string //菜单图标
+declare const window: Window & typeof globalThis
+import type { RouterMeta } from 'vue-router'
+declare global {
+  /**
+   * 模块所属config配置
+   */
+  interface MenuConfigRecordRaw extends RouterMeta {
+    children?: MenuConfigRecordRaw[]
+    componentPath?: string //组件相对路径（不包含/src/views）
     /**
-     * 当前路由在菜单中不展现
-     * @default false
-     */
-    hideInMenu?: boolean
+     * 对应路由路径
+     * @default ''
+     **/
+    path?: string
   }
 }
-export {}
+//必要，否则无法识别
+export {} //混合模式，仍然保持模块文件特性

@@ -11,9 +11,9 @@ let moreFirstMenu = computed<MenuRecordRaw[]>(() => firstMenus.length > TOPMENU_
 </script>
 <template>
     <div class="top-menu-box">
-        <div class="menu-item" v-for="(firstItem, index) in showFirstMenu" :key="index"
-            :class="{ activeTopMenu: activeIndex == firstItem.key }">
-            <svg-icon :icon-class="firstItem.icon" class="menu-icon" v-show="activeIndex == firstItem.key" />
+        <div class="menu-item" v-for="(firstItem, index) in showFirstMenu" :permission="index"
+            :class="{ 'activeTopMenu': activeIndex == firstItem.permission }">
+            <svg-icon :icon-class="firstItem.icon" class="menu-icon" v-show="activeIndex == firstItem.permission" />
             {{ firstItem.label }}
         </div>
         <el-dropdown placement="bottom" class="wl-dropdown" trigger="click" v-if="moreFirstMenu.length">
@@ -21,8 +21,8 @@ let moreFirstMenu = computed<MenuRecordRaw[]>(() => firstMenus.length > TOPMENU_
                 <span class="moretext">更多</span><i class="el-icon-arrow-down el-icon--right"></i>
             </div>
             <el-dropdown-menu class="wl-dropdown-item" slot="dropdown">
-                <el-dropdown-item :class="{ 'activeItem': activeIndex == item.key }" :command="item"
-                    v-for="item in moreFirstMenu" :key="item.key"> {{ item.label }}</el-dropdown-item>
+                <el-dropdown-item :class="{ 'activeItem': activeIndex == item.permission }" :command="item"
+                    v-for="item in moreFirstMenu" :key="item.permission"> {{ item.label }}</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
     </div>
@@ -62,7 +62,7 @@ let moreFirstMenu = computed<MenuRecordRaw[]>(() => firstMenus.length > TOPMENU_
         }
 
         &:not(.activeTopMenu):hover {
-            color: #3557cc;
+            color: $color-primary;
             border: pxTovw(1) solid #e5edf6;
         }
     }

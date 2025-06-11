@@ -4,7 +4,7 @@ import type { RouteMeta, Router, RouteRecordRaw } from 'vue-router'
 import type { ExRouteRecordRaw, MenuRecordRaw } from '@/types'
 export function generateMenus(routes: RouteRecordRaw[], router: Router): MenuRecordRaw[] {
   //获取所有路由(name=>path)键值对
-  const finalRoutesMap: { [key: string]: string } = Object.fromEntries(
+  const finalRoutesMap: { [permission: string]: string } = Object.fromEntries(
     router.getRoutes().map(({ name, path }) => [name, path]),
   )
   console.log('generateMenus-routes', routes)
@@ -12,7 +12,7 @@ export function generateMenus(routes: RouteRecordRaw[], router: Router): MenuRec
     // 获取最终的路由路径
     const path = finalRoutesMap[route.name as string] ?? route.path ?? ''
     const { meta = {} as RouteMeta, name: routeName, redirect, children = [] } = route
-    let { key, icon, label = '' } = meta
+    let { permission, icon, label = '' } = meta
     // 确保菜单名称不为空
     let name = (label || routeName || '') as string
     //处理子菜单
@@ -27,7 +27,7 @@ export function generateMenus(routes: RouteRecordRaw[], router: Router): MenuRec
     //确定最终路径
     const resultPath = (redirect as string) || path //还有链接形式的
     return {
-      key: key as string | undefined,
+      permission: permission as string | undefined,
       icon: icon as Component | string,
       label: name,
       children: resultChildren,

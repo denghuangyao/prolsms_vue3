@@ -10,8 +10,7 @@ export function generateRoutesByFrontend(routes: RouteRecordRaw[], permissions: 
   return finalRoutes
 }
 function hasAuthority(route: RouteRecordRaw, permissions: string[]) {
-  const authority = route.meta?.key
-  console.log('-authority-', authority, permissions)
+  const authority = route.meta?.permission
   if (!authority) {
     return true
   }

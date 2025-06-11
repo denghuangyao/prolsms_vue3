@@ -42,6 +42,8 @@ export const generateAccess = (options: GenerateRoutesOptions) => {
       router.removeRoute(root.name)
       console.log('root-generateAccess-2', printLog(router.getRoutes()))
     }
+    console.log('root-generateAccess-4')
+
     router.addRoute(root)
   }
   console.log('root-generateAccess-3', printLog(router.getRoutes()))

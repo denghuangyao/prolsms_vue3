@@ -1,5 +1,5 @@
 <template>
-    危化品基础信息..
+    <div>危化品基础信息..</div>
 </template>
 <script setup lang="ts">
 </script>

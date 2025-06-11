@@ -1,3 +1,14 @@
+.left-menu-box {
+  --el-menu-item-height: #{pxTovw(50)};
+  --el-menu-sub-item-height: var(--el-menu-item-height);
+  --el-menu-bg-color: #{$color-primary};
+  --el-menu-text-color: #fff;
+  --el-menu-hover-bg-color: #{$color-hover};
+  --el-menu-active-color: #7190fa; //#fff
+  --el-menu-level-padding: #{pxTovw(30)};
+  --el-menu-icon-width: #{pxTovw(17)};
+  --el-menu-item-font-size: #{$fontSize};
+}
 /**更多下拉项*/
 .wl-dropdown {
   cursor: pointer;
