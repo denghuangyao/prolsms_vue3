@@ -1,5 +1,5 @@
 import 'vue-router'
-import type { RouterMeta as IRouterMeta } from '@/types'
+import type { RouteMeta as IRouteMeta } from '@/types'
 declare module 'vue-router' {
-  interface RouterMeta extends IRouterMeta {}
+  interface RouteMeta extends IRouteMeta {}
 }

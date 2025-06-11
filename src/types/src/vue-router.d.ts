@@ -1,6 +1,6 @@
 import type { Router, RouteRecordRaw } from 'vue-router'
-/**扩展vue-router的RouterMeta */
-interface RouterMeta {
+/**扩展vue-router的RouteMeta */
+interface RouteMeta {
   permission?: string //路由权限表唯一标识
   label?: string //菜单名称
   icon?: Component | string //菜单图标
@@ -20,4 +20,4 @@ interface GenerateRoutesOptions {
    */
   noBasicLayout?: boolean
 }
-export type { RouterMeta, GenerateRoutesOptions }
+export type { RouteMeta, GenerateRoutesOptions }

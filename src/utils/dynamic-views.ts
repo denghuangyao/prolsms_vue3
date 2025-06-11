@@ -48,7 +48,6 @@ function loadView(components: Record<string, unknown>, pathKey: string) {
 }
 export function createViewsRoutes(viewsModules: ViewsModule[]): RouteRecordRaw[] {
   const components = import.meta.glob(['@/views/**/*.vue', '!@/views/**/components/*.vue'])
-  // console.log('-modules-', modules)
   console.log('-components-', components, viewsModules)
   let modules = Object.values(viewsModules)
   console.log(modules)
@@ -57,26 +56,24 @@ export function createViewsRoutes(viewsModules: ViewsModule[]): RouteRecordRaw[]
     console.log('-module-', module, dir)
     let prefixDir = dir?.replace(/\/config.[jt]s/, '')
     // let viewsDir = prefixDir?.replace(/\/src\/views\/(.*)/, '$1')
-    const tree = mapTree<MenuConfigRecordRaw, RouteRecordRaw>(
-      [module],
-      ({ path = '', permission, icon, label, componentPath, children }) => {
-        let routeName = (path || prefixDir).split('/').join('-') ?? '/'
-        let route: any = {
-          meta: { permission, icon, label },
-          name: routeName,
-          path,
-        }
-        console.log('path---', path, 'routeName--', routeName)
-        if (children) {
-          route.children = children
-        }
-        if (componentPath) {
-          let componentKey = `${prefixDir}${componentPath}.vue`
-          route.component = loadView(components, componentKey)
-        }
-        return route
-      },
-    )
+    const tree = mapTree<MenuConfigRecordRaw, RouteRecordRaw>([module], (item) => {
+      let { path = '', permission, icon, label, componentPath, children, hideInMenu } = item
+      let routeName = (path || prefixDir).split('/').join('-') ?? '/'
+      let route: any = {
+        meta: { permission, icon, label, hideInMenu },
+        name: routeName,
+        path,
+      }
+      console.log('path---', path, 'routeName--', routeName)
+      if (children) {
+        route.children = children
+      }
+      if (componentPath) {
+        let componentKey = `${prefixDir}${componentPath}.vue`
+        route.component = loadView(components, componentKey)
+      }
+      return route
+    })
     console.log('createViewsRoutes--tree', tree)
     routes = [...routes, ...tree]
   })
