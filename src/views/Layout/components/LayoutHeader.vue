@@ -1,8 +1,11 @@
 <script lang="ts" setup>
+import { useSlots } from 'vue';
 import LayoutNav from './LayoutNav.vue'
+const slots = useSlots();
+console.log("--slots-", slots)
 </script>
 <template>
-  <div class="app-head-box">
+  <header class="app-head-box">
     <div class="app_title">
       <div>
         <img class="img" src="@assets/images/layout/navmenu_logo.png" />
@@ -10,7 +13,7 @@ import LayoutNav from './LayoutNav.vue'
       </div>
     </div>
     <!-- 头部菜单 -->
-    <LayoutNav />
+    <slot name="nav-menu"></slot>
     <div class="xuxiang"></div>
     <div class="app_title_user">
       <!-- <div> -->
@@ -52,7 +55,7 @@ import LayoutNav from './LayoutNav.vue'
         </div>
       </div>
     </el-dialog>
-  </div>
+  </header>
 </template>
 <style lang="scss" scoped>
 .app-head-box {

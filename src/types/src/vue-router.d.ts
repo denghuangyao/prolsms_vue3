@@ -9,6 +9,12 @@ interface RouteMeta {
    * @default false
    */
   hideInMenu?: boolean
+  /**当前激活菜单 */
+  activePath?: string
+  /**
+   * 菜单所携带的参数
+   */
+  query?: Recordable
 }
 interface GenerateRoutesOptions {
   router: Router

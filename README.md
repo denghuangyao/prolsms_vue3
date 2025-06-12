@@ -38,6 +38,12 @@ npm run build
 npm run lint
 ```
 
+### el样式覆盖
+
+- style/element/el-mixin.scss
+
 ### 图标使用
 
-### el样式覆盖
+### 菜单跳转
+
+### 菜单路由标签

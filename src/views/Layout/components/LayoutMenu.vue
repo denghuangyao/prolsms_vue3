@@ -1,8 +1,21 @@
+<script setup lang="ts">
+import type { MenuProps } from '@/components/menu';
+import type { MenuRecordRaw } from '@/types';
+defineProps<{
+    menus: MenuRecordRaw[]
+}>()
+const emit = defineEmits<{
+    'select': [path: string, mode: MenuProps['mode']]
+}>()
+const handleSelect = (menu: any) => {
+    emit('select', menu.path, 'vertical')
+}
+</script>
 <template>
     <div class="left-menu-box">
-        <el-menu class="second-menu-box" default-active="1">
+        <el-menu class="second-menu-box">
             <!-- 模块二级菜单 -->
-            <template v-for="(secondItem, index) in menuData" :key="secondItem.permission">
+            <template v-for="(secondItem, index) in menus" :key="secondItem.permission">
                 <el-sub-menu :index="`${index + 1}`" v-if="secondItem?.children?.length">
                     <template #title>
                         <el-icon class="item-icon-left">
@@ -14,14 +27,13 @@
                     </template>
                     <!-- 下属三级菜单 -->
                     <el-menu-item class="second-menu-item" :index="`${index + idx + 2}-${idx + 1}`"
-                        v-for="(item, idx) in secondItem.children">
+                        v-for="(item, idx) in secondItem.children" @click="handleSelect(item)">
                         <el-badge is-dot class="item-text textell" :offset="[-3, 15]">
                             {{ item.label }}
                         </el-badge>
-                        <!-- <div class="item-text textell">{{ item.label }}</div> -->
                     </el-menu-item>
                 </el-sub-menu>
-                <el-menu-item class="second-menu-item" :index="`${index + 1}`" v-else>
+                <el-menu-item class="second-menu-item" :index="`${index + 1}`" @click="handleSelect(secondItem)" v-else>
                     <i-ep-menu />
                     <el-badge class="item-text textell" :offset="[-3, 15]">
                         {{ secondItem.label }}
@@ -32,17 +44,7 @@
 
     </div>
 </template>
-<script setup lang="ts">
-import type { MenuRecordRaw } from '@/types';
-import { onMounted, reactive } from 'vue';
-import { useAccessStore } from '@/stores';
-const accessStore = useAccessStore();
 
-onMounted(() => {
-
-})
-let menuData = reactive<MenuRecordRaw[]>(accessStore.accessMenus)
-</script>
 <!-- 
 相应模块第二级菜单
 <div class="second-menu-box" v-for="(secondItem) in menuData" :key="secondItem.key">

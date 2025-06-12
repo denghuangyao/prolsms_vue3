@@ -1,12 +1,14 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import type { RouteRecordRaw } from 'vue-router'
+import type { MenuRecordRaw } from '@/types'
+import { findMenuByPath } from '@/utils'
 /**
  * SecureLS:安全的本地存储解决方案
  */
 type AccessToken = null | string
 interface AccessState {
   /**可访问的菜单列表 */
-  accessMenus: []
+  accessMenus: MenuRecordRaw[]
   /**可访问路由列表 */
   accessRoutes: RouteRecordRaw[]
   /**
@@ -29,6 +31,9 @@ export const useAccessStore = defineStore('access', {
     pick: ['accessToken'],
   },
   actions: {
+    getMenuByPath(path: string) {
+      return findMenuByPath(this.accessMenus, path)
+    },
     setIsCheckedAccess(isCheckedAccess: boolean) {
       this.isCheckedAccess = isCheckedAccess
     },

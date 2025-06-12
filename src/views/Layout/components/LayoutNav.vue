@@ -1,19 +1,28 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { useAccessStore } from "@/stores";
+import { computed, onMounted } from "vue";
 import type { MenuRecordRaw } from "@/types";
+import type { MenuProps } from "@/components/menu";
 import { TOPMENU_MAXNUM } from "@/constants";
-const accessStore = useAccessStore();
-let firstMenus = accessStore.accessMenus
-let showFirstMenu = computed<MenuRecordRaw[]>(() => firstMenus.slice(0, TOPMENU_MAXNUM));
-let activeIndex = ref('');
-let moreFirstMenu = computed<MenuRecordRaw[]>(() => firstMenus.length > TOPMENU_MAXNUM ? firstMenus.slice(TOPMENU_MAXNUM) : []);
+const props = defineProps<{
+    menus: MenuRecordRaw[]
+}>()
+const emit = defineEmits<{
+    select: [path: string, mode: MenuProps["mode"]]
+}>()
+let showFirstMenu = computed<MenuRecordRaw[]>(() => props.menus.slice(0, TOPMENU_MAXNUM));
+let activePath = defineModel('activePath');
+let moreFirstMenu = computed<MenuRecordRaw[]>(() => props.menus.length > TOPMENU_MAXNUM ? props.menus.slice(TOPMENU_MAXNUM) : []);
+const handleSelect = (menu: any) => {
+    console.log("-handleSelect-,", menu)
+    activePath.value = menu.path;
+    emit('select', menu.path, 'horizontal')
+}
 </script>
 <template>
-    <div class="top-menu-box">
-        <div class="menu-item" v-for="(firstItem, index) in showFirstMenu" :permission="index"
-            :class="{ 'activeTopMenu': activeIndex == firstItem.permission }">
-            <svg-icon :icon-class="firstItem.icon" class="menu-icon" v-show="activeIndex == firstItem.permission" />
+    <nav class="top-menu-box">
+        <div class="menu-item" v-for="(firstItem, index) in showFirstMenu" :key="index"
+            :class="{ 'activeTopMenu': activePath == firstItem.path }" @click="handleSelect(firstItem)">
+            <svg-icon :icon-class="firstItem.icon" class="menu-icon" v-show="activePath == firstItem.path" />
             {{ firstItem.label }}
         </div>
         <el-dropdown placement="bottom" class="wl-dropdown" trigger="click" v-if="moreFirstMenu.length">
@@ -21,11 +30,11 @@ let moreFirstMenu = computed<MenuRecordRaw[]>(() => firstMenus.length > TOPMENU_
                 <span class="moretext">更多</span><i class="el-icon-arrow-down el-icon--right"></i>
             </div>
             <el-dropdown-menu class="wl-dropdown-item" slot="dropdown">
-                <el-dropdown-item :class="{ 'activeItem': activeIndex == item.permission }" :command="item"
-                    v-for="item in moreFirstMenu" :key="item.permission"> {{ item.label }}</el-dropdown-item>
+                <el-dropdown-item :class="{ 'activeItem': activePath == item.path }" :command="item"
+                    v-for="item in moreFirstMenu" :key="item.path"> {{ item.label }}</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
-    </div>
+    </nav>
 </template>
 <style lang="scss" scoped>
 .top-menu-box {

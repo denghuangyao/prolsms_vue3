@@ -1,17 +1,41 @@
 <script lang="ts" setup>
+import { ref, watch, onBeforeMount } from 'vue';
+import { useAccessStore } from '@/stores';
+import { useMixedMenu } from "@/composables/use-mixed-menu";
+const accessStore = useAccessStore();
 import LayoutHeader from './components/LayoutHeader.vue';
 import LayoutMenu from './components/LayoutMenu.vue';
+import LayoutNav from './components/LayoutNav.vue';
+import LayoutTabbar from './components/LayoutTabbar.vue'
+import type { MenuRecordRaw } from '@/types';
+const { headerMenus, handleMenuSelect } = useMixedMenu()
+const activePath = ref('');
+const subMenus = ref<MenuRecordRaw[]>([])
+watch(() => activePath.value, () => {
+    console.log('改变了-菜单-', activePath.value)
+    let menu = accessStore.getMenuByPath(activePath.value)
+    subMenus.value = menu?.children ?? []
+    console.log(subMenus.value)
+})
+onBeforeMount(() => {
 
+})
 </script>
 <template>
     <div class="app-wrapper">
-        <LayoutHeader />
-        <div class="app-main">
+        <LayoutHeader>
+            <template #nav-menu>
+                <LayoutNav :menus="headerMenus" @select="handleMenuSelect" v-model:active-path="activePath" />
+            </template>
+        </LayoutHeader>
+        <main class="app-main">
             <!-- 侧边栏 -->
-            <div class="sidebar">
-                <LayoutMenu />
-            </div>
+            <aside class="sidebar">
+                <LayoutMenu :menus="subMenus" @select="handleMenuSelect" />
+            </aside>
             <div class="app-container ">
+                <!-- v-model:active="" -->
+                <LayoutTabbar />
                 <RouterView v-slot="{ Component }">
                     <template v-if="Component">
                         <Transition mode="out-in">
@@ -30,7 +54,7 @@ import LayoutMenu from './components/LayoutMenu.vue';
                     </template>
                 </RouterView>
             </div>
-        </div>
+        </main>
     </div>
 </template>
 
