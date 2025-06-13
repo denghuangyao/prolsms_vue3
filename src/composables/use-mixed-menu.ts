@@ -36,9 +36,17 @@ function useMixedMenu() {
    */
   const handleMenuSelect = (key: string, mode?: string) => {
     console.log('-handleMenuSelect-', key)
+    //侧边菜单点击直接跳转
     if (mode === 'vertical') {
       navigation(key)
       return
+    }
+    //头部菜单点击：获取侧边菜单，并跳转至默认侧边菜单
+    const rootMenu = menus.value.find((item) => item.path === key)
+    const _splitSideMenus = rootMenu?.children ?? []
+    if (_splitSideMenus.length === 0) {
+      navigation(key)
+    } else if (rootMenu) {
     }
   }
   // 初始化计算侧边菜单

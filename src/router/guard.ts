@@ -82,7 +82,7 @@ function setupAccessGuard(router: Router) {
       redirectPath = from.query.redirect as string
     } else if (to.path === defaultHomePath) {
       redirectPath = defaultHomePath
-    } else if (userInfo.homePath && to.path === userInfo.homePath) {
+    } else if (userInfo?.homePath && to.path === userInfo.homePath) {
       redirectPath = userInfo.homePath
     } else {
       redirectPath = to.fullPath

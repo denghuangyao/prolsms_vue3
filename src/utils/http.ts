@@ -1,4 +1,4 @@
-import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios'
+import axios, { type AxiosRequestConfig, type AxiosResponse, type CreateAxiosDefaults } from 'axios'
 import qs from 'qs'
 import router from '@/router'
 import { useAccessStore } from '@/stores'
@@ -109,7 +109,7 @@ export default {
     return res.result
   },
   //post请求：发送
-  post: async <T = any>(url: string, data = {}): Promise<T> => {
+  post: async <T = any>(url: string, data = {}, options?: CreateAxiosDefaults): Promise<T> => {
     let res = await request<T>({
       url,
       method: 'POST',

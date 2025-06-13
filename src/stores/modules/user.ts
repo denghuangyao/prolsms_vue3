@@ -1,23 +1,16 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
-import { type BasicUserInfo } from '@/types'
+import { type UserInfo } from '@/types'
 interface AccessState {
-  userInfo: BasicUserInfo | null
-  userPermissions: string[]
+  userInfo: UserInfo | null
 }
 export const useUserStore = defineStore('user', {
   actions: {
-    setUserInfo(userInfo: BasicUserInfo | null) {
+    setUserInfo(userInfo: UserInfo | null) {
       this.userInfo = userInfo
-      const permisions = userInfo?.permission ?? []
-      this.setPermissions(permisions)
-    },
-    setPermissions(permisions: string[]) {
-      this.userPermissions = permisions
     },
   },
   state: (): AccessState => ({
     userInfo: null,
-    userPermissions: [],
   }),
   persist: true,
 })

@@ -7,6 +7,8 @@ import { findMenuByPath } from '@/utils'
  */
 type AccessToken = null | string
 interface AccessState {
+  /**用户按钮权限码（按钮） */
+  accessCodes: string[]
   /**可访问的菜单列表 */
   accessMenus: MenuRecordRaw[]
   /**可访问路由列表 */
@@ -19,13 +21,19 @@ interface AccessState {
    * 是否检查过权限
    */
   isCheckedAccess: boolean
+  /**
+   * 登录是否过期(退出登录失效+或token失效)
+   */
+  loginExpired: boolean
 }
 export const useAccessStore = defineStore('access', {
   state: (): AccessState => ({
+    accessCodes: [],
     accessMenus: [],
     accessToken: null,
     accessRoutes: [],
     isCheckedAccess: false,
+    loginExpired: false,
   }),
   persist: {
     pick: ['accessToken'],
@@ -45,6 +53,12 @@ export const useAccessStore = defineStore('access', {
     },
     setAccessToken(accessToken: AccessToken) {
       this.accessToken = accessToken
+    },
+    setLoginExpired(loginExpired: boolean) {
+      this.loginExpired = loginExpired
+    },
+    setAccessCode(accessCodes: any) {
+      this.accessCodes = accessCodes
     },
   },
 })

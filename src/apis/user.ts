@@ -1,7 +1,7 @@
+import type { UserInfo } from '@/types'
 import http from '@/utils/http'
-export const login = <T = any>(username: string, password: string): Promise<T> => {
-  return http.post<T>('/user/login', { username, password })
-}
-export const getUserInfo = () => {
-  return http.get('/user/info')
+export const getUserInfo = async () => {
+  let userInfo: null | UserInfo = null
+  userInfo = await http.get('/user/info')
+  return userInfo
 }

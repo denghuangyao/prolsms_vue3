@@ -3,12 +3,12 @@ import { reactive, ref } from 'vue'
 import { type FormInstance, type FormRules } from 'element-plus'
 import { Lock, Iphone } from '@element-plus/icons-vue'
 import IconEpUser from "~icons/ep/user"
-import { login } from '@/apis'
 import { useRouter } from 'vue-router'
-import { useUserStore, useAccessStore } from "@/stores"
+import { useAuthStore } from "@/stores"
+import type { AuthApi } from '@/apis'
 const router = useRouter();
 let formRef = ref<FormInstance>();
-const loginForm = reactive({
+const loginForm = reactive<AuthApi.LoginParams>({
     username: "",
     password: "",
     authCode: ""
@@ -34,21 +34,16 @@ let languageSwitch = (lang: string) => {
     language.value = lang;
 }
 let isOpen = ref(false);
-const userStore = useUserStore();
-const accessStore = useAccessStore();
+const authStore = useAuthStore();
 let handleLogin = async () => {
     formRef.value?.validate(async (valid: boolean) => {
         if (valid) {
-            let res = await login(loginForm.username, loginForm.password);
-            console.log("-res-", res)
-            userStore.setUserInfo(res.user)
-            if (res.token) {
-                accessStore.setAccessToken(res.token)
-            }
-            formRef.value?.resetFields();
-            ElMessage.success("登录成功！");
-            console.log("--router-", router)
-            router.replace("/")
+            authStore.authLogin(loginForm, () => {
+                formRef.value?.resetFields();
+                ElMessage.success("登录成功！");
+                console.log("--router-", router)
+                router.replace("/")
+            })
         }
     })
     // isOpen.value = true

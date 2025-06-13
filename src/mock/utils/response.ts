@@ -35,3 +35,10 @@ export function pagination<T = any>(pageNo: number, pageSize: number, array: T[]
     ? array.slice(offset)
     : array.slice(offset, offset + Number(pageSize))
 }
+
+/**
+ *401,登录失效
+ */
+export function unAuthorizedResponse() {
+  return useResponseError('Unauthorized Exception', 'Unauthorized Exception')
+}
