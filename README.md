@@ -44,6 +44,9 @@ npm run lint
 
 ### 图标使用
 
+npm install vite-plugin-svg-icons -D
+
 ### 菜单跳转
+已完成
 
 ### 菜单路由标签

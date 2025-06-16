@@ -15,11 +15,14 @@ import { ConfigEnv } from 'vite'
 import { viteMockServe } from 'vite-plugin-mock'
 //由vite在Html中注入环境变量，在 .env 文件内配置
 import { createHtmlPlugin as viteHtmlPlugin } from 'vite-plugin-html'
+//引入svg-icon
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import path from 'node:path'
 // https://vite.dev/config/
 export default defineConfig(({ command }: ConfigEnv) => ({
   plugins: [
     vue(),
-    viteHtmlPlugin({minify:true}),
+    viteHtmlPlugin({ minify: true }),
     viteMockServe({
       mockPath: 'src/mock', // mock文件存放目录
       enable: command === 'serve', // 只在开发服务器启用
@@ -55,6 +58,13 @@ export default defineConfig(({ command }: ConfigEnv) => ({
     }),
     Icons({
       autoInstall: true,
+    }),
+    createSvgIconsPlugin({
+      iconDirs: [
+        path.resolve(process.cwd(), 'src/icons'), //框架基础图标
+        path.resolve(process.cwd(), 'src/assets/icons'), //业务图标
+      ],
+      symbolId: 'icon-[dir]-[name]',
     }),
   ],
   resolve: {
