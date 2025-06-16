@@ -1,10 +1,10 @@
 declare const window: Window & typeof globalThis
-import type { RouteMeta } from 'vue-router'
+import type { RouteMeta } from '@/types'
 declare global {
   /**
    * 模块所属config配置
    */
-  interface MenuConfigRecordRaw extends RouteMeta {
+  type MenuConfigRecordRaw = RouteMeta & {
     children?: MenuConfigRecordRaw[]
     componentPath?: string //组件相对路径（不包含/src/views）
     /**

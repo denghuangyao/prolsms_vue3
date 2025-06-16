@@ -3,26 +3,25 @@ import { computed, onMounted } from "vue";
 import type { MenuRecordRaw } from "@/types";
 import type { MenuProps } from "@/components/menu";
 import { TOPMENU_MAXNUM } from "@/constants";
-const props = defineProps<{
-    menus: MenuRecordRaw[]
+const { menus = [], defaultActive } = defineProps<{
+    menus: MenuRecordRaw[],
+    defaultActive: string
 }>()
 const emit = defineEmits<{
     select: [path: string, mode: MenuProps["mode"]]
 }>()
-let showFirstMenu = computed<MenuRecordRaw[]>(() => props.menus.slice(0, TOPMENU_MAXNUM));
-let activePath = defineModel('activePath');
-let moreFirstMenu = computed<MenuRecordRaw[]>(() => props.menus.length > TOPMENU_MAXNUM ? props.menus.slice(TOPMENU_MAXNUM) : []);
+let showFirstMenu = computed<MenuRecordRaw[]>(() => menus.slice(0, TOPMENU_MAXNUM));
+let moreFirstMenu = computed<MenuRecordRaw[]>(() => menus.length > TOPMENU_MAXNUM ? menus.slice(TOPMENU_MAXNUM) : []);
 const handleSelect = (menu: any) => {
     console.log("-handleSelect-,", menu)
-    activePath.value = menu.path;
     emit('select', menu.path, 'horizontal')
 }
 </script>
 <template>
     <nav class="top-menu-box">
         <div class="menu-item" v-for="(firstItem, index) in showFirstMenu" :key="index"
-            :class="{ 'activeTopMenu': activePath == firstItem.path }" @click="handleSelect(firstItem)">
-            <svg-icon :icon-class="firstItem.icon" class="menu-icon" v-show="activePath == firstItem.path" />
+            :class="{ 'activeTopMenu': defaultActive == firstItem.path }" @click="handleSelect(firstItem)">
+            <svg-icon :name="firstItem.icon" class="menu-icon" v-show="defaultActive == firstItem.path" />
             {{ firstItem.label }}
         </div>
         <el-dropdown placement="bottom" class="wl-dropdown" trigger="click" v-if="moreFirstMenu.length">
@@ -30,7 +29,7 @@ const handleSelect = (menu: any) => {
                 <span class="moretext">更多</span><i class="el-icon-arrow-down el-icon--right"></i>
             </div>
             <el-dropdown-menu class="wl-dropdown-item" slot="dropdown">
-                <el-dropdown-item :class="{ 'activeItem': activePath == item.path }" :command="item"
+                <el-dropdown-item :class="{ 'activeItem': defaultActive == item.path }" :command="item"
                     v-for="item in moreFirstMenu" :key="item.path"> {{ item.label }}</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>

@@ -17,7 +17,7 @@ function findRootMenuByPath(menus: MenuRecordRaw[], path?: string, level: number
   const findMenu = findMenuByPath(menus, path)
   const rootMenuPath = findMenu?.parents?.[level]
   const rootMenu = rootMenuPath ? menus.find((item) => item.path === rootMenuPath) : undefined
-  console.log('parent--', parent)
+  console.log('findRootMenuByPath--', rootMenu)
   return {
     findMenu,
     rootMenu,

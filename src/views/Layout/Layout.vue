@@ -1,40 +1,25 @@
 <script lang="ts" setup>
-import { ref, watch, onBeforeMount } from 'vue';
-import { useAccessStore } from '@/stores';
-import { useMixedMenu } from "@/composables/use-mixed-menu";
-const accessStore = useAccessStore();
 import LayoutHeader from './components/LayoutHeader.vue';
-import LayoutMenu from './components/LayoutMenu.vue';
+import layoutSidebar from './components/layoutSidebar.vue';
 import LayoutNav from './components/LayoutNav.vue';
 import LayoutTabbar from './components/LayoutTabbar.vue'
-import type { MenuRecordRaw } from '@/types';
-const { headerMenus, handleMenuSelect } = useMixedMenu()
-const activePath = ref('');
-const subMenus = ref<MenuRecordRaw[]>([])
-watch(() => activePath.value, () => {
-    console.log('改变了-菜单-', activePath.value)
-    let menu = accessStore.getMenuByPath(activePath.value)
-    subMenus.value = menu?.children ?? []
-    console.log(subMenus.value)
-})
-onBeforeMount(() => {
+import { useMixedMenu } from "@/composables/use-mixed-menu";
+const { headerMenus, headerActive, sidebarMenus, sidebarActive, handleMenuSelect } = useMixedMenu()
 
-})
 </script>
 <template>
     <div class="app-wrapper">
         <LayoutHeader>
             <template #nav-menu>
-                <LayoutNav :menus="headerMenus" @select="handleMenuSelect" v-model:active-path="activePath" />
+                <LayoutNav :menus="headerMenus" @select="handleMenuSelect" :default-active="headerActive" />
             </template>
         </LayoutHeader>
         <main class="app-main">
             <!-- 侧边栏 -->
             <aside class="sidebar">
-                <LayoutMenu :menus="subMenus" @select="handleMenuSelect" />
+                <layoutSidebar :menus="sidebarMenus" @select="handleMenuSelect" :default-active="sidebarActive" />
             </aside>
             <div class="app-container ">
-                <!-- v-model:active="" -->
                 <LayoutTabbar />
                 <RouterView v-slot="{ Component }">
                     <template v-if="Component">

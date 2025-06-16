@@ -46,7 +46,7 @@ console.log("--slots-", slots)
     <el-dialog custom-class="logoutTip" width="400">
       <div slot="title" class="header-title warning">
         <div class="pop_icon">
-          <svg-icon icon-class="btn_ts" />
+          <svg-icon name="btn_ts" />
         </div>
         <div class="pop_tip">提示！</div>
         <div class="pop_text">
