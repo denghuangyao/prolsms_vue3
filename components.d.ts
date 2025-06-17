@@ -8,6 +8,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Content: typeof import('./src/components/layouts/content/content.vue')['default']
+    ContentSpinner: typeof import('./src/components/layouts/content/content-spinner.vue')['default']
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElDialog: typeof import('element-plus/es')['ElDialog']
@@ -27,9 +29,12 @@ declare module 'vue' {
     IEpBell: typeof import('~icons/ep/bell')['default']
     IEpClose: typeof import('~icons/ep/close')['default']
     IEpQuestionFilled: typeof import('~icons/ep/question-filled')['default']
+    Loading: typeof import('./src/components/spinner/loading.vue')['default']
     Modal: typeof import('./src/components/modal/Modal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Spinner: typeof import('./src/components/spinner/spinner.vue')['default']
+    Spinning: typeof import('./src/components/spinner/spinning.vue')['default']
     SvgIcon: typeof import('./src/components/icons/SvgIcon.vue')['default']
     Tabs: typeof import('./src/components/tabs/Tabs.vue')['default']
   }

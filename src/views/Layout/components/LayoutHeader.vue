@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useSlots } from 'vue';
-import LayoutNav from './LayoutNav.vue'
 const slots = useSlots();
 console.log("--slots-", slots)
 </script>

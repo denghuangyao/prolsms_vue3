@@ -19,44 +19,67 @@ const emit = defineEmits<{
 }>()
 const handleSelect = (menu: any) => {
     emit('select', menu.path, 'vertical')
-}
+} 
 </script>
 <template>
-    <div class="left-menu-box">
-        <el-menu class="second-menu-box" :default-active="defaultActive">
-            <!-- 模块二级菜单 -->
-            <template v-for="secondItem in menus" :key="secondItem.permission">
-                <el-sub-menu :index="secondItem.path" v-if="secondItem?.children?.length">
-                    <template #title>
+    <aside class="sidebar">
+        <div class="left-menu-box">
+            <el-menu class="second-menu-box" :default-active="defaultActive">
+                <!-- 模块二级菜单 -->
+                <template v-for="secondItem in menus" :key="secondItem.permission">
+                    <el-sub-menu :index="secondItem.path" v-if="secondItem?.children?.length">
+                        <template #title>
+                            <svg-icon class="item-icon-left" :name="secondItem.icon" />
+                            <el-badge is-dot class="item-text textell" :offset="[-3, 15]">
+                                {{ secondItem.label }}
+                            </el-badge>
+                        </template>
+                        <!-- 下属三级菜单 -->
+                        <el-menu-item class="second-menu-item" :index="item.path" v-for="item in secondItem.children"
+                            @click="handleSelect(item)">
+                            <el-badge is-dot class="item-text textell" :offset="[-3, 15]">
+                                {{ item.label }}
+                            </el-badge>
+                        </el-menu-item>
+                    </el-sub-menu>
+                    <el-menu-item class="second-menu-item" :index="secondItem.path" @click="handleSelect(secondItem)"
+                        v-else>
                         <svg-icon class="item-icon-left" :name="secondItem.icon" />
-                        <el-badge is-dot class="item-text textell" :offset="[-3, 15]">
+                        <el-badge class="item-text textell" :offset="[-3, 15]">
                             {{ secondItem.label }}
                         </el-badge>
-                    </template>
-                    <!-- 下属三级菜单 -->
-                    <el-menu-item class="second-menu-item" :index="item.path" v-for="item in secondItem.children"
-                        @click="handleSelect(item)">
-                        <el-badge is-dot class="item-text textell" :offset="[-3, 15]">
-                            {{ item.label }}
-                        </el-badge>
                     </el-menu-item>
-                </el-sub-menu>
-                <el-menu-item class="second-menu-item" :index="secondItem.path" @click="handleSelect(secondItem)"
-                    v-else>
-                    <svg-icon class="item-icon-left" :name="secondItem.icon" />
-                    <el-badge class="item-text textell" :offset="[-3, 15]">
-                        {{ secondItem.label }}
-                    </el-badge>
-                </el-menu-item>
-            </template>
-        </el-menu>
+                </template>
+            </el-menu>
 
-    </div>
+        </div>
+    </aside>
 </template>
 <style lang="scss" scoped>
 @mixin menuitem {
     font-weight: 500;
     font-family: $font-family;
+}
+
+.sidebar {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    z-index: 100;
+    box-sizing: border-box;
+    background: $color-primary;
+    scrollbar-color: #c8cdd4;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        width: 0;
+        height: pxTovw(3);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: pxTovw(3);
+        background: #5576e5;
+    }
 }
 
 .left-menu-box {
