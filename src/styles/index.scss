@@ -1,1 +1,15 @@
 @import url('./el-style.scss');
+#nprogress {
+  .bar {
+    background: $color-primary !important; //自定义颜色
+  }
+  .peg {
+    box-shadow:
+      0 0 10px $color-primary,
+      0 0 5px $color-primary;
+  }
+  .spinner-icon {
+    border-top-color: $color-primary !important;
+    border-left-color: $color-primary !important;
+  }
+}
