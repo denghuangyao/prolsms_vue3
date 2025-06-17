@@ -53,7 +53,7 @@ export function createViewsRoutes(viewsModules: ViewsModule[]): RouteRecordRaw[]
   let modules = Object.values(viewsModules)
   let routes: RouteRecordRaw[] = []
   modules.forEach(({ path: dir, module }) => {
-    console.log('-module-', module, dir)
+    // console.log('-module-', module, dir)
     let prefixDir = dir?.replace(/\/config.[jt]s/, '')
     // let viewsDir = prefixDir?.replace(/\/src\/views\/(.*)/, '$1')
     const tree = mapTree<MenuConfigRecordRaw, RouteRecordRaw>([module], (item) => {
@@ -64,7 +64,7 @@ export function createViewsRoutes(viewsModules: ViewsModule[]): RouteRecordRaw[]
         name: routeName,
         path,
       }
-      console.log('path---', path, 'routeName--', routeName)
+      // console.log('path---', path, 'routeName--', routeName)
       if (children) {
         route.children = children
       }

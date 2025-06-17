@@ -6,8 +6,8 @@ interface systemType {
 }
 export const DynamicViews: systemType = {
   WHP: 'weihuapin',
-  SWYB: 'shengwuyangben',
-  AQKS: 'anquankaoshi',
+  SWYB: 'shengwuYangben',
+  AQKS: 'anquanjiaoyu',
   GZT: 'Workbenches',
 }
 export const WLConst = {

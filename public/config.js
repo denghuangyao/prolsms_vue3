@@ -1,4 +1,5 @@
 const Config = {
+  bAllRight: true,
   /** URL */
   ajaxUrl: 'http://test201.weileit.com:12019',
   /** 前端index.html路径 */
@@ -9,8 +10,6 @@ const Config = {
   /** 是否可在登录页通过点击版本号打开调试*/
   isChangeDebug: true,
   bChangeMenuType: true, //是否开放菜单切换功能
-  //其他单点登录方式*/
-  otherLogin: false,
   /**只放开相应系统入口*/
   systemType: ['ALL'],
   /**版本号*/
@@ -28,8 +27,6 @@ const Config = {
   faceOrSwipeCard: false,
   /**单次上传附件最大大小(MB) */
   sizeMax: 10,
-  dwRequestUrl: 'http://app.cciot.cc/mapi', // 硬件定位相关参数请求的路径 测试服：http://csapp.cciot.cc/mapi 正式服：http://app.cciot.cc/mapi
-
   /**监听用户支付的websocket的url（没有使用到此功能情况下可为空）*/
   payWebSocketUrl: 'ws://test201.weileit.com:12019',
   /** 刷卡或人脸登录的websocket的url （没有使用到此功能情况下可为空）*/

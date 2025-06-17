@@ -6,7 +6,6 @@
 declare class Config {
   /** 正式URL */
   static ajaxUrl: string
-  static payWebSocketUrl: string
   static webUrl: string
 
   /**刷卡或人脸登录的websocket的url*/

@@ -14,5 +14,5 @@ function hasAuthority(route: RouteRecordRaw, permissions: string[]) {
   if (!authority) {
     return true
   }
-  return permissions.includes(authority as string)
+  return Config.bAllRight || permissions.includes(authority as string)
 }

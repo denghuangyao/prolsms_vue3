@@ -45,6 +45,9 @@ export const MOCK_ROLES: Role[] = [
       'weihuapin:menu',
       'whp:jichuguanli',
       'whp:jichuxinxi',
+      'shengwuYangben:menu',
+      'swyb:yangbenGuanli',
+      'swyb:yangbenyuan',
     ],
     entryList: [
       //菜单入口路径对应权限
