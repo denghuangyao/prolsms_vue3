@@ -12,7 +12,7 @@ export const generateAccess = (options: GenerateRoutesOptions) => {
   const root = router.getRoutes().find((item) => item.path === '/')
   const rootNames = root?.children?.map((item) => item.name)
 
-  console.log('routes-printLog-', printLog(options.routes))
+  console.log('routes-printLog-', options.routes)
   const routes = cloneDeep(options.routes)
   // console.log('routes--', routes)
   const accessibleRoutes = generateRoutesByFrontend(routes, permissions || [])
@@ -36,22 +36,19 @@ export const generateAccess = (options: GenerateRoutesOptions) => {
       router.addRoute(route)
     }
   })
-  console.log('root-generateAccess-1', printLog(router.getRoutes()))
+  console.log('root-generateAccess-1', router.getRoutes())
   if (root) {
     if (root.name) {
       router.removeRoute(root.name)
-      console.log('root-generateAccess-2', printLog(router.getRoutes()))
+      console.log('root-generateAccess-2', router.getRoutes())
     }
     console.log('root-generateAccess-4')
 
     router.addRoute(root)
   }
-  console.log('root-generateAccess-3', printLog(router.getRoutes()))
+  console.log('root-generateAccess-3', router.getRoutes())
   //生成菜单
   const accessibleMenus: any = generateMenus(accessibleRoutes, router)
   console.log('accessibleMenus--', accessibleMenus)
   return { accessibleMenus, accessibleRoutes }
-}
-function printLog(obj: any) {
-  return JSON.parse(JSON.stringify(obj))
 }

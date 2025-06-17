@@ -15,6 +15,10 @@ interface RouteMeta {
    * 菜单所携带的参数
    */
   query?: Recordable
+  /**
+   * 路由是否已经加载过
+   */
+  loaded?: boolean
 }
 interface GenerateRoutesOptions {
   router: Router

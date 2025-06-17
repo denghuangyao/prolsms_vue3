@@ -5,6 +5,7 @@ import { generateAccess } from './access'
 
 import type { Router } from 'vue-router'
 import { _import } from './routes/modules'
+import { startProgress, stopProgress } from '@/utils'
 /**
  * 创建路由守卫
  */
@@ -12,7 +13,20 @@ import { _import } from './routes/modules'
  * 通用路由守卫:处理路由页面加载滚动条
  * @param router
  */
-function setCommonGuard(router: Router) {}
+function setCommonGuard(router: Router) {
+  const loadedPaths = new Set<string>()
+  router.beforeEach((to) => {
+    to.meta.loaded = loadedPaths.has(to.path)
+    if (!to.meta.loaded) {
+      startProgress()
+    }
+    return true
+  })
+  router.afterEach((to) => {
+    loadedPaths.add(to.path)
+    stopProgress()
+  })
+}
 /**
  * 权限访问守卫配置
  * @param router
