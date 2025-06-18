@@ -12,7 +12,7 @@ export const generateAccess = (options: GenerateRoutesOptions) => {
   const root = router.getRoutes().find((item) => item.path === '/')
   const rootNames = root?.children?.map((item) => item.name)
 
-  console.log('routes-printLog-', options.routes)
+  console.log('routes--', options.routes)
   const routes = cloneDeep(options.routes)
   // console.log('routes--', routes)
   const accessibleRoutes = generateRoutesByFrontend(routes, permissions || [])

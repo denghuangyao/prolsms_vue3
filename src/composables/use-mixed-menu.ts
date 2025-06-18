@@ -51,6 +51,8 @@ function useMixedMenu() {
     rootMenuPath.value = rootMenu?.path ?? ''
     console.log('calcSideMenus--', splitSideMenus)
   }
+  //点击目录时自动激活子菜单
+  const autoActivateChild = false
   /**
    * 菜单点击事件处理
    * @param key 菜单路径path
@@ -67,10 +69,10 @@ function useMixedMenu() {
     const rootMenu = menus.value.find((item) => item.path === key)
     const _splitSideMenus = rootMenu?.children ?? []
     console.log('-handleMenuSelect-', rootMenu, _splitSideMenus, _splitSideMenus.length)
-
+    splitSideMenus.value = _splitSideMenus
     if (_splitSideMenus.length === 0) {
       navigation(key)
-    } else if (rootMenu) {
+    } else if (rootMenu && autoActivateChild) {
       navigation(
         defaultSubMap.has(rootMenu.path)
           ? (defaultSubMap.get(rootMenu.path) as string)

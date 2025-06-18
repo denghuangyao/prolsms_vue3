@@ -16,6 +16,7 @@ import { startProgress, stopProgress } from '@/utils'
 function setCommonGuard(router: Router) {
   const loadedPaths = new Set<string>()
   router.beforeEach((to) => {
+    console.log('setCommonGuard--beforeEach', to.meta.loaded)
     to.meta.loaded = loadedPaths.has(to.path)
     if (!to.meta.loaded) {
       startProgress()
@@ -23,6 +24,7 @@ function setCommonGuard(router: Router) {
     return true
   })
   router.afterEach((to) => {
+    console.log('setCommonGuard-afterEach', to.meta.loaded, loadedPaths)
     loadedPaths.add(to.path)
     stopProgress()
   })

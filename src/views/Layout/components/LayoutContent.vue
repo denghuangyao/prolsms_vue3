@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 </script>
 <template>
-    <main class="layout-conent">
+    <main class="layout-content">
         <RouterView v-slot="{ Component }">
             <template v-if="Component">
-                <Transition mode="out-in">
+                <!-- appear初次渲染是有过渡效果 -->
+                <Transition appear mode="out-in" name="fade-slide">
                     <KeepAlive>
                         <Suspense>
                             <!-- 主要内容 -->
@@ -23,9 +24,24 @@
 </template>
 
 <style scoped lang="scss">
-.layout-conent {
+.layout-content {
     width: 100%;
     position: relative;
     height: 100%;
+
+    .fade-slide-leave-active,
+    .fade-slide-enter-active {
+        transition: all 0.3s;
+    }
+
+    .fade-slide-enter-from {
+        opacity: 0;
+        transform: translate(-30px);
+    }
+
+    .fade-slide-leave-to {
+        opacity: 0;
+        transform: translate(30px);
+    }
 }
 </style>

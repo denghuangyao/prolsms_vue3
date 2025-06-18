@@ -1,23 +1,61 @@
 <script lang="ts" setup>
+import { ref, watch } from 'vue';
+interface Props {
+    /**
+     * 最小加载时间
+     */
+    minLoadingTime?: number
+    /**
+     * @zh-CN loading状态开启
+     */
+    spinning?: boolean
+}
 defineOptions({
     name: 'VSpinner'
 })
+const { minLoadingTime = 50, spinning } = defineProps<Props>()
+//加载图标与加载器不同时关闭，加载图标在动画结束后关闭，实现丝滑动画效果
+const showSpinner = ref<boolean>(false)
+const renderSpinner = ref<boolean>(false)
+
+const timer = ref<ReturnType<typeof setTimeout>>()
+watch(() => spinning, (show) => {
+    console.log("-show-spinning", spinning, show)
+    if (!show) {
+        showSpinner.value = false
+        clearTimeout(timer.value)
+        return;
+    }
+    timer.value = setTimeout(() => {
+        showSpinner.value = true
+        if (showSpinner.value) {
+            renderSpinner.value = true;
+        }
+    }, minLoadingTime)
+}, {
+    immediate: true
+})
+const onTransitionEnd = () => {
+    //不要立刻停止动画
+    if (!showSpinner.value) {
+        renderSpinner.value = false;
+    }
+}
 </script>
 <template>
-    <div class="overlay-content">
-        <div class="loader">
-            <h1>spining。。。</h1>
+    <div class="overlay-content" :class="{ 'invisible': !showSpinner }">
+        <div @transitionend="onTransitionEnd" v-if="renderSpinner" class="loader" :class="{ 'pause': !renderSpinner }">
         </div>
     </div>
 </template>
 <style lang="scss" scoped>
 .overlay-content {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 100;
-    height: 100%;
-    width: 100%;
+    position: fixed;
+    left: pxTovw(200);
+    top: pxTovw(120);
+    z-index: 150;
+    height: calc(100vh - #{pxTovw(120)});
+    width: calc(100% - #{pxTovw(200)});
     background-color: #f6f3f4;
     /* 需要替换为实际颜色 */
     backdrop-filter: blur(4px);
@@ -26,10 +64,23 @@ defineOptions({
     justify-content: center;
     align-items: center;
 
+    &.invisible {
+        visibility: hidden;
+        opacity: 0;
+    }
+
     .loader {
         position: relative;
         width: 3rem;
         height: 3rem;
+
+        &.pause {
+
+            &::before,
+            &::after {
+                animation-play-state: paused;
+            }
+        }
 
         &::after,
         &::before {

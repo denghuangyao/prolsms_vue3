@@ -22,6 +22,7 @@ const handleSelect = (menu: any) => {
 } 
 </script>
 <template>
+    <div class="hiddenDom"></div>
     <aside class="sidebar">
         <div class="left-menu-box">
             <el-menu class="second-menu-box" :default-active="defaultActive">
@@ -56,16 +57,30 @@ const handleSelect = (menu: any) => {
     </aside>
 </template>
 <style lang="scss" scoped>
+.hiddenDom {
+    flex: 0 0 pxTovw(200);
+    margin-left: 0;
+    max-width: pxTovw(200);
+    min-width: pxTovw(200);
+    width: pxTovw(200);
+    height: 100%;
+}
+
 @mixin menuitem {
     font-weight: 500;
     font-family: $font-family;
 }
 
 .sidebar {
-    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-top: pxTovw(80);
+    height: calc(100% - #{pxTovw(80)});
+
     overflow-x: hidden;
     overflow-y: scroll;
-    z-index: 100;
+    z-index: 101;
     box-sizing: border-box;
     background: $color-primary;
     scrollbar-color: #c8cdd4;
