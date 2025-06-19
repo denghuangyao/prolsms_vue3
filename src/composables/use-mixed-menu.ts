@@ -49,7 +49,7 @@ function useMixedMenu() {
     }
     splitSideMenus.value = rootMenu?.children ?? []
     rootMenuPath.value = rootMenu?.path ?? ''
-    console.log('calcSideMenus--', splitSideMenus)
+    // console.log('calcSideMenus--', splitSideMenus)
   }
   //点击目录时自动激活子菜单
   const autoActivateChild = false

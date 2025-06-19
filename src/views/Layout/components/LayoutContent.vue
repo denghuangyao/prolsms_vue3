@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import { useLayoutContentStyle } from '@/composables';
+const { contentElement, overlayStyle } = useLayoutContentStyle()
 </script>
 <template>
-    <main class="layout-content">
+    <main ref="contentElement" class="layout-content">
         <RouterView v-slot="{ Component }">
             <template v-if="Component">
                 <!-- appear初次渲染是有过渡效果 -->
@@ -19,7 +21,7 @@
                 </Transition>
             </template>
         </RouterView>
-        <slot name="content-overlay"></slot>
+        <slot :style="overlayStyle" name="content-overlay"></slot>
     </main>
 </template>
 

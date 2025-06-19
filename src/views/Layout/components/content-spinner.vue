@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { VSpinner } from '@/components/spinner';
-import { useContentSpinner } from '@/composables/use-content-spinner';
+import { useContentSpinner } from '@/composables';
 defineOptions({
     name: "LayoutContentSpinner"
 })

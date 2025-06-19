@@ -38,6 +38,10 @@ npm run build
 npm run lint
 ```
 
+### VueUse工具
+
+npm i @vueuse/core
+
 ### el样式覆盖
 
 - style/element/el-mixin.scss
@@ -47,6 +51,11 @@ npm run lint
 npm install vite-plugin-svg-icons -D
 
 ### 菜单跳转
+
 已完成
 
 ### 菜单路由标签
+
+### 侧边菜单展开收起
+
+### 宽度自适应调试

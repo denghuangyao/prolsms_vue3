@@ -11,11 +11,11 @@ async function loadNProgress() {
   }
   nProgressInstance = await import('nprogress')
   nProgressInstance.configure({
-    easing: 'ease', // 动画方式
-    trickleSpeed: 200, // 自动递增间隔
+    // easing: 'ease', // 动画方式
+    // trickleSpeed: 200, // 自动递增间隔
     showSpinner: true, //加载条右下方的小圈圈
     speed: 300, // 递增进度条的速度
-    minimum: 0.08, // 更改启动时使用的最小百分比
+    // minimum: 0.08, // 更改启动时使用的最小百分比
   })
   return nProgressInstance
 }

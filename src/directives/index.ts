@@ -1,8 +1,10 @@
 import type { App } from 'vue'
-import { loadingDirective, spinningDirective } from './loading'
+import { registerLoadingDirective } from './loading'
 export default {
   install(app: App) {
-    app.directive('loading', loadingDirective)
-    app.directive('spinning', spinningDirective)
+    registerLoadingDirective(app, {
+      loading: true,
+      spinning: true,
+    })
   },
 }

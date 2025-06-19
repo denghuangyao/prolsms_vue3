@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { LayoutHeader, LayoutNav, LayoutSidebar, LayoutContent, LayoutContentSpinner, LayoutTabbar } from './components'
-import { useMixedMenu } from "@/composables/use-mixed-menu";
+import { useMixedMenu } from "@/composables";
 const { headerMenus, headerActive, sidebarMenus, sidebarActive, handleMenuSelect } = useMixedMenu()
 </script>
 <template>
@@ -18,8 +18,8 @@ const { headerMenus, headerActive, sidebarMenus, sidebarActive, handleMenuSelect
                     <LayoutTabbar class="app-tabbar" />
                 </div>
                 <LayoutContent class="app-content">
-                    <template #content-overlay>
-                        <LayoutContentSpinner />
+                    <template #content-overlay="{ style }">
+                        <LayoutContentSpinner :style="style" />
                     </template>
                 </LayoutContent>
             </div>
@@ -61,7 +61,7 @@ const { headerMenus, headerActive, sidebarMenus, sidebarActive, handleMenuSelect
 
             .app-content {
                 flex: 1 1 0%;
-                margin-top: pxTovw(120);
+                margin-top: pxTovw(135);
                 animation-duration: .2s;
                 transition-property: margin-top;
                 transition-timing-function: cubic-bezier(.4, 0, .2, 1);

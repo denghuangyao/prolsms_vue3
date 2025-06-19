@@ -20,7 +20,7 @@ const renderSpinner = ref<boolean>(false)
 
 const timer = ref<ReturnType<typeof setTimeout>>()
 watch(() => spinning, (show) => {
-    console.log("-show-spinning", spinning, show)
+    console.log("-show-spinning", spinning, show, minLoadingTime)
     if (!show) {
         showSpinner.value = false
         clearTimeout(timer.value)
@@ -36,6 +36,7 @@ watch(() => spinning, (show) => {
     immediate: true
 })
 const onTransitionEnd = () => {
+    console.log('-onTransitionEnd-')
     //不要立刻停止动画
     if (!showSpinner.value) {
         renderSpinner.value = false;
@@ -43,23 +44,25 @@ const onTransitionEnd = () => {
 }
 </script>
 <template>
-    <div class="overlay-content" :class="{ 'invisible': !showSpinner }">
-        <div @transitionend="onTransitionEnd" v-if="renderSpinner" class="loader" :class="{ 'pause': !renderSpinner }">
+    <div class="overlay-content" :class="{ 'invisible': !showSpinner }" @transitionend="onTransitionEnd">
+        <div v-if="renderSpinner" class="loader" :class="{ 'pause': !renderSpinner }">
         </div>
     </div>
 </template>
 <style lang="scss" scoped>
 .overlay-content {
-    position: fixed;
-    left: pxTovw(200);
-    top: pxTovw(120);
+    position: absolute;
+    left: 0;
+    top: 0;
     z-index: 150;
-    height: calc(100vh - #{pxTovw(120)});
-    width: calc(100% - #{pxTovw(200)});
+    height: 100%;
+    width: 100%;
     background-color: #f6f3f4;
     /* 需要替换为实际颜色 */
     backdrop-filter: blur(4px);
-    transition: all 500ms;
+    transition-duration: .5s;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,7 +81,7 @@ const onTransitionEnd = () => {
 
             &::before,
             &::after {
-                animation-play-state: paused;
+                animation-play-state: paused !important;
             }
         }
 
@@ -124,7 +127,7 @@ const onTransitionEnd = () => {
 
     50% {
         border-bottom-right-radius: 3.3rem;
-        transform: translateY(18px) rotate(45deg);
+        transform: translateY(18px) scale(1, 0.9) rotate(45deg);
     }
 
     75% {
