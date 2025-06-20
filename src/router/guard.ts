@@ -1,11 +1,12 @@
 import { coreRouteNames, accessRoutes } from './routes'
 import { useAccessStore, useUserStore, useAuthStore } from '@/stores'
-import { LOGIN_PATH, defaultHomePath } from '@/constants'
+import { LOGIN_PATH } from '@/constants'
 import { generateAccess } from './access'
 
 import type { Router } from 'vue-router'
 import { _import } from './routes/modules'
 import { startProgress, stopProgress } from '@/utils'
+import { preferences } from '@/preferences'
 /**
  * 创建路由守卫
  */
@@ -44,7 +45,7 @@ function setupAccessGuard(router: Router) {
     if (coreRouteNames.includes(to.name)) {
       //已经登录过，跳login会重定向到首页
       if (to.path === LOGIN_PATH && accessStore.accessToken) {
-        return { to: defaultHomePath, replace: true }
+        return { to: preferences.app.defaultHomePath, replace: true }
       }
       return true
     }
@@ -63,7 +64,10 @@ function setupAccessGuard(router: Router) {
       if (to.fullPath !== LOGIN_PATH) {
         return {
           path: LOGIN_PATH,
-          query: to.path === defaultHomePath ? {} : { redirect: encodeURIComponent(to.fullPath) },
+          query:
+            to.path === preferences.app.defaultHomePath
+              ? {}
+              : { redirect: encodeURIComponent(to.fullPath) },
           replace: true,
         }
       }
@@ -96,8 +100,8 @@ function setupAccessGuard(router: Router) {
     let redirectPath: string
     if (from.query.redirect) {
       redirectPath = from.query.redirect as string
-    } else if (to.path === defaultHomePath) {
-      redirectPath = defaultHomePath
+    } else if (to.path === preferences.app.defaultHomePath) {
+      redirectPath = preferences.app.defaultHomePath
     } else if (userInfo?.homePath && to.path === userInfo.homePath) {
       redirectPath = userInfo.homePath
     } else {

@@ -1,5 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
-import { defaultHomePath } from '@/constants'
+import { preferences } from '@/preferences'
 //路由缺省页404
 const fallbackRoute: RouteRecordRaw = {
   component: () => import('@/views/Fallback/NotFound.vue'),
@@ -16,7 +16,7 @@ const coreRoutes: RouteRecordRaw[] = [
     name: 'root',
     component: () => import('@/views/Layout/Layout.vue'),
     children: [],
-    redirect: defaultHomePath,
+    redirect: preferences.app.defaultHomePath,
   },
   {
     //登录页

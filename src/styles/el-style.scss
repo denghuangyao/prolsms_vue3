@@ -1,3 +1,4 @@
+//侧边菜单
 .left-menu-box {
   --el-menu-item-height: #{pxTovw(50)};
   --el-menu-sub-item-height: var(--el-menu-item-height);
@@ -8,6 +9,9 @@
   --el-menu-level-padding: #{pxTovw(30)};
   --el-menu-icon-width: #{pxTovw(17)};
   --el-menu-item-font-size: #{$fontSize};
+}
+.layout-tabbar {
+  --el-text-color-secondary: #{$fontColor};
 }
 /**更多下拉项*/
 .wl-dropdown {

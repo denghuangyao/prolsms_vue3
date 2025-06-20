@@ -9,6 +9,9 @@ export const menuPageData: MenuConfigRecordRaw = {
       permission: 'work:plan',
       label: '首页',
       icon: 'dh_sy',
+      query: {
+        pageKey: '123',
+      },
       componentPath: '/Home/index',
     },
   ],

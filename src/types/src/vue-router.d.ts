@@ -9,6 +9,15 @@ interface RouteMeta {
    * @default false
    */
   hideInMenu?: boolean
+  /**
+   * 当前路由在标签中不展现
+   * @default false
+   */
+  hideInTab?: boolean
+  /**
+   * 是否固定标签
+   */
+  affixTab?: boolean
   /**当前激活菜单 */
   activePath?: string
   /**
@@ -19,6 +28,13 @@ interface RouteMeta {
    * 路由是否已经加载过
    */
   loaded?: boolean
+  /**配置页面是否开启缓存，开启后页面会缓存，不会重新加载，仅在标签页启用时有效。 */
+  keepAlive?: boolean
+  /**
+   * 路由的完整路径作为key（默认true）
+   * @default true
+   */
+  fullPathKey?: boolean
 }
 interface GenerateRoutesOptions {
   router: Router

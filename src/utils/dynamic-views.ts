@@ -41,7 +41,7 @@ function loadView(components: Record<string, unknown>, pathKey: string) {
   const matchedKey = Object.keys(components).find((key) => {
     return key.toLowerCase() === pathKey.toLowerCase()
   })
-  console.log('pathKey, matchedKey-', pathKey, matchedKey)
+  // console.log('pathKey, matchedKey-', pathKey, matchedKey)
   if (!matchedKey) {
     throw new Error(`未找到匹配的视图: ${pathKey}`)
   }

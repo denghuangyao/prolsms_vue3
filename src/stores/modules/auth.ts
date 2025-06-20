@@ -4,7 +4,7 @@ import { getUserInfo, loginApi, getAccessCodesApi } from '@/apis'
 import type { Recordable, UserInfo } from '@/types'
 import { ref } from 'vue'
 import router from '@/router'
-import { defaultHomePath } from '@/constants'
+import { preferences } from '@/preferences'
 export const useAuthStore = defineStore('auth', () => {
   const userStore = useUserStore()
   const accessStore = useAccessStore()
@@ -31,7 +31,9 @@ export const useAuthStore = defineStore('auth', () => {
         if (accessStore.loginExpired) {
           accessStore.setLoginExpired(false)
         }
-        onSuccess ? await onSuccess?.() : await router.push(userInfo?.homePath || defaultHomePath)
+        onSuccess
+          ? await onSuccess?.()
+          : await router.push(userInfo?.homePath || preferences.app.defaultHomePath)
       }
     } finally {
       isLoading.value = false

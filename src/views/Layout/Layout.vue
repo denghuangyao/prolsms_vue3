@@ -45,6 +45,8 @@ const { headerMenus, headerActive, sidebarMenus, sidebarActive, handleMenuSelect
             z-index: 100;
             left: 0;
             top: 0;
+            box-shadow: 0px 0px 21px 0px rgba(48, 60, 152, 0.1);
+            -webkit-box-shadow: 0px 0px 21px 0px rgba(48, 60, 152, 0.1);
 
             .app-tabbar {
                 margin-left: pxTovw(200);
@@ -61,7 +63,7 @@ const { headerMenus, headerActive, sidebarMenus, sidebarActive, handleMenuSelect
 
             .app-content {
                 flex: 1 1 0%;
-                margin-top: pxTovw(135);
+                margin-top: pxTovw(125);
                 animation-duration: .2s;
                 transition-property: margin-top;
                 transition-timing-function: cubic-bezier(.4, 0, .2, 1);

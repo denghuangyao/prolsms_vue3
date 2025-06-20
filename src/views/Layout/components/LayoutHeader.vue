@@ -64,9 +64,7 @@ console.log("--slots-", slots)
   align-items: center;
   height: pxTovw(80);
   background: #fff;
-  box-shadow: 0px 0px 21px 0px rgba(48, 60, 152, 0.1);
-  -webkit-box-shadow: 0px 0px 21px 0px rgba(48, 60, 152, 0.1);
-
+  border-bottom: 1px solid var(--el-border-color-light);
 
   .app_title {
     width: pxTovw(200);
