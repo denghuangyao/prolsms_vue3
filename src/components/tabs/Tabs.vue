@@ -52,6 +52,20 @@ const handleChange = (tabKey: any) => {
     }
 
     :deep(.el-tabs__item) {
+
+        &:not(:last-of-type)::before {
+            content: '';
+            height: 50%;
+            background-color: var(--el-border-color-light);
+            width: pxTovw(2);
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: all .5s;
+            // opacity: 1;
+        }
+
         .tab-icon {
             fill: var(--el-text-color-primary);
             width: 1rem;
@@ -76,6 +90,10 @@ const handleChange = (tabKey: any) => {
                 color: #fff;
                 background-color: var(--el-color-primary);
             }
+
+            &::before {
+                opacity: 0;
+            }
         }
 
         &:not(.is-disabled),
@@ -83,7 +101,13 @@ const handleChange = (tabKey: any) => {
             &:hover {
                 color: var(--el-text-color-secondary);
                 background-color: var(--el-color-info-light-9);
+
+                &::before {
+                    opacity: 0;
+                }
             }
+
+
         }
     }
 
