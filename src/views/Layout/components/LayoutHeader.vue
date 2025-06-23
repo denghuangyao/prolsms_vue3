@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import { useSlots } from 'vue';
-const slots = useSlots();
-console.log("--slots-", slots)
 </script>
 <template>
   <header class="app-head-box">

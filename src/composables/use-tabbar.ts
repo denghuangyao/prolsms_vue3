@@ -12,7 +12,8 @@ function useTabbar() {
   const currentActive = computed(() => getTabKey(route))
   //点击标签路由跳转
   const handleClick = (key: string) => {
-    navigation(key)
+    const { fullPath, path } = tabbarStore.getTabByKey(key)
+    navigation(fullPath || path)
   }
   //关闭标签页
   const handleClose = (key: string) => {

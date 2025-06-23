@@ -127,11 +127,19 @@ export const useTabbarStore = defineStore(
       }
       await router.replace(toParams)
     }
+    /**
+     * 根据tab的key获取tab
+     * @param key
+     */
+    const getTabByKey = (key: string) => {
+      return tabs.value.find((item) => getTabKeyFromTab(item) === key) as TabDefinition
+    }
     return {
       tabs,
       addTab,
       closeTabByKey,
       getTabs,
+      getTabByKey,
     }
   },
   {

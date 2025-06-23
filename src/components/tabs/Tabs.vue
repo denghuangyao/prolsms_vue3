@@ -1,9 +1,14 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, watch, ref, useSlots, type SetupContext } from 'vue';
 import type { TabsProps } from './types';
-import type { TabConfig } from '@/types';
-interface Props extends TabsProps { }
-const { tabs = [], active } = defineProps<Props>()
+import type { Recordable, TabConfig } from '@/types';
+const slots: SetupContext['slots'] = useSlots();
+console.log("--slots-", slots)
+const tabbarSlots = computed(() => Object.keys(slots).filter(key => key === 'add-icon'))
+interface Props extends TabsProps {
+    isAddIcon?: boolean
+}
+const { tabs = [], active, isAddIcon = false } = defineProps<Props>()
 let tabsView = computed(() => tabs.map(tab => {
     console.log('tabsView--computed', tab)
     const { fullPath, path, name, meta, key } = tab || {}
@@ -27,11 +32,24 @@ const handleRemove = (tabKey: any) => {
 const handleChange = (tabKey: any) => {
     emit('change', tabKey)
 }
+const tabRefs = ref<Recordable>({});
+watch(() => active, (currentActive: string | undefined) => {
+    // if (currentActive) {
+
+    //     console.log(tabRefs.value[currentActive])
+    //     tabRefs.value[currentActive]?.$el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // }
+    console.log('tab--', currentActive)
+})
 </script>
 <template>
-    <el-tabs :model-value="active" type="border-card" class="tabsCard" closable @tab-remove="handleRemove"
-        @tab-change="handleChange">
-        <el-tab-pane v-for="item in tabsView" :key="item.key" :name="item.key">
+    <el-tabs :model-value="active" type="border-card" class="tabsCard" :addable="isAddIcon" closable
+        @tab-remove="handleRemove" @tab-change="handleChange">
+        <template v-for="item in tabbarSlots" #[item]>
+            <slot :name="item"></slot>
+        </template>
+        <el-tab-pane :ref="(el) => { if (el) tabRefs[item.key] = el }" v-for="item in tabsView" :key="item.key"
+            :name="item.key">
             <template #label>
                 <svg-icon class="tab-icon" v-if="item.icon" :name="item.icon"></svg-icon>
                 <span>{{ item.label }}</span>
@@ -53,17 +71,18 @@ const handleChange = (tabKey: any) => {
 
     :deep(.el-tabs__item) {
 
-        &:not(:last-of-type)::before {
+        &:not(:first-of-type)::before {
             content: '';
             height: 50%;
             background-color: var(--el-border-color-light);
             width: pxTovw(2);
             position: absolute;
-            right: 0;
+            left: 0;
             top: 50%;
             transform: translateY(-50%);
-            transition: all .5s;
-            // opacity: 1;
+            transition: all .15s;
+            transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+            opacity: 1;
         }
 
         .tab-icon {
@@ -74,25 +93,26 @@ const handleChange = (tabKey: any) => {
 
         &.is-active,
         &.is-isclosable {
-            .tab-icon {
-                fill: var(--el-color-primary);
-            }
-        }
-
-
-
-        &.is-active,
-        &.is-isclosable {
             background-color: var(--el-color-primary-light-7) !important;
             color: var(--el-color-primary) !important;
 
+            .tab-icon {
+                fill: var(--el-color-primary);
+            }
+
             .is-icon-close:hover {
-                color: #fff;
-                background-color: var(--el-color-primary);
+                color: var(--el-text-color-secondary);
+                background-color: var(--el-color-info-light-9);
             }
 
             &::before {
                 opacity: 0;
+            }
+
+            &+.el-tabs__item {
+                &::before {
+                    opacity: 0;
+                }
             }
         }
 
@@ -105,11 +125,32 @@ const handleChange = (tabKey: any) => {
                 &::before {
                     opacity: 0;
                 }
+
+                &+.el-tabs__item {
+                    &::before {
+                        opacity: 0;
+                    }
+                }
+
             }
 
 
         }
     }
 
+    :deep(.el-tabs__new-tab) {
+        height: auto;
+        width: auto;
+        border: none;
+        margin: 0;
+        font-size: pxTovw(16);
+        border-radius: 0;
+        height: var(--el-tabs-header-height);
+        justify-content: space-around;
+
+        &:hover {
+            color: var(--el-text-color-secondary);
+        }
+    }
 }
 </style>

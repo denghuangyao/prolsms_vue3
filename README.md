@@ -49,7 +49,10 @@ npm i @vueuse/core
 ### 图标使用
 
 npm install vite-plugin-svg-icons -D
-
+// 方式 1:手动导入并注册图标组件
+import IconEpApple from '~icons/ep/apple'
+//方式2：使用 `unplugin-vue-components` 插件来自动注册图标
+html标签直接使用：`<i-ep-add-location />`
 ### 菜单跳转
 
 已完成
