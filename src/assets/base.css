@@ -15,7 +15,7 @@
 body {
   min-height: 100vh;
   color: var(--color-text);
-  background: var(--color-background);
+  /* background: var(--color-background); */
   transition:
     color 0.5s,
     background-color 0.5s;
@@ -43,4 +43,27 @@ body {
 body,
 html {
   height: 100%;
+}
+
+/*主题色切换*/
+
+::view-transition-new(root),
+::view-transition-old(root) {
+  /* 这行代码禁用了默认的过渡动画 */
+  animation: none;
+  /* 设置了元素的混合模式为"正常" */
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 999;
+}
+
+html.dark::view-transition-new(root) {
+  z-index: 1;
+}
+html.dark::view-transition-old(root) {
+  z-index: 999;
 }

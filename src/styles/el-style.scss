@@ -1,8 +1,10 @@
+// import dark theme
+@use 'element-plus/theme-chalk/src/dark/css-vars.scss' as *;
 //侧边菜单
 .left-menu-box {
   --el-menu-item-height: #{pxTovw(50)};
   --el-menu-sub-item-height: var(--el-menu-item-height);
-  --el-menu-bg-color: #{$color-primary};
+  // --el-menu-bg-color: #{};
   --el-menu-text-color: #fff;
   --el-menu-hover-bg-color: #{$color-hover};
   --el-menu-active-color: #7190fa; //#fff
@@ -18,7 +20,7 @@
   cursor: pointer;
 
   &:hover {
-    color: $color-primary !important;
+    color: var(--el-color-primary) !important;
   }
 }
 
@@ -31,12 +33,12 @@
 
   .el-dropdown-menu__item.activeItem {
     background-color: #ebf0ff;
-    color: $color-primary;
+    color: var(--el-color-primary);
   }
 
   .el-dropdown-menu__item:not(.activeItem):focus,
   .el-dropdown-menu__item:not(.activeItem):hover {
-    color: $color-primary;
+    color: var(--el-color-primary);
     background-color: transparent;
   }
 }
