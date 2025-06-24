@@ -1,7 +1,15 @@
-$color-primary: #3557cc; //与elmentui的全局css变量冲突了
-$color-hover: #516bc5;
+@use 'sass:map';
+$colors: (
+  primary: #3557cc,
+  hover: #516bc5,
+);
+:root {
+  @each $name, $color in $colors {
+    --#{$name}-color: #{$color};
+  }
+}
+$primary-color: map.get($colors, 'primary');
 $fontSize: 14px;
-$fontColor: #181f47;
 //字体
 $font-family:
   Microsoft YaHei,

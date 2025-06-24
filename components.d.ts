@@ -27,6 +27,7 @@ declare module 'vue' {
     ElTabNav: typeof import('element-plus/es')['ElTabNav']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
+    IconButton: typeof import('./src/components/icons/icon-button.vue')['default']
     IEpAddLocation: typeof import('~icons/ep/add-location')['default']
     IEpArrowDown: typeof import('~icons/ep/arrow-down')['default']
     IEpBell: typeof import('~icons/ep/bell')['default']
@@ -43,5 +44,7 @@ declare module 'vue' {
     Spinning: typeof import('./src/components/spinner/spinning.vue')['default']
     SvgIcon: typeof import('./src/components/icons/SvgIcon.vue')['default']
     Tabs: typeof import('./src/components/tabs/Tabs.vue')['default']
+    ThemeButton: typeof import('./src/components/widget/theme-toggle/theme-button.vue')['default']
+    ThemeToggle: typeof import('./src/components/widget/theme-toggle/theme-toggle.vue')['default']
   }
 }

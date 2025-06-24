@@ -4,16 +4,16 @@
 .left-menu-box {
   --el-menu-item-height: #{pxTovw(50)};
   --el-menu-sub-item-height: var(--el-menu-item-height);
-  // --el-menu-bg-color: #{};
+  --el-menu-bg-color: var(--siderbar-bg);
   --el-menu-text-color: #fff;
-  --el-menu-hover-bg-color: #{$color-hover};
-  --el-menu-active-color: #7190fa; //#fff
+  --el-menu-hover-bg-color: var(--hover-color);
+  --el-menu-active-color: #7190fa;
   --el-menu-level-padding: #{pxTovw(30)};
   --el-menu-icon-width: #{pxTovw(17)};
   --el-menu-item-font-size: #{$fontSize};
 }
 .layout-tabbar {
-  --el-text-color-secondary: #{$fontColor};
+  --el-text-color-secondary: var(--font-clor);
 }
 /**更多下拉项*/
 .wl-dropdown {
@@ -28,7 +28,7 @@
   .el-dropdown-menu__item {
     height: pxTovw(30);
     line-height: pxTovw(30);
-    color: $fontColor;
+    color: var(--font-clor);
   }
 
   .el-dropdown-menu__item.activeItem {

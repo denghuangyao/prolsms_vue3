@@ -1,0 +1,9 @@
+/*主题色定义css变量*/
+.dark {
+  color-scheme: dark;
+  --overlay-content: hsl(0deg 0% 0% / 40%);
+  --font-color: #f8fafc;
+  --siderbar-bg: '';
+  --menu-item-hover-bg-color: hsl(217.2 32.6% 17.5%);
+  --background-deep: hsl(222.2 84% 4.9%);
+}

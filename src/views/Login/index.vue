@@ -125,7 +125,7 @@ let handleLogin = async () => {
     cursor: pointer;
 
     &.active {
-        color: $color-primary;
+        color: var(--el-color-primary);
         font-weight: bold;
     }
 }
@@ -225,7 +225,7 @@ let handleLogin = async () => {
 }
 
 .login_form {
-    background-color: #ffffff;
+    background-color: var(--background-deep);
 
     border-radius: pxTovw(15);
     width: pxTovw(450);
@@ -260,7 +260,6 @@ let handleLogin = async () => {
 }
 
 .login_logo_div {
-    background-color: #fff;
     width: 100%;
     height: pxTovw(120);
     display: flex;
@@ -268,7 +267,6 @@ let handleLogin = async () => {
 }
 
 .login_bottom_div {
-    background-color: #fff;
     width: 100%;
     height: pxTovw(120);
 }

@@ -27,7 +27,6 @@ const handleFullScreen = () => {
 <style scoped lang="scss">
 .layout-tabbar {
     :deep(.el-tabs__header) {
-        background-color: #fff;
         margin: 0 0 1px;
     }
 

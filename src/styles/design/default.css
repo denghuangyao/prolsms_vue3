@@ -1,0 +1,8 @@
+:root {
+  color-scheme: light;
+  --overlay-content: #f6f3f4;
+  --font-color: #181f47;
+  --siderbar-bg: var(--primary-color);
+  --menu-item-hover-bg-color: hsl(210 40% 96.1%);
+  --background-deep: hsl(0 0% 100%);
+}

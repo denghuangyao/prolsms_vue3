@@ -59,7 +59,6 @@ const emit = defineEmits(["update:modelValue", "save", "saveAndSubmit"]);
 }
 
 .modal-container {
-    background-color: #fff;
     border-radius: 4px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
     overflow: hidden;
@@ -83,7 +82,7 @@ const emit = defineEmits(["update:modelValue", "save", "saveAndSubmit"]);
         .title-button {
             &:hover {
                 cursor: pointer;
-                color: $color-primary;
+                color: var(--primary-color);
             }
         }
     }

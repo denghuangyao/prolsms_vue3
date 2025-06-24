@@ -1,55 +1,5 @@
 <script lang="ts" setup>
-import { nextTick, ref } from 'vue'
-import { useDark, useToggle } from '@vueuse/core'
-
-const isDark = useDark()
-console.log('isDark--', isDark)
-const toggleDark = useToggle(isDark)
-// const isDark = ref<Boolean>(false)
-const toggleTheme = (event: MouseEvent) => {
-  // console.log('toggleTheme--', window.matchMedia('prefers-reduce-motion:reduce'))
-
-  //判断是否支持startViewTransition以及用户是否设置了偏好以减少动画效果
-  const isAppearanceTransition =
-    // @ts-expect-error
-    document.startViewTransition && !window.matchMedia('prefers-reduce-motion:reduce').matches
-  if (!isAppearanceTransition || !event) {
-    isDark.value = !isDark.value;
-  }
-  const x = event.clientX;
-  const y = event.clientY;
-  // console.log('toggleTheme-x-y', x, y)
-  //点击位置离四个角的最长距离
-  const endRadius = Math.hypot(
-    Math.max(x, window.innerWidth - x),
-    Math.max(y, window.innerHeight - y)
-  )
-  const transition = document.startViewTransition(async () => {
-    toggleDark()
-    // isDark.value = !isDark.value;
-    // document.documentElement.setAttribute('class', isDark.value ? 'dark' : '')
-    await nextTick()
-  })
-  console.log('---transition', transition)
-  transition.ready.then(() => {
-    console.log('---transition-ready-then', isDark.value)
-    const clipPath = [
-      `circle(0px at ${x}px ${y}px)`,
-      `circle(${endRadius}px at ${x}px ${y}px)`
-    ]
-    console.log(isDark.value ? [...clipPath].reverse() : [...clipPath])
-    document.documentElement.animate(
-      {
-        clipPath: isDark.value ? [...clipPath].reverse() : [...clipPath],
-      },
-      {
-        duration: 450,
-        easing: 'ease-in',
-        pseudoElement: isDark.value ? '::view-transition-old(root)' : '::view-transition-new(root)'
-      }
-    )
-  })
-}
+import { IconButton } from '@/components/icons'
 </script>
 <template>
   <header class="app-head-box">
@@ -63,21 +13,16 @@ const toggleTheme = (event: MouseEvent) => {
     <slot name="nav-menu"></slot>
     <div class="xuxiang"></div>
     <div class="app_title_user">
-      <div class="svgIconcls icon-box" @click="toggleTheme">
-        <i-ep-Sunny v-if="isDark" />
-        <i-ep-moon v-else />
-      </div>
-      <!-- <el-icon>
-      </el-icon> -->
-      <el-icon class="icon-box svgIconcls ">
+      <slot name="theme-toggle"></slot>
+      <IconButton class="mr16">
         <i-ep-QuestionFilled />
-      </el-icon>
-      <div class="tixingCls svgIconcls">
+      </IconButton>
+      <IconButton class="tixingCls">
         <span class="title_head">
           <el-icon fill="#fff" fontSize="24" class="btn_txxx"><i-ep-Bell /></el-icon>
         </span>
         <div :class="{ tixingFlag: true }"></div>
-      </div>
+      </IconButton>
 
       <el-dropdown class="login_drop">
         <span class="name_container el-dropdown-link">
@@ -128,7 +73,7 @@ const toggleTheme = (event: MouseEvent) => {
     position: relative;
     flex-direction: column;
     justify-content: center;
-    background: var(--el-color-primary);
+    background: var(--siderbar-bg);
     opacity: 0.95;
 
     .img {
@@ -156,36 +101,6 @@ const toggleTheme = (event: MouseEvent) => {
     .icon-box {
       margin-right: pxTovw(16);
       cursor: pointer;
-
-      :deep(.spanIcon) {
-        background-color: transparent;
-      }
-
-      :deep(.spanIcon .svg-icon) {
-        fill: $fontColor;
-        cursor: pointer;
-        width: pxTovw(18);
-        height: pxTovw(18);
-      }
-    }
-
-    .svgIconcls {
-      height: pxTovw(30);
-      width: pxTovw(30);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-sizing: border-box;
-
-      &:hover,
-      &:active {
-        background-color: #ebf0ff !important;
-
-        :deep(.svg-icon) {
-          fill: var(--el-color-primary) !important;
-        }
-      }
     }
 
     .tixingCls {
@@ -207,14 +122,14 @@ const toggleTheme = (event: MouseEvent) => {
     .login_drop {
       white-space: nowrap;
       cursor: pointer;
-      color: $fontColor;
+      color: var(--font-clor);
       margin-left: pxTovw(19);
       line-height: pxTovw(35);
     }
 
     .name_container {
       max-width: pxTovw(150);
-      color: $fontColor;
+      color: var(--font-clor);
       font-size: $fontSize;
       font-family: ArialMT;
       font-weight: 400;
@@ -222,7 +137,7 @@ const toggleTheme = (event: MouseEvent) => {
     }
 
     .title_head .svg-icon {
-      fill: $fontColor;
+      fill: var(--font-clor);
       width: pxTovw(18);
       cursor: pointer;
     }

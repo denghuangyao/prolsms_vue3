@@ -57,7 +57,7 @@ const onTransitionEnd = () => {
     z-index: 150;
     height: 100%;
     width: 100%;
-    background-color: #f6f3f4;
+    background-color: var(--overlay-content);
     /* 需要替换为实际颜色 */
     backdrop-filter: blur(4px);
     transition-duration: .5s;
@@ -93,7 +93,7 @@ const onTransitionEnd = () => {
         }
 
         &::after {
-            background-color: $color-primary;
+            background-color: var(--el-color-primary);
             top: 0;
             height: 100%;
             width: 100%;
@@ -102,7 +102,7 @@ const onTransitionEnd = () => {
         }
 
         &::before {
-            background-color: $color-primary; //$color-primary/50透明度
+            background-color: var(--el-color-primary); //var(--el-color-primary)/50透明度
             top: 60px;
             height: 5px;
             width: 3rem;

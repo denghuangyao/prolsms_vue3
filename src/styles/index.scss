@@ -1,16 +1,25 @@
+@import url('./design/default.css');
+@import url('./design/dark.css');
 @import url('animate.css');
 @import url('./el-style.scss');
 #nprogress {
   .bar {
-    background: $color-primary !important; //自定义颜色
+    background: var(--el-color-primary) !important; //自定义颜色
   }
   .peg {
     box-shadow:
-      0 0 10px $color-primary,
-      0 0 5px $color-primary;
+      0 0 10px var(--el-color-primary),
+      0 0 5px var(--el-color-primary);
   }
   .spinner-icon {
-    border-top-color: $color-primary !important;
-    border-left-color: $color-primary !important;
+    border-top-color: var(--el-color-primary) !important;
+    border-left-color: var(--el-color-primary) !important;
   }
+}
+
+@mixin mr($number) {
+  margin-right: #{pxTovw($number)};
+}
+.mr16 {
+  @include mr(16);
 }

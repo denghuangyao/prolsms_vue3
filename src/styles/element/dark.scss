@@ -1,12 +1,9 @@
 // only scss variables
-
-$--colors: (
-  'primary': (
-    'base': #626aef,
-  ),
-);
-
+@use '../variables.scss' as vars;
 @forward 'element-plus/theme-chalk/src/dark/var.scss' with (
-  //   $colors: $--colors,
-  $bg-color: ('page': #0a0a0a, '': #626aef, 'overlay': #1d1e1f)
+  $colors: (
+    'primary': (
+      'base': vars.$primary-color,
+    ),
+  )
 );

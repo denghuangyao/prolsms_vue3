@@ -82,7 +82,7 @@ const handleSelect = (menu: any) => {
     overflow-y: scroll;
     z-index: 101;
     box-sizing: border-box;
-    background: $color-primary;
+    background: var(--siderbar-bg);
     scrollbar-color: #c8cdd4;
     scrollbar-width: none;
 
@@ -103,7 +103,7 @@ const handleSelect = (menu: any) => {
     box-sizing: border-box;
 
     :deep(.el-menu-item.is-active) {
-        background-color: $color-hover;
+        background-color: var(--hover-color);
 
         .item-icon-left {
             fill: var(--el-menu-active-color);

@@ -14,6 +14,9 @@ const { headerMenus, headerActive, sidebarMenus, sidebarActive, handleMenuSelect
                         <template #nav-menu>
                             <LayoutNav :menus="headerMenus" @select="handleMenuSelect" :default-active="headerActive" />
                         </template>
+                        <template #theme-toggle>
+                            <ThemeToggle class="mr16" />
+                        </template>
                     </LayoutHeader>
                     <LayoutTabbar class="app-tabbar" />
                 </div>
@@ -63,7 +66,7 @@ const { headerMenus, headerActive, sidebarMenus, sidebarActive, handleMenuSelect
 
             .app-content {
                 flex: 1 1 0%;
-                margin-top: pxTovw(125);
+                margin-top: pxTovw(128);
                 animation-duration: .2s;
                 transition-property: margin-top;
                 transition-timing-function: cubic-bezier(.4, 0, .2, 1);

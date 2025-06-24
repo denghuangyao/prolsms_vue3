@@ -21,7 +21,7 @@ const handleSelect = (menu: any) => {
     <nav class="top-menu-box">
         <div class="menu-item" v-for="(firstItem, index) in showFirstMenu" :key="index"
             :class="{ 'activeTopMenu': defaultActive == firstItem.path }" @click="handleSelect(firstItem)">
-            <svg-icon :name="firstItem.icon" class="menu-icon" v-show="defaultActive == firstItem.path" />
+            <svg-icon :name="firstItem.icon" class="menu-icon" />
             {{ firstItem.label }}
         </div>
         <el-dropdown placement="bottom" class="wl-dropdown" trigger="click" v-if="moreFirstMenu.length">
@@ -55,36 +55,52 @@ const handleSelect = (menu: any) => {
         font-family: $font-family;
         font-weight: 400;
         line-height: pxTovw(36);
-        color: #181f47;
+        color: var(--font-color);
         background: transparent;
         margin: 0 pxTovw(5);
+        transition: background-color .15s ease, color .15s ease, border-color .15s ease;
 
         &:not(.activeTopMenu) {
-            border: pxTovw(1) solid white;
+            border: pxTovw(1) solid transparent;
+
+            &:hover {
+                border: pxTovw(1) solid var(--menu-item-hover-bg-color);
+                color: var(--el-color-primary);
+                background-color: var(--menu-item-hover-bg-color);
+
+                .menu-icon {
+                    fill: var(--el-color-primary);
+                    transform: scale(1.2);
+                }
+            }
         }
 
         .menu-icon {
-            fill: #fff;
-            margin-right: pxTovw(5);
+            fill: var(--font-color);
+            margin-right: pxTovw(8);
             width: pxTovw(16);
-        }
-
-        &:not(.activeTopMenu):hover {
-            color: $color-primary;
-            border: pxTovw(1) solid #e5edf6;
+            transition: transform .25s
         }
     }
 
     .activeTopMenu {
         color: #ffffff;
         font-weight: bold;
-        background: $color-primary;
+        background: var(--el-color-primary);
         box-shadow: 0px 3px 9px 0px rgba(124, 150, 239, 0.27);
         border: none;
+
+        .menu-icon {
+            fill: #ffffff;
+        }
 
         &:hover {
             color: #ffffff;
             font-weight: bold;
+
+            .menu-icon {
+                transform: scale(1.2);
+            }
         }
     }
 
@@ -92,7 +108,7 @@ const handleSelect = (menu: any) => {
         padding: 0 pxTovw(16);
         margin: 0 pxTovw(10) 0 pxTovw(5);
         font-size: pxTovw(14);
-        color: $fontColor;
+        color: var(--font-clor);
         height: pxTovw(38);
         line-height: pxTovw(38);
         box-sizing: border-box;

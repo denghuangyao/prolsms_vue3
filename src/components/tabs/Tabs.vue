@@ -10,7 +10,7 @@ interface Props extends TabsProps {
 }
 const { tabs = [], active, isAddIcon = false } = defineProps<Props>()
 let tabsView = computed(() => tabs.map(tab => {
-    console.log('tabsView--computed', tab)
+    // console.log('tabsView--computed', tab)
     const { fullPath, path, name, meta, key } = tab || {}
     const { label, icon } = meta
     return {
