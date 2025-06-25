@@ -18,3 +18,7 @@ export const loginApi = (params: AuthApi.LoginParams) => {
 export const getAccessCodesApi = () => {
   return http.get<string[]>('/auth/code')
 }
+
+export const logoutApi = () => {
+  return http.post('/auth/logout')
+}
