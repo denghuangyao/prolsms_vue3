@@ -1,5 +1,17 @@
 <script lang="ts" setup>
 import { IconButton } from '@/components/icons'
+import { useAuthStore } from '@/stores'
+const authStore = useAuthStore();
+enum dropdownCommand {
+  personalCenter = '1',
+  logout = '2'
+}
+const handleCommand = (command: any) => {
+  console.log('handleCommand--', command, dropdownCommand.logout)
+  if (command === dropdownCommand.logout) {
+    authStore.logout(false)
+  }
+}
 </script>
 <template>
   <header class="app-head-box">
@@ -24,7 +36,7 @@ import { IconButton } from '@/components/icons'
         <div :class="{ tixingFlag: true }"></div>
       </IconButton>
 
-      <el-dropdown class="login_drop">
+      <el-dropdown class="login_drop" @command="handleCommand">
         <span class="name_container el-dropdown-link">
           denny
           <el-icon fill="#181f47" class="el-icon--right">
@@ -33,8 +45,8 @@ import { IconButton } from '@/components/icons'
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="1">个人中心</el-dropdown-item>
-            <el-dropdown-item command="2">退出</el-dropdown-item>
+            <el-dropdown-item :command="dropdownCommand.personalCenter">个人中心</el-dropdown-item>
+            <el-dropdown-item :command="dropdownCommand.logout">退出</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -60,8 +72,8 @@ import { IconButton } from '@/components/icons'
   justify-content: space-between;
   align-items: center;
   height: pxTovw(80);
-  // background: #fff;
   border-bottom: 1px solid var(--el-border-color-light);
+  background-color: var(--header);
 
   .app_title {
     width: pxTovw(200);

@@ -15,4 +15,11 @@ export default [
       //   return useResponseSuccess(codes)
     },
   },
+  {
+    url: '/auth/logout',
+    method: 'post',
+    response: () => {
+      return useResponseSuccess('')
+    },
+  },
 ] as MockMethod[]

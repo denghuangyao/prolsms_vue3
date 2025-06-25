@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia'
-import { useUserStore, useAccessStore } from '@/stores'
-import { getUserInfo, loginApi, getAccessCodesApi } from '@/apis'
+import { useUserStore, useAccessStore, resetAllStores } from '@/stores'
+import { getUserInfo, loginApi, logoutApi } from '@/apis'
 import type { Recordable, UserInfo } from '@/types'
 import { ref } from 'vue'
-import router from '@/router'
 import { preferences } from '@/preferences'
+import { useRouter } from 'vue-router'
+import { LOGIN_PATH } from '@/constants'
 export const useAuthStore = defineStore('auth', () => {
+  const router = useRouter()
   const userStore = useUserStore()
   const accessStore = useAccessStore()
   const isLoading = ref(false)
@@ -49,5 +51,25 @@ export const useAuthStore = defineStore('auth', () => {
     userStore.setUserInfo(userInfo)
     return userInfo
   }
-  return { authLogin, fetchUserInfo }
+  async function logout(redirect: boolean = true) {
+    try {
+      await logoutApi()
+    } catch (e) {}
+    resetAllStores()
+    accessStore.setLoginExpired(false)
+    // 回登录页带上当前路由地址
+    router.replace({
+      path: LOGIN_PATH,
+      query: redirect
+        ? {
+            redirect: encodeURIComponent(router.currentRoute.value.fullPath),
+          }
+        : {},
+    })
+  }
+  function $reset() {
+    isLoading.value = false
+    console.log('--$reset-useAuthStore-')
+  }
+  return { authLogin, fetchUserInfo, logout, $reset }
 })
