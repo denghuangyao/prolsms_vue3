@@ -225,7 +225,7 @@ let handleLogin = async () => {
 }
 
 .login_form {
-    background-color: var(--background-deep);
+    background-color: var(--background);
 
     border-radius: pxTovw(15);
     width: pxTovw(450);

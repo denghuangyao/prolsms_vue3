@@ -9,7 +9,7 @@
   --el-menu-hover-bg-color: var(--hover-color);
   --el-menu-active-color: #7190fa;
   --el-menu-level-padding: #{pxTovw(30)};
-  --el-menu-icon-width: #{pxTovw(17)};
+  --el-menu-icon-width: 1.25rem;
   --el-menu-item-font-size: #{$fontSize};
 }
 .layout-tabbar {

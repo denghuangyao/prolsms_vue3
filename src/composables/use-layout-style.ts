@@ -24,7 +24,7 @@ export function useLayoutContentStyle() {
     visibleDomRect.value = getElementVisibleRect(contentElement.value)
     contentHeight.value = `${visibleDomRect.value.height}px`
     contentWidth.value = `${visibleDomRect.value.width}px`
-    console.log('visibleDomRect.value-useDebounceFn-', visibleDomRect.value)
+    // console.log('visibleDomRect.value-useDebounceFn-', visibleDomRect.value)
   }, 16)
   onMounted(() => {
     if (contentElement.value && !resizeObeserver) {

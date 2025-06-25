@@ -1,8 +1,5 @@
 :root {
-  --vt-c-white: #f1f3f6;
-}
-:root {
-  --color-background: var(--vt-c-white);
+  --radius: 0.5rem;
 }
 
 *,
@@ -14,8 +11,6 @@
 }
 body {
   min-height: 100vh;
-  /* color: var(--color-text); */
-  /* background: var(--color-background); */
   transition:
     color 0.5s,
     background-color 0.5s;

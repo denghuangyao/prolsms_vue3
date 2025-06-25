@@ -5,5 +5,9 @@
     'primary': (
       'base': vars.$primary-color,
     ),
+  ),
+  $bg-color: (
+    'page': hsl(224 71.4% 4.1%),
+    'overlay': hsl(215 27.9% 16.9%),
   )
 );

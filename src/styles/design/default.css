@@ -1,8 +1,16 @@
 :root {
   color-scheme: light;
+  /* 主体区域背景色 */
+  --background-deep: hsl(216 20.11% 95.47%);
+  --foreground-hsl: 210 20% 98%;
+  /*加载器背景色*/
   --overlay-content: #f6f3f4;
   --font-color: #181f47;
   --siderbar-bg: var(--primary-color);
   --menu-item-hover-bg-color: hsl(210 40% 96.1%);
-  --background-deep: hsl(0 0% 100%);
+  --background: hsl(0 0% 100%);
+  --accent-hover: hsl(216 5% 24%);
+  --accent: hsl(215 27.9% 16.9%);
+  --border: hsl(220 13% 91%);
+  --header: hsl(0 0 100%);
 }

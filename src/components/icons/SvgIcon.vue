@@ -2,9 +2,6 @@
     <svg aria-hidden="true">
         <use :href="symbolId" :fill="color"></use>
     </svg>
-    <!-- <el-icon :size="size" :color="color">
-        <slot></slot>
-    </el-icon> -->
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue'

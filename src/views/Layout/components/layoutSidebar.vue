@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { MenuProps } from '@/components/menu';
+import { SidebarCollapseButton } from '@/components/widget/sidebar-btn';
 import type { MenuRecordRaw } from '@/types';
+import { ref, watch, useTemplateRef, type CSSProperties, computed } from 'vue';
+import { useElementSize } from '@vueuse/core';
 const { menus = [], defaultActive } = defineProps<{
     menus: MenuRecordRaw[],
     defaultActive: string
@@ -15,54 +18,72 @@ withDefaults(defineProps<Props>(), {
 })
 */
 const emit = defineEmits<{
-    'select': [path: string, mode: MenuProps['mode']]
+    'select': [path: string, mode: MenuProps['mode']],
 }>()
+const sidebarWidth = defineModel<string>('sidebarWidth')
 const handleSelect = (menu: any) => {
     emit('select', menu.path, 'vertical')
-} 
+}
+const isCollapse = ref(false)
+watch(() => isCollapse.value, () => {
+    console.log(`菜单${isCollapse.value ? '展开' : '收起'}`)
+})
+const sidebarRef = useTemplateRef('sidebar')
+const { width } = useElementSize(sidebarRef)
+const hiddenSideStyle = computed<CSSProperties>(() => {
+    console.log('width.value', width)
+    const hiddenSideWidth = `${width.value}px`
+    sidebarWidth.value = hiddenSideWidth
+    return {
+        'max-width': hiddenSideWidth,
+        'min-width': hiddenSideWidth,
+        width: hiddenSideWidth,
+        flex: `0 0 ${hiddenSideWidth}`
+    }
+})
 </script>
 <template>
-    <div class="hiddenDom"></div>
-    <aside class="sidebar">
+    <div class="hiddenDom" :style="hiddenSideStyle"></div>
+    <aside ref="sidebar" class="sidebar">
         <div class="left-menu-box">
-            <el-menu class="second-menu-box" :default-active="defaultActive">
-                <!-- 模块二级菜单 -->
-                <template v-for="secondItem in menus" :key="secondItem.permission">
-                    <el-sub-menu :index="secondItem.path" v-if="secondItem?.children?.length">
-                        <template #title>
-                            <svg-icon class="item-icon-left" :name="secondItem.icon" />
-                            <el-badge is-dot class="item-text textell" :offset="[-3, 15]">
+            <div class="menu-scrollbar">
+                <el-menu class="second-menu-box" :collapse="isCollapse" :default-active="defaultActive">
+                    <!-- 模块二级菜单 -->
+                    <template v-for="secondItem in menus" :key="secondItem.permission">
+                        <el-sub-menu :index="secondItem.path" v-if="secondItem?.children?.length">
+                            <template #title>
+                                <svg-icon class="item-icon-left el-icon" :name="secondItem.icon" />
+                                <el-badge is-dot class="item-text textell" :offset="[-3, 15]">
+                                    {{ secondItem.label }}
+                                </el-badge>
+                            </template>
+                            <!-- 下属三级菜单 -->
+                            <el-menu-item class="second-menu-item" :index="item.path"
+                                v-for="item in secondItem.children" @click="handleSelect(item)">
+                                <el-badge is-dot class="item-text textell" :offset="[-3, 15]">
+                                    {{ item.label }}
+                                </el-badge>
+                            </el-menu-item>
+                        </el-sub-menu>
+                        <el-menu-item class="second-menu-item" :index="secondItem.path"
+                            @click="handleSelect(secondItem)" v-else>
+                            <svg-icon class="item-icon-left el-icon" :name="secondItem.icon" />
+                            <el-badge class="item-text textell" :offset="[-3, 15]">
                                 {{ secondItem.label }}
                             </el-badge>
-                        </template>
-                        <!-- 下属三级菜单 -->
-                        <el-menu-item class="second-menu-item" :index="item.path" v-for="item in secondItem.children"
-                            @click="handleSelect(item)">
-                            <el-badge is-dot class="item-text textell" :offset="[-3, 15]">
-                                {{ item.label }}
-                            </el-badge>
                         </el-menu-item>
-                    </el-sub-menu>
-                    <el-menu-item class="second-menu-item" :index="secondItem.path" @click="handleSelect(secondItem)"
-                        v-else>
-                        <svg-icon class="item-icon-left" :name="secondItem.icon" />
-                        <el-badge class="item-text textell" :offset="[-3, 15]">
-                            {{ secondItem.label }}
-                        </el-badge>
-                    </el-menu-item>
-                </template>
-            </el-menu>
-
+                    </template>
+                </el-menu>
+            </div>
+            <div class="sidebar-btn">
+                <SidebarCollapseButton v-model:collapse="isCollapse" />
+            </div>
         </div>
     </aside>
 </template>
 <style lang="scss" scoped>
 .hiddenDom {
-    flex: 0 0 pxTovw(200);
     margin-left: 0;
-    max-width: pxTovw(200);
-    min-width: pxTovw(200);
-    width: pxTovw(200);
     height: 100%;
 }
 
@@ -95,12 +116,13 @@ const handleSelect = (menu: any) => {
         border-radius: pxTovw(3);
         background: #5576e5;
     }
+
 }
 
 .left-menu-box {
     height: 100%;
-    width: pxTovw(200);
     box-sizing: border-box;
+    border-right: 1px solid var(--border);
 
     :deep(.el-menu-item.is-active) {
         background-color: var(--hover-color);
@@ -115,10 +137,12 @@ const handleSelect = (menu: any) => {
     }
 
     .second-menu-box {
-        width: 100%;
         box-sizing: border-box;
         border-right: none;
 
+        &:not(.el-menu--collapse) {
+            width: pxTovw(200);
+        }
 
         .item-text {
             flex: 1;
@@ -138,14 +162,27 @@ const handleSelect = (menu: any) => {
         }
 
         .item-icon-left {
-            width: pxTovw(17);
-            height: pxTovw(17);
-            margin-right: pxTovw(12);
+            width: var(--el-menu-icon-width);
+            height: var(--el-menu-icon-width);
+            margin-right: .75rem
         }
 
         .second-menu-item {
             @include menuitem;
         }
     }
+}
+
+.menu-scrollbar {
+    height: calc(100% - 2.625rem);
+    overflow: hidden auto;
+}
+
+.sidebar-btn {
+    height: 2.625rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 .75rem;
 }
 </style>

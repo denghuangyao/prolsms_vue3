@@ -4,7 +4,7 @@ defineOptions({
 })
 </script>
 <template>
-    <el-icon class="icon-box">
+    <el-icon class="icon-box transition-colors">
         <slot></slot>
     </el-icon>
 </template>
