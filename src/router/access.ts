@@ -52,3 +52,6 @@ export const generateAccess = (options: GenerateRoutesOptions) => {
   console.log('accessibleMenus--', accessibleMenus)
   return { accessibleMenus, accessibleRoutes }
 }
+if (import.meta.hot) {
+  import.meta.hot.accept()
+}

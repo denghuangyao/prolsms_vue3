@@ -70,14 +70,16 @@ export function createViewsRoutes(viewsModules: ViewsModule[]): RouteRecordRaw[]
       }
       if (componentPath) {
         let componentKey = `${prefixDir}${componentPath}.vue`
-        console.log('-componentKey-', componentKey)
+        // console.log('-componentKey-', componentKey)
         route.component = loadView(components, componentKey)
       }
       return route
     })
-    console.log('createViewsRoutes--tree', tree)
     routes = [...routes, ...tree]
   })
   console.log('createViewsRoutes--routes', routes)
   return routes
+}
+if (import.meta.hot) {
+  import.meta.hot.accept(() => {})
 }

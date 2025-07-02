@@ -102,7 +102,7 @@ const onTransitionEnd = () => {
         }
 
         &::before {
-            background-color: var(--el-color-primary); //var(--el-color-primary)/50透明度
+            background-color: var(--el-color-primary);
             top: 60px;
             height: 5px;
             width: 3rem;

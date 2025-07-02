@@ -93,16 +93,16 @@ watch(() => active, (currentActive: string | undefined) => {
 
         &.is-active,
         &.is-isclosable {
-            background-color: var(--el-color-primary-light-7) !important;
-            color: var(--el-color-primary) !important;
+            background-color: var(--tab-item-active-bg-color) !important;
+            color: var(--tab-item-active-color) !important;
 
             .tab-icon {
-                fill: var(--el-color-primary);
+                fill: var(--tab-item-active-color);
             }
 
             .is-icon-close:hover {
                 color: var(--el-text-color-secondary);
-                background-color: var(--el-color-info-light-9);
+                background-color: var(--tab-item-icon-bg-color);
             }
 
             &::before {
@@ -120,7 +120,7 @@ watch(() => active, (currentActive: string | undefined) => {
         &:not(.is-active) {
             &:hover {
                 color: var(--el-text-color-secondary);
-                background-color: var(--el-color-info-light-9);
+                background-color: var(--tab-item-hover-bg-color);
 
                 &::before {
                     opacity: 0;

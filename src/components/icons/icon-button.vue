@@ -21,7 +21,7 @@ defineOptions({
 
     &:hover,
     &:active {
-        background-color: #ebf0ff;
+        background-color: var(--icon-btn-hover-bg-color);
     }
 }
 </style>

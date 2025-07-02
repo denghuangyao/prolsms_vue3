@@ -31,7 +31,6 @@ watch(() => isCollapse.value, () => {
 const sidebarRef = useTemplateRef('sidebar')
 const { width } = useElementSize(sidebarRef)
 const hiddenSideStyle = computed<CSSProperties>(() => {
-    console.log('width.value', width)
     const hiddenSideWidth = `${width.value}px`
     sidebarWidth.value = hiddenSideWidth
     return {
@@ -45,39 +44,37 @@ const hiddenSideStyle = computed<CSSProperties>(() => {
 <template>
     <div class="hiddenDom" :style="hiddenSideStyle"></div>
     <aside ref="sidebar" class="sidebar">
-        <div class="left-menu-box">
-            <div class="menu-scrollbar">
-                <el-menu class="second-menu-box" :collapse="isCollapse" :default-active="defaultActive">
-                    <!-- 模块二级菜单 -->
-                    <template v-for="secondItem in menus" :key="secondItem.permission">
-                        <el-sub-menu :index="secondItem.path" v-if="secondItem?.children?.length">
-                            <template #title>
-                                <svg-icon class="item-icon-left el-icon" :name="secondItem.icon" />
-                                <el-badge is-dot class="item-text textell" :offset="[-3, 15]">
-                                    {{ secondItem.label }}
-                                </el-badge>
-                            </template>
-                            <!-- 下属三级菜单 -->
-                            <el-menu-item class="second-menu-item" :index="item.path"
-                                v-for="item in secondItem.children" @click="handleSelect(item)">
-                                <el-badge is-dot class="item-text textell" :offset="[-3, 15]">
-                                    {{ item.label }}
-                                </el-badge>
-                            </el-menu-item>
-                        </el-sub-menu>
-                        <el-menu-item class="second-menu-item" :index="secondItem.path"
-                            @click="handleSelect(secondItem)" v-else>
+        <Scrollbar class="menu-scrollbar">
+            <el-menu class="second-menu-box" :collapse="isCollapse" :default-active="defaultActive">
+                <!-- 模块二级菜单 -->
+                <template v-for="secondItem in menus" :key="secondItem.permission">
+                    <el-sub-menu :index="secondItem.path" v-if="secondItem?.children?.length">
+                        <template #title>
                             <svg-icon class="item-icon-left el-icon" :name="secondItem.icon" />
-                            <el-badge class="item-text textell" :offset="[-3, 15]">
+                            <el-badge is-dot class="item-text textell" :offset="[-3, 15]">
                                 {{ secondItem.label }}
                             </el-badge>
+                        </template>
+                        <!-- 下属三级菜单 -->
+                        <el-menu-item class="second-menu-item" :index="item.path" v-for="item in secondItem.children"
+                            @click="handleSelect(item)">
+                            <el-badge is-dot class="item-text textell" :offset="[-3, 15]">
+                                {{ item.label }}
+                            </el-badge>
                         </el-menu-item>
-                    </template>
-                </el-menu>
-            </div>
-            <div class="sidebar-btn">
-                <SidebarCollapseButton v-model:collapse="isCollapse" />
-            </div>
+                    </el-sub-menu>
+                    <el-menu-item class="second-menu-item" :index="secondItem.path" @click="handleSelect(secondItem)"
+                        v-else>
+                        <svg-icon class="item-icon-left el-icon" :name="secondItem.icon" />
+                        <el-badge class="item-text textell" :offset="[-3, 15]">
+                            {{ secondItem.label }}
+                        </el-badge>
+                    </el-menu-item>
+                </template>
+            </el-menu>
+        </Scrollbar>
+        <div class="sidebar-btn">
+            <SidebarCollapseButton v-model:collapse="isCollapse" />
         </div>
     </aside>
 </template>
@@ -98,34 +95,19 @@ const hiddenSideStyle = computed<CSSProperties>(() => {
     left: 0;
     margin-top: pxTovw(80);
     height: calc(100% - #{pxTovw(80)});
-
-    overflow-x: hidden;
-    overflow-y: scroll;
     z-index: 101;
     box-sizing: border-box;
     background: var(--siderbar-bg);
-    scrollbar-color: #c8cdd4;
-    scrollbar-width: none;
+    border-right: 1px solid var(--border);
 
-    &::-webkit-scrollbar {
-        width: 0;
-        height: pxTovw(3);
-    }
-
-    &::-webkit-scrollbar-thumb {
-        border-radius: pxTovw(3);
-        background: #5576e5;
-    }
 
 }
 
-.left-menu-box {
-    height: 100%;
-    box-sizing: border-box;
-    border-right: 1px solid var(--border);
+.menu-scrollbar {
+    height: calc(100% - 2.625rem);
 
     :deep(.el-menu-item.is-active) {
-        background-color: var(--hover-color);
+        background-color: var(--el-menu-hover-bg-color);
 
         .item-icon-left {
             fill: var(--el-menu-active-color);
@@ -173,16 +155,15 @@ const hiddenSideStyle = computed<CSSProperties>(() => {
     }
 }
 
-.menu-scrollbar {
-    height: calc(100% - 2.625rem);
-    overflow: hidden auto;
-}
-
 .sidebar-btn {
     height: 2.625rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 .75rem;
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+    background-color: var(--background);
 }
 </style>
