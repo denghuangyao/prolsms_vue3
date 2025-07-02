@@ -10,7 +10,6 @@ interface Props extends TabsProps {
 }
 const { tabs = [], active, isAddIcon = false } = defineProps<Props>()
 let tabsView = computed(() => tabs.map(tab => {
-    // console.log('tabsView--computed', tab)
     const { fullPath, path, name, meta, key } = tab || {}
     const { label, icon } = meta
     return {
@@ -33,14 +32,6 @@ const handleChange = (tabKey: any) => {
     emit('change', tabKey)
 }
 const tabRefs = ref<Recordable>({});
-watch(() => active, (currentActive: string | undefined) => {
-    // if (currentActive) {
-
-    //     console.log(tabRefs.value[currentActive])
-    //     tabRefs.value[currentActive]?.$el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    // }
-    console.log('tab--', currentActive)
-})
 </script>
 <template>
     <el-tabs :model-value="active" type="border-card" class="tabsCard" :addable="isAddIcon" closable

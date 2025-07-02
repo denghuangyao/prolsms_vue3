@@ -1,5 +1,4 @@
 //初始化store，引入pinia持久化+安全性（加密存储）
-import { cloneDeep } from '@/utils'
 import { createPinia, type Pinia } from 'pinia'
 import SecureLS from 'secure-ls'
 interface InitStoreOptions {
@@ -36,17 +35,6 @@ export async function initStores(option?: InitStoreOptions) {
           },
     }),
   )
-  pinia.use(({ store }) => {
-    // store.$state 是一个对象(即引用数据类型)没有效果, 需要进行深拷贝，JSON.stringify/parse会丢失函数，不可用
-    // 获取初始状态, 用于重置store(深拷贝后initialState与最初的store.$state值没有任何关系了)
-    const initialState = cloneDeep(store.$state)
-    // 给store添加$reset()方法
-    store.$reset = () => {
-      // 第一次之后的重置也存在引用型数据, 需要进行深拷贝
-      // console.log('--$reset-store--pinia.use-')
-      store.$state = cloneDeep(initialState)
-    }
-  })
   return pinia
 }
 export function resetAllStores() {

@@ -1,16 +1,22 @@
 import type { TabDefinition } from '@/types'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { ref, toRaw } from 'vue'
+import { toRaw } from 'vue'
 import { type RouteLocationNormalized, type Router, type RouteRecordNormalized } from 'vue-router'
 import { preferences } from '@/preferences'
-export const useTabbarStore = defineStore(
-  'tabbar',
-  () => {
-    const tabs = ref<TabDefinition[]>([])
-    const getTabs = () => {
-      return tabs.value
-    }
-    const addTab = (routeTab: TabDefinition) => {
+interface TabbarState {
+  tabs: TabDefinition[]
+}
+export const useTabbarStore = defineStore('tabbar', {
+  state: (): TabbarState => ({
+    tabs: [],
+  }),
+  getters: {
+    getTabs(): TabDefinition[] {
+      return this.tabs
+    },
+  },
+  actions: {
+    addTab(routeTab: TabDefinition) {
       let tab = cloneTab(routeTab)
       if (!tab.key) {
         tab.key = getTabKey(tab)
@@ -18,22 +24,22 @@ export const useTabbarStore = defineStore(
       if (!isTabShow(tab)) {
         return tab
       }
-      const tabIndex = tabs.value.findIndex((item) => item.key === tab.key)
+      const tabIndex = this.tabs.findIndex((item) => item.key === tab.key)
       if (tabIndex === -1) {
         //已存在标签,判断标签最大数量
         const maxCount = preferences.tabbar.maxCount
-        if (maxCount > 0 && tabs.value.length >= maxCount) {
+        if (maxCount > 0 && this.tabs.length >= maxCount) {
           //关闭第一个
-          const index = tabs.value.findIndex(
+          const index = this.tabs.findIndex(
             (item) => !Reflect.has(item.meta, 'affixTab') && !item.meta.affixTab,
           )
-          index != -1 && tabs.value.splice(index, 1)
+          index != -1 && this.tabs.splice(index, 1)
         }
-        tabs.value.push(tab)
+        this.tabs.push(tab)
       } else {
         // 页面已经存在，不重复添加选项卡，只更新选项卡参数
-        const currentTab = toRaw(tabs.value[tabIndex])
-        // console.log('--currentTab-', currentTab, tabs.value[tabIndex])
+        const currentTab = toRaw(this.tabs[tabIndex])
+        // console.log('--currentTab-', currentTab, this.tabs[tabIndex])
         const mergeTab = {
           ...currentTab,
           ...tab,
@@ -49,25 +55,25 @@ export const useTabbarStore = defineStore(
           }
         }
         tab = mergeTab
-        tabs.value.splice(tabIndex, 1, mergeTab)
+        this.tabs.splice(tabIndex, 1, mergeTab)
       }
       return tab
-    }
+    },
     /**
      * 通过key关闭标签页
      * @param key
      * @param router
      * @returns
      */
-    const closeTabByKey = (key: string, router: Router) => {
+    closeTabByKey(key: string, router: Router) {
       const originalKey = decodeURIComponent(key)
-      const index = tabs.value.findIndex((item) => item.key === originalKey)
+      const index = this.tabs.findIndex((item) => item.key === originalKey)
       if (index === -1) return
-      const tab = tabs.value[index]
+      const tab = this.tabs[index]
       if (tab) {
-        closeTab(tab, router)
+        this.closeTab(tab, router)
       }
-    }
+    },
     /**
      * 关闭标签页：
      *  是否是激活页
@@ -77,48 +83,48 @@ export const useTabbarStore = defineStore(
      * @param router
      * @returns
      */
-    const closeTab = async (tab: TabDefinition, router: Router) => {
+    async closeTab(tab: TabDefinition, router: Router) {
       const { currentRoute } = router
       //如果关闭的不是激活选项
       if (getTabKeyFromTab(tab) !== getTabKey(currentRoute.value)) {
-        _close(tab)
+        this._close(tab)
         return
       }
-      const index = tabs.value.findIndex(
+      const index = this.tabs.findIndex(
         (item) => getTabKeyFromTab(item) === getTabKey(currentRoute.value),
       )
-      const after = tabs.value[index + 1]
-      const before = tabs.value[index - 1]
+      const after = this.tabs[index + 1]
+      const before = this.tabs[index - 1]
       if (after) {
         // 下一个tab存在，跳转到下一个
-        _close(tab)
-        await _goToTab(after, router)
+        this._close(tab)
+        await this._goToTab(after, router)
       } else if (before) {
         // 上一个tab存在，跳转到上一个
-        _close(tab)
-        await _goToTab(before, router)
+        this._close(tab)
+        await this._goToTab(before, router)
       } else {
         console.error('Failed to close the tab; only one tab remains open.')
       }
-    }
+    },
     /**
      * 关闭标签，固定标签页不关闭
      * @param tab
      * @returns
      */
-    const _close = (tab: TabDefinition) => {
+    _close(tab: TabDefinition) {
       if (isAffixTab(tab)) {
         return
       }
-      const index = tabs.value.findIndex((item) => item.key === tab.key)
-      index != -1 && tabs.value.splice(index, 1)
-    }
+      const index = this.tabs.findIndex((item) => item.key === tab.key)
+      index != -1 && this.tabs.splice(index, 1)
+    },
     /**
      * 跳转到标签页
      * @param tab
      * @param router
      */
-    const _goToTab = async (tab: TabDefinition, router: Router) => {
+    async _goToTab(tab: TabDefinition, router: Router) {
       const { path, query, params } = tab
       const toParams = {
         path,
@@ -126,30 +132,21 @@ export const useTabbarStore = defineStore(
         params: params || {},
       }
       await router.replace(toParams)
-    }
+    },
     /**
      * 根据tab的key获取tab
      * @param key
      */
-    const getTabByKey = (key: string) => {
-      return tabs.value.find((item) => getTabKeyFromTab(item) === key) as TabDefinition
-    }
-    return {
-      tabs,
-      addTab,
-      closeTabByKey,
-      getTabs,
-      getTabByKey,
-    }
-  },
-  {
-    persist: {
-      // tabs不需要保存在localStorage
-      pick: ['tabs'],
-      storage: sessionStorage,
+    getTabByKey(key: string) {
+      return this.tabs.find((item) => getTabKeyFromTab(item) === key) as TabDefinition
     },
   },
-)
+  persist: {
+    // tabs不需要保存在localStorage
+    pick: ['tabs'],
+    storage: sessionStorage,
+  },
+})
 // 解决热更新问题
 const hot = import.meta.hot
 if (hot) {
