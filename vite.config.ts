@@ -18,6 +18,8 @@ import { createHtmlPlugin as viteHtmlPlugin } from 'vite-plugin-html'
 //引入svg-icon
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import path from 'node:path'
+//自动导入radix-vue组件
+import RadixVueResolver from 'radix-vue/resolver'
 // https://vite.dev/config/
 export default defineConfig(({ command }: ConfigEnv) => ({
   plugins: [
@@ -54,6 +56,7 @@ export default defineConfig(({ command }: ConfigEnv) => ({
         ElementPlusResolver({
           importStyle: 'sass', //必要，否则无法定制主题色
         }),
+        RadixVueResolver(),
       ],
     }),
     Icons({
