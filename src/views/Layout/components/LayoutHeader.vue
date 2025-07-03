@@ -134,14 +134,14 @@ const handleCommand = (command: any) => {
     .login_drop {
       white-space: nowrap;
       cursor: pointer;
-      color: var(--font-clor);
+      color: var(--font-color);
       margin-left: pxTovw(19);
       line-height: pxTovw(35);
     }
 
     .name_container {
       max-width: pxTovw(150);
-      color: var(--font-clor);
+      color: var(--font-color);
       font-size: $fontSize;
       font-family: ArialMT;
       font-weight: 400;
@@ -149,7 +149,7 @@ const handleCommand = (command: any) => {
     }
 
     .title_head .svg-icon {
-      fill: var(--font-clor);
+      fill: var(--font-color);
       width: pxTovw(18);
       cursor: pointer;
     }

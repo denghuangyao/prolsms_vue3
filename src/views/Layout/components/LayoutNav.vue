@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
+import { computed } from "vue";
 import type { MenuRecordRaw } from "@/types";
 import type { MenuProps } from "@/components/menu";
 import { TOPMENU_MAXNUM } from "@/constants";
@@ -65,11 +65,11 @@ const handleSelect = (menu: any) => {
 
             &:hover {
                 border: pxTovw(1) solid var(--menu-item-hover-bg-color);
-                color: var(--el-color-primary);
+                color: var(--menu-item-hover-color);
                 background-color: var(--menu-item-hover-bg-color);
 
                 .menu-icon {
-                    fill: var(--el-color-primary);
+                    fill: var(--menu-item-hover-color);
                     transform: scale(1.2);
                 }
             }
@@ -86,7 +86,7 @@ const handleSelect = (menu: any) => {
     .activeTopMenu {
         color: #ffffff;
         font-weight: bold;
-        background: var(--el-color-primary);
+        background: var(--menu-item-active-background-color);
         box-shadow: 0px 3px 9px 0px rgba(124, 150, 239, 0.27);
         border: none;
 
@@ -108,7 +108,7 @@ const handleSelect = (menu: any) => {
         padding: 0 pxTovw(16);
         margin: 0 pxTovw(10) 0 pxTovw(5);
         font-size: pxTovw(14);
-        color: var(--font-clor);
+        color: var(--font-color);
         height: pxTovw(38);
         line-height: pxTovw(38);
         box-sizing: border-box;
