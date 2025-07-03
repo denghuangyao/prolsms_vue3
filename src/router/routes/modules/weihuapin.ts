@@ -1,4 +1,4 @@
-import type { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   // {
   //   meta: {
@@ -30,5 +30,5 @@ const routes: RouteRecordRaw[] = [
   //     },
   //   ],
   // },
-]
-export default routes
+];
+export default routes;

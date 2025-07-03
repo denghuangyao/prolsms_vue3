@@ -1,3 +1,1 @@
-<template>
-    没有权限
-</template>
+<template>没有权限</template>

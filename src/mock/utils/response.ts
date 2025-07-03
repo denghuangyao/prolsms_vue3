@@ -4,7 +4,7 @@ export function useResponseSuccess<T = any>(data: T) {
     result: data,
     error: null,
     message: 'success',
-  }
+  };
 }
 export function useResponseError(message: string, error: any = null) {
   return {
@@ -12,7 +12,7 @@ export function useResponseError(message: string, error: any = null) {
     result: null,
     error,
     message,
-  }
+  };
 }
 export function usePageResponseSuccess<T = any>(
   page: number | string,
@@ -20,25 +20,25 @@ export function usePageResponseSuccess<T = any>(
   list: T[],
   { message = 'success' } = {},
 ) {
-  const pageData = pagination(Number(parseInt(`${page}`)), Number(parseInt(`${pageSize}`)), list)
+  const pageData = pagination(Number(parseInt(`${page}`)), Number(parseInt(`${pageSize}`)), list);
   return {
     ...useResponseSuccess({
       items: pageData,
       total: list.length,
     }),
     message,
-  }
+  };
 }
 export function pagination<T = any>(pageNo: number, pageSize: number, array: T[]): T[] {
-  let offset = (pageNo - 1) * Number(pageSize)
+  let offset = (pageNo - 1) * Number(pageSize);
   return offset + Number(pageSize) >= array.length
     ? array.slice(offset)
-    : array.slice(offset, offset + Number(pageSize))
+    : array.slice(offset, offset + Number(pageSize));
 }
 
 /**
  *401,登录失效
  */
 export function unAuthorizedResponse() {
-  return useResponseError('Unauthorized Exception', 'Unauthorized Exception')
+  return useResponseError('Unauthorized Exception', 'Unauthorized Exception');
 }

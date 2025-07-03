@@ -1,3 +1,3 @@
-type Recordable<T = any> = Record<string, T>
+type Recordable<T = any> = Record<string, T>;
 
-export type { Recordable }
+export type { Recordable };

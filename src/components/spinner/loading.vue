@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 defineOptions({
-    name: 'VSpinning'
-})
+  name: 'VSpinning',
+});
 </script>
 <template>
-    <h1>loading...</h1>
+  <h1>loading...</h1>
 </template>

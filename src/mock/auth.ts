@@ -1,14 +1,14 @@
-import type { MockMethod } from 'vite-plugin-mock'
-import { verifyAccessToken } from './utils/jwt-utils'
-import { unAuthorizedResponse, useResponseSuccess } from './utils/response'
+import type { MockMethod } from 'vite-plugin-mock';
+import { verifyAccessToken } from './utils/jwt-utils';
+import { unAuthorizedResponse, useResponseSuccess } from './utils/response';
 export default [
   {
     url: '/auth/code',
     method: 'get',
     response: (request: any) => {
-      let userinfo = verifyAccessToken(request.headers)
+      let userinfo = verifyAccessToken(request.headers);
       if (!userinfo) {
-        return unAuthorizedResponse()
+        return unAuthorizedResponse();
       }
       //   const roles = MOCK_USERS.find((item) => item.username === userinfo.username)?.roles ?? []
       //   const codes = []
@@ -19,7 +19,7 @@ export default [
     url: '/auth/logout',
     method: 'post',
     response: () => {
-      return useResponseSuccess('')
+      return useResponseSuccess('');
     },
   },
-] as MockMethod[]
+] as MockMethod[];

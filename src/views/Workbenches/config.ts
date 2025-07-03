@@ -15,4 +15,4 @@ export const menuPageData: MenuConfigRecordRaw = {
       componentPath: '/Home/index',
     },
   ],
-}
+};

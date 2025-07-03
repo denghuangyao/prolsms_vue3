@@ -1,4 +1,4 @@
-import type { Preferences } from '@/types'
+import type { Preferences } from '@/types';
 
 const defaultPreferences: Preferences = {
   app: {
@@ -7,5 +7,5 @@ const defaultPreferences: Preferences = {
   tabbar: {
     maxCount: 10,
   },
-}
-export { defaultPreferences }
+};
+export { defaultPreferences };

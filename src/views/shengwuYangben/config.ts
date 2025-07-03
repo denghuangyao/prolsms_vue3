@@ -69,4 +69,4 @@ export const menuPageData: MenuConfigRecordRaw = {
       ],
     },
   ],
-}
+};

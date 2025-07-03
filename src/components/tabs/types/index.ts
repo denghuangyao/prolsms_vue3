@@ -1,7 +1,7 @@
-import type { TabDefinition } from '@/types'
+import type { TabDefinition } from '@/types';
 
 interface TabsProps {
-  active?: string
-  tabs: TabDefinition[]
+  active?: string;
+  tabs: TabDefinition[];
 }
-export type { TabsProps }
+export type { TabsProps };

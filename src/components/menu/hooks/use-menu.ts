@@ -4,13 +4,13 @@
  * 根据访问路径获取激活菜单
  * 获取当前激活的菜单
  */
-import { getCurrentInstance } from 'vue'
+import { getCurrentInstance } from 'vue';
 function useMenu() {
   //只能在setup函数中使用
-  const instance = getCurrentInstance()
+  const instance = getCurrentInstance();
   if (!instance) {
-    throw new Error('instance is required')
+    throw new Error('instance is required');
   }
 }
 
-export { useMenu }
+export { useMenu };

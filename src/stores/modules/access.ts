@@ -1,30 +1,30 @@
-import { acceptHMRUpdate, defineStore } from 'pinia'
-import type { RouteRecordRaw } from 'vue-router'
-import type { MenuRecordRaw } from '@/types'
-import { findMenuByPath } from '@/utils'
+import { acceptHMRUpdate, defineStore } from 'pinia';
+import type { RouteRecordRaw } from 'vue-router';
+import type { MenuRecordRaw } from '@/types';
+import { findMenuByPath } from '@/utils';
 /**
  * SecureLS:安全的本地存储解决方案
  */
-type AccessToken = null | string
+type AccessToken = null | string;
 interface AccessState {
   /**用户按钮权限码（按钮） */
-  accessCodes: string[]
+  accessCodes: string[];
   /**可访问的菜单列表 */
-  accessMenus: MenuRecordRaw[]
+  accessMenus: MenuRecordRaw[];
   /**可访问路由列表 */
-  accessRoutes: RouteRecordRaw[]
+  accessRoutes: RouteRecordRaw[];
   /**
    * 登录 accessToken
    */
-  accessToken: AccessToken
+  accessToken: AccessToken;
   /**
    * 是否检查过权限
    */
-  isCheckedAccess: boolean
+  isCheckedAccess: boolean;
   /**
    * 登录是否过期(退出登录失效+或token失效)
    */
-  loginExpired: boolean
+  loginExpired: boolean;
 }
 export const useAccessStore = defineStore('access', {
   state: (): AccessState => ({
@@ -40,30 +40,30 @@ export const useAccessStore = defineStore('access', {
   },
   actions: {
     getMenuByPath(path: string) {
-      return findMenuByPath(this.accessMenus, path)
+      return findMenuByPath(this.accessMenus, path);
     },
     setIsCheckedAccess(isCheckedAccess: boolean) {
-      this.isCheckedAccess = isCheckedAccess
+      this.isCheckedAccess = isCheckedAccess;
     },
     setAccessRoutes(accessRoutes: RouteRecordRaw[]) {
-      this.accessRoutes = accessRoutes
+      this.accessRoutes = accessRoutes;
     },
     setAccessMenus(accessMenus: []) {
-      this.accessMenus = accessMenus
+      this.accessMenus = accessMenus;
     },
     setAccessToken(accessToken: AccessToken) {
-      this.accessToken = accessToken
+      this.accessToken = accessToken;
     },
     setLoginExpired(loginExpired: boolean) {
-      this.loginExpired = loginExpired
+      this.loginExpired = loginExpired;
     },
     setAccessCode(accessCodes: any) {
-      this.accessCodes = accessCodes
+      this.accessCodes = accessCodes;
     },
   },
-})
+});
 // 解决热更新问题
-const hot = import.meta.hot
+const hot = import.meta.hot;
 if (hot) {
-  hot.accept(acceptHMRUpdate(useAccessStore, hot))
+  hot.accept(acceptHMRUpdate(useAccessStore, hot));
 }

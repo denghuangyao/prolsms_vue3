@@ -1,12 +1,12 @@
 interface TabbarPreferences {
   /** 限制最大数量 */
-  maxCount: number
+  maxCount: number;
 }
 interface AppPreferences {
-  defaultHomePath: string
+  defaultHomePath: string;
 }
 interface Preferences {
-  app: AppPreferences
-  tabbar: TabbarPreferences
+  app: AppPreferences;
+  tabbar: TabbarPreferences;
 }
-export type { Preferences }
+export type { Preferences };

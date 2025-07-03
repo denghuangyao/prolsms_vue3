@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import { IconButton } from '@/components/icons'
-import { useAuthStore } from '@/stores'
+import { IconButton } from '@/components/icons';
+import { useAuthStore } from '@/stores';
 const authStore = useAuthStore();
 enum dropdownCommand {
   personalCenter = '1',
-  logout = '2'
+  logout = '2',
 }
 const handleCommand = (command: any) => {
-  console.log('handleCommand--', command, dropdownCommand.logout)
+  console.log('handleCommand--', command, dropdownCommand.logout);
   if (command === dropdownCommand.logout) {
-    authStore.logout(false)
+    authStore.logout(false);
   }
-}
+};
 </script>
 <template>
   <header class="app-head-box">

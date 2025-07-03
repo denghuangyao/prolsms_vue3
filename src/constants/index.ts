@@ -1,3 +1,3 @@
-export * from './core'
-export * from './preferences'
-export * from './globals'
+export * from './core';
+export * from './preferences';
+export * from './globals';
