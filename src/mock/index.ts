@@ -1,3 +1,4 @@
 import type { MockMethod } from 'vite-plugin-mock';
 import user from './user';
-export default [...user] as MockMethod[];
+import auth from './auth';
+export default [...user, ...auth] as MockMethod[];

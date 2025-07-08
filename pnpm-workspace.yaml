@@ -1,0 +1,9 @@
+packages:
+  - packages/*
+  - playground
+  - internal/*
+  - internal/lint-configs/*
+
+catalog:
+  '@vitejs/plugin-vue': ^5.2.4
+  typescript: ~5.8.3

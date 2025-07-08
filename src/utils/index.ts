@@ -1,5 +1,7 @@
 export * from './tree';
-export { default as cloneDeep } from 'lodash.cloneDeep';
+export { default as cloneDeep } from 'lodash.clonedeep';
+export { default as get } from 'lodash.get';
+export { default as set } from 'lodash.set';
 export * from './merge-route-modules';
 export * from './generate-routes';
 export * from './generate-menus';

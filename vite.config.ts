@@ -1,25 +1,25 @@
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from 'node:url';
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import vueDevTools from 'vite-plugin-vue-devtools';
 //自动导入element组件：或使用unplugin-element-plus
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 //自动导入图标
-import Icons from 'unplugin-icons/vite'
-import IconsResolver from 'unplugin-icons/resolver'
+import Icons from 'unplugin-icons/vite';
+import IconsResolver from 'unplugin-icons/resolver';
 //mock配置
-import { ConfigEnv } from 'vite'
-import { viteMockServe } from 'vite-plugin-mock'
+import { ConfigEnv } from 'vite';
+import { viteMockServe } from 'vite-plugin-mock';
 //由vite在Html中注入环境变量，在 .env 文件内配置
-import { createHtmlPlugin as viteHtmlPlugin } from 'vite-plugin-html'
+import { createHtmlPlugin as viteHtmlPlugin } from 'vite-plugin-html';
 //引入svg-icon
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
-import path from 'node:path'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+import path from 'node:path';
 //自动导入radix-vue组件
-import RadixVueResolver from 'radix-vue/resolver'
+import RadixVueResolver from 'radix-vue/resolver';
 // https://vite.dev/config/
 export default defineConfig(({ command }: ConfigEnv) => ({
   plugins: [
@@ -34,7 +34,7 @@ export default defineConfig(({ command }: ConfigEnv) => ({
     // 自动导入api
     AutoImport({
       // imports: ['vue','pinia','vue-router'],// 自动导入 Vue 相关函数
-      // dts: 'src/auto-imports.d.ts', // 生成自动导入的类型声明文件
+      dts: 'auto-imports.d.ts', // 生成自动导入的类型声明文件
       resolvers: [
         //解决引入非组件方法ElMessage，自动导入配置增强,自动导入组件的同时导入对应的方法
         ElementPlusResolver({}),
@@ -101,4 +101,4 @@ export default defineConfig(({ command }: ConfigEnv) => ({
       },
     },
   },
-}))
+}));
