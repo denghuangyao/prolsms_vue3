@@ -1,0 +1,35 @@
+{
+  "name": "@dhy/vite-config",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "stub": "pnpm unbuild --stub"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.4",
+  "dependencies": {
+    "@dhy/node-utils": "workspace:*",
+    "dotenv": "catalog:",
+    "vite-plugin-vue-devtools": "catalog:"
+  },
+  "devDependencies": {
+    "@dhy/prettier-config": "workspace:*",
+    "@vitejs/plugin-vue": "catalog:",
+    "tsup": "catalog:",
+    "vite": "catalog:",
+    "vite-plugin-mock": "catalog:",
+    "vite-plugin-html": "catalog:"
+  }
+}
