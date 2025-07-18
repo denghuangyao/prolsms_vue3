@@ -1,0 +1,20 @@
+{
+  "name": "@dhy/prettier-config",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./index.mjs",
+  "module": "./index.mjs",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "exports": {
+    ".": {
+      "default": "./index.mjs"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.4"
+}
