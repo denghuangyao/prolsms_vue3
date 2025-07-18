@@ -1,10 +1,8 @@
 {
-  "name": "@prolsms/shared",
+  "name": "@dhy/shared",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "type": "module",
-  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -16,12 +14,20 @@
     }
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "stub": "pnpm unbuild --stub"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.12.4",
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "lodash.clonedeep": "catalog:",
+    "lodash.get": "catalog:",
+    "lodash.set": "catalog:"
+  },
+  "devDependencies": {
+    "@types/lodash.clonedeep": "catalog:",
+    "@types/lodash.get": "catalog:",
+    "@types/lodash.set": "catalog:"
+  }
 }
