@@ -1,0 +1,36 @@
+{
+  "name": "@dhy/types",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "development": "./src/index.ts",
+      "default": "./dist/index.mjs"
+    },
+    "./global": {
+      "types": "./global.d.ts"
+    },
+    "./config": {
+      "types": "./config.d.ts"
+    },
+    "./vue-router": {
+      "types": "./vue-router.d.ts"
+    }
+  },
+  "scripts": {
+    "stub": "pnpm unbuild --stub",
+    "build": "pnpm unbuild"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.4",
+  "dependencies": {
+    "vue": "catalog:",
+    "vue-router": "catalog:"
+  }
+}
