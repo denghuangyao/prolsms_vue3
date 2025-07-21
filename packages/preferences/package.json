@@ -1,0 +1,22 @@
+{
+  "name": "@dhy/preferences",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.mjs",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.4",
+  "dependencies": {
+    "@dhy/types": "workspace:*",
+    "@vueuse/core": "catalog:",
+    "vue": "catalog:"
+  }
+}
