@@ -1,0 +1,25 @@
+{
+  "name": "@dhy/stores",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.4",
+  "dependencies": {
+    "@dhy/constants": "workspace:*",
+    "@dhy/preferences": "workspace:*",
+    "@dhy/types": "workspace:*",
+    "@dhy/utils": "workspace:*"
+  }
+}
