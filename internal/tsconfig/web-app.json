@@ -1,7 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Web Application",
   "extends": "./web.json",
   "compilerOptions": {
-    "types": ["vite/client", "element-plus/global", "unplugin-icons/types/vue"]
+    "types": ["vite/client", "@dhy/types/global", "@dhy/types/config", "@dhy/types/vue-router"]
   }
 }
