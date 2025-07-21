@@ -1,0 +1,7 @@
+{
+  "exclude": ["node_modules", "dist", "**/*.js"],
+  "extends": "@dhy/tsconfig/node.json",
+  "compilerOptions": {
+    "moduleResolution": "Bundler"
+  }
+}
