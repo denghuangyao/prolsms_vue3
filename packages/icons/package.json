@@ -1,0 +1,22 @@
+{
+  "name": "@dhy/icons",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/index.es.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.es.js"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "stub": "pnpm unbuild --stub"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plugin-svg-icons": "catalog:"
+  }
+}

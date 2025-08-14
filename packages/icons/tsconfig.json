@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@dhy/tsconfig/library.json",
+  "compilerOptions": {
+    /* Linting */
+    "erasableSyntaxOnly": true
+  },
+  "include": ["src"]
+}
