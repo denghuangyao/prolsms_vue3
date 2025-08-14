@@ -1,0 +1,58 @@
+// import dark theme
+@use 'element-plus/theme-chalk/src/dark/css-vars.scss' as *;
+//侧边菜单
+.layout-tabbar {
+  --el-text-color-secondary: var(--font-color);
+}
+.menu-scrollbar {
+  //scrollbar
+  --el-scrollbar-bg-color: #cad6fe;
+  --el-scrollbar-hover-bg-color: #7d99f3;
+  //menu
+  --el-menu-item-height: #{pxTovw(50)};
+  --el-menu-sub-item-height: var(--el-menu-item-height);
+  --el-menu-bg-color: var(--siderbar-bg);
+  --el-menu-text-color: #fff;
+  --el-menu-hover-bg-color: var(--hover-color);
+  --el-menu-active-color: #7d99f3;
+  --el-menu-level-padding: #{pxTovw(30)};
+  --el-menu-icon-width: 1.25rem;
+  --el-menu-item-font-size: #{$fontSize};
+}
+.dark {
+  .menu-scrollbar {
+    --el-menu-hover-bg-color: var(--menu-item-hover-bg-color);
+    --el-menu-active-color: hsl(210 20% 98%);
+    --el-menu-text-color: hsl(210 20% 98% /80%);
+  }
+  .layout-tabbar {
+    --el-text-color-secondary: var(--accent-font-color);
+  }
+}
+/**更多下拉项*/
+.wl-dropdown {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--tab-item-hover-bg-color) !important;
+  }
+}
+
+.wl-dropdown-item {
+  .el-dropdown-menu__item {
+    height: pxTovw(30);
+    line-height: pxTovw(30);
+    color: var(--font-color);
+  }
+
+  .el-dropdown-menu__item.activeItem {
+    background-color: #ebf0ff;
+    color: var(--tab-item-active-color);
+  }
+
+  .el-dropdown-menu__item:not(.activeItem):focus,
+  .el-dropdown-menu__item:not(.activeItem):hover {
+    color: var(--tab-item-hover-bg-color);
+    background-color: transparent;
+  }
+}

@@ -1,0 +1,37 @@
+@import url('./design/default.css');
+@import url('./design/dark.css');
+@import url('./el-style.scss');
+#nprogress {
+  .bar {
+    background: var(--el-color-primary) !important; //自定义颜色
+  }
+  .peg {
+    box-shadow:
+      0 0 10px var(--el-color-primary),
+      0 0 5px var(--el-color-primary);
+  }
+  .spinner-icon {
+    border-top-color: var(--el-color-primary) !important;
+    border-left-color: var(--el-color-primary) !important;
+  }
+}
+.dark .app-head-box .app_title .img {
+  filter: drop-shadow(rgb(64, 158, 255) 2px 2px 6px);
+}
+
+@mixin mr($number) {
+  margin-right: #{pxTovw($number)};
+}
+.mr16 {
+  @include mr(16);
+}
+
+.transition-colors {
+  transition-duration: 0.15s;
+  transition-property: background-color, border-color, color, fill;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
