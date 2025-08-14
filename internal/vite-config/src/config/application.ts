@@ -27,7 +27,6 @@ function defineApplicationConfig(UserConfigPromise?: DefineApplicationOptions) {
     const { command, mode } = config;
     const { port, base, ...envConfig } = await loadAndConvertEnv();
     const isBuild = command === 'build';
-    console.log('-defineApplicationConfig-isBuild-', !isBuild);
     const plugins = await loadApplicationPlugins({
       isBuild,
       viteMock: !isBuild,

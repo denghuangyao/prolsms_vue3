@@ -62,7 +62,7 @@
     "unplugin-icons": "catalog:",
     "unplugin-vue-components": "catalog:",
     "vite": "catalog:",
-    "vite-plugin-svg-icons": "catalog:",
+    "vite-plugin-dts": "^4.5.4",
     "vue-tsc": "catalog:"
   },
   "packageManager": "pnpm@10.12.4"

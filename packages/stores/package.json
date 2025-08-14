@@ -20,6 +20,8 @@
     "@dhy/constants": "workspace:*",
     "@dhy/preferences": "workspace:*",
     "@dhy/types": "workspace:*",
-    "@dhy/utils": "workspace:*"
+    "@dhy/utils": "workspace:*",
+    "pinia": "catalog:",
+    "pinia-plugin-persistedstate": "catalog:"
   }
 }

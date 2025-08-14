@@ -17,8 +17,7 @@
     }
   },
   "scripts": {
-    "stub": "pnpm unbuild --stub",
-    "dev": "pnpm tsup --watch"
+    "stub": "pnpm unbuild --stub"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +25,7 @@
   "packageManager": "pnpm@10.12.4",
   "dependencies": {
     "@manypkg/get-packages": "catalog:",
+    "execa": "catalog:",
     "find-up": "catalog:"
   }
 }

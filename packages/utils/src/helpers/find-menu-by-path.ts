@@ -1,4 +1,4 @@
-import type { MenuRecordRaw } from '@/types';
+import type { MenuRecordRaw } from '@dhy/types';
 function findMenuByPath(menus: MenuRecordRaw[], path?: string): MenuRecordRaw | null {
   for (const menu of menus) {
     if (menu.path === path) {

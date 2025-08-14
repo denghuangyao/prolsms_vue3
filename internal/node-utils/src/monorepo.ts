@@ -1,6 +1,8 @@
 import {
   getPackagesSync as getPackagesSyncFunc,
   getPackages as getPackagesFunc,
+  type Package,
+  type Packages,
 } from '@manypkg/get-packages';
 import { findUpSync } from 'find-up';
 import { dirname } from 'node:path';
@@ -9,7 +11,6 @@ function findMonorepoRoot(cwd: string = process.cwd()) {
     cwd,
     type: 'file',
   });
-  console.log('findMonorepoRoot-lockFile-', lockFile);
   return dirname(lockFile || '');
 }
 /**
@@ -20,7 +21,7 @@ function getPackagesSync() {
   const root = findMonorepoRoot();
   return getPackagesSyncFunc(root);
 }
-async function getPackages() {
+async function getPackages(): Promise<Packages> {
   const root = findMonorepoRoot();
   return await getPackagesFunc(root);
 }
@@ -30,6 +31,6 @@ async function getPackages() {
  */
 async function getPackage(pkgName: string) {
   const { packages } = await getPackages();
-  return packages.find((pkg) => pkg.packageJson.name === pkgName);
+  return packages.find((pkg: Package) => pkg.packageJson.name === pkgName);
 }
-export { findMonorepoRoot, getPackage, getPackagesSync };
+export { findMonorepoRoot, getPackage, getPackagesSync, getPackages, type Package };
