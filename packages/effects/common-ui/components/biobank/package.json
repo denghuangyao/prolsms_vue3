@@ -1,0 +1,48 @@
+{
+  "name": "vue3-biobank",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "vue3",
+    "biobank"
+  ],
+  "peerDependencies": {
+    "vue": "^3.2.0"
+  },
+  "author": "Huangyao Deng",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.4",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/lib/index.js",
+  "module": "./dist/es/index.js",
+  "types": "./dist/es/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/es/index.d.ts",
+      "import": "./dist/es/index.js",
+      "require": "./dist/lib/index.js"
+    },
+    "./style": "./dist/es/style.css"
+  },
+  "sideEffects": [
+    "dist/**/*.css"
+  ],
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "element-plus": "catalog:"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "sass": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plugin-dts": "^4.5.4",
+    "vue": "catalog:",
+    "@vue/tsconfig": "catalog:"
+  }
+}
