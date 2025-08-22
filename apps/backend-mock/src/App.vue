@@ -5,7 +5,7 @@
         <h1>Hello Vben Admin</h1>
         <h2>Mock service is starting</h2>
         <ul>
-            <li><a href="/biobank/container/detail?id=1">/biobank/container/detail</a></li>
+            <li><a href="/api/biobank/container/detail?id=1">/biobank/container/detail</a></li>
             <li><a href="/api/menu">/api/menu/all</a></li>
             <li><a href="/api/auth/codes">/api/auth/codes</a></li>
             <li><a href="/api/auth/login">/api/auth/login</a></li>
