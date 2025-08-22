@@ -48,17 +48,28 @@ npm i @vueuse/core
 
 ### 图标使用
 
-npm install vite-plugin-svg-icons -D
-// 方式 1:手动导入并注册图标组件
-import IconEpApple from '~icons/ep/apple'
-//方式2：使用 `unplugin-vue-components` 插件来自动注册图标
-html标签直接使用：`<i-ep-add-location />`
+npm install vite-plugin-svg-icons -D // 方式 1:手动导入并注册图标组件import IconEpApple from '~icons/ep/apple' //方式2：使用 `unplugin-vue-components` 插件来自动注册图标html标签直接使用：`<i-ep-add-location />`
+
 ### 菜单跳转
 
 已完成
 
 ### 菜单路由标签
 
+已完成
+
 ### 侧边菜单展开收起
+
+已完成
+### monorepo搭建
+apps
+    backend-mock
+    dashboard
+packages
+    icons
+    stores
+    
+icon库、store库、mock库
+
 
 ### 宽度自适应调试
