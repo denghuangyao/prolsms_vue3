@@ -13,6 +13,7 @@ const openLoading = () => {
       <template #header>VSpinner</template>
       <div class="loading-box" v-spinning="{ spinning: isLoading, minLoadingTime: 100 }"></div>
     </el-card>
+    <button class="text-white px-4 sm:px-8 bg-sky-700 hover:bg-sky-800 py-2 sm:py-3">Submit</button>
   </div>
 </template>
 <style lang="scss">

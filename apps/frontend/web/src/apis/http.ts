@@ -17,7 +17,7 @@ type ApiResponse<T = any> = {
 };
 const app = axios.create({
   timeout: 30000,
-  baseURL: '/api', //mock环境改成“/”
+  baseURL: '/', //mock环境改成“/”
   headers: {
     get: {
       //设置请求头，防止 GET 请求缓存
@@ -119,6 +119,7 @@ export default {
       url,
       method: 'POST',
       data,
+      ...options,
       headers: {
         'Content-Type': 'application/x-www-from-urlencoded',
       },
@@ -129,7 +130,7 @@ export default {
   // 下载文件的请求方法
   download: async <T = any>(url: string, params: any): Promise<T> => {
     // 发起 GET 请求，设置 responseType 为 blob，用于处理文件下载
-    const res = await request<T>({ method: 'GET', responseType: 'blob', params });
+    const res = await request<T>({ url, method: 'GET', responseType: 'blob', params });
     return res.result;
   },
   upload: async <T = any>(url: string, data = {}): Promise<T> => {

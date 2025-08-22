@@ -41,7 +41,7 @@ const tabbarStyle = computed<CSSProperties>(() => ({
           </LayoutHeader>
           <LayoutTabbar :style="tabbarStyle" class="app-tabbar" />
         </div>
-        <LayoutContent class="app-content">
+        <LayoutContent class="app-content ">
           <template #content-overlay="{ style }">
             <LayoutContentSpinner :style="style" />
           </template>

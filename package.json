@@ -13,12 +13,26 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "pnpm -r run stub --if-present",
+    "reinstall": "pnpm clean --del-lock && pnpm install"
   },
   "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "eslint": "*"
+      }
+    },
     "overrides": {
-      "clsx": "catalog:"
-    }
+      "clsx": "catalog:",
+      "pinia": "catalog:",
+      "vue": "catalog:"
+    },
+    "neverBuiltDependencies": [
+      "canvas",
+      "node-gyp"
+    ]
   },
   "dependencies": {
     "@element-plus/icons-vue": "catalog:",
@@ -26,15 +40,17 @@
     "axios": "catalog:",
     "element-plus": "catalog:",
     "nprogress": "catalog:",
-    "pinia": "catalog:",
+    "pinia": "^3.0.3",
     "qs": "catalog:",
     "secure-ls": "catalog:",
-    "vue": "catalog:",
+    "tailwindcss": "catalog:",
+    "vue": "^3.5.18",
     "vue-router": "catalog:"
   },
   "devDependencies": {
     "@changesets/cli": "catalog:",
     "@dhy/prettier-config": "workspace:*",
+    "@dhy/tailwind-config": "workspace:*",
     "@dhy/tsconfig": "workspace:*",
     "@dhy/turbo-run": "workspace:*",
     "@dhy/vite-config": "workspace:*",
@@ -55,14 +71,13 @@
     "sass": "catalog:",
     "sass-loader": "catalog:",
     "tsup": "catalog:",
-    "turbo": "^2.5.5",
+    "turbo": "^2.5.6",
     "typescript": "catalog:",
     "unbuild": "catalog:",
     "unplugin-auto-import": "catalog:",
     "unplugin-icons": "catalog:",
     "unplugin-vue-components": "catalog:",
     "vite": "catalog:",
-    "vite-plugin-dts": "^4.5.4",
     "vue-tsc": "catalog:"
   },
   "packageManager": "pnpm@10.12.4"
