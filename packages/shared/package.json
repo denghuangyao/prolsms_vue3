@@ -14,7 +14,8 @@
     }
   },
   "scripts": {
-    "stub": "pnpm unbuild --stub"
+    "stub": "pnpm unbuild --stub",
+    "build": "pnpm unbuild"
   },
   "keywords": [],
   "author": "",

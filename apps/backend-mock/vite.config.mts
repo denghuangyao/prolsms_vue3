@@ -1,21 +1,18 @@
-import { viteMockServe } from 'vite-plugin-mock';
-
-import type { UserConfigExport, Plugin } from 'vite';
-import vue from '@vitejs/plugin-vue';
-
-export default (): UserConfigExport => {
+import { defineConfig } from '@dhy/vite-config';
+export default defineConfig(async () => {
   return {
-    plugins: [
-      vue(),
-      viteMockServe({
-        mockPath: 'mock',
-        enable: true,
-        logger: true,
-        cors: true,
-      }) as Plugin,
-    ],
-    server: {
-      port: 8080,
+    application: {},
+    vite: {
+      plugins: [],
+      server: {
+        proxy: {
+          '/api': {
+            target: 'http://localhost:8080',
+            changeOrigin: true,
+            rewrite: (path: string) => path.replace(/^\/api/, ''),
+          },
+        },
+      },
     },
   };
-};
+});

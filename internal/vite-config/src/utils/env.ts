@@ -15,7 +15,6 @@ function getConfFiles() {
   const regx = /--mode ([\d_a-z]+)/;
   const result = regx.exec(script);
   let mode = 'production';
-  console.log('-getConfFiles--result--', result);
   if (result) {
     mode = result[1] as string;
   }

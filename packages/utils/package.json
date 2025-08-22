@@ -2,17 +2,11 @@
   "name": "@dhy/utils",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
     }
-  },
-  "scripts": {
-    "build": "pnpm unbuild",
-    "stub": "pnpm unbuild --stub"
   },
   "keywords": [],
   "author": "",

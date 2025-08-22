@@ -31,17 +31,13 @@
     "dist/**/*.css"
   ],
   "scripts": {
-    "build": "vite build"
+    "build": "pnpm vite build"
   },
   "dependencies": {
     "element-plus": "catalog:"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "catalog:",
     "@vue/tsconfig": "catalog:",
-    "sass": "catalog:",
-    "typescript": "catalog:",
-    "vite": "catalog:",
-    "vue": "catalog:"
+    "sass": "catalog:"
   }
 }

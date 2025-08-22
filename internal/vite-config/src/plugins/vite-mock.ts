@@ -12,9 +12,8 @@ export const viteMockPlugin = async ({
     return;
   }
   console.log('-viteMockPlugin-', join(pkg.dir, 'mock'));
-  return () =>
-    viteMockServe({
-      mockPath: join(pkg.dir, 'mock'), // mock文件存放目录
-      logger, // 是否在控制台显示请求日志
-    });
+  return viteMockServe({
+    mockPath: join(pkg.dir, 'mock'), // mock文件存放目录
+    logger, // 是否在控制台显示请求日志
+  });
 };

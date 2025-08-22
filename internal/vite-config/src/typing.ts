@@ -1,5 +1,5 @@
 import type { ConfigEnv, PluginOption, UserConfig } from 'vite';
-
+import type { PluginOptions } from 'vite-plugin-dts';
 interface ConditionPlugin {
   condition?: boolean;
   plugins: () => PluginOption[] | PromiseLike<PluginOption[]>;
@@ -37,20 +37,35 @@ interface ApplicationPluginOptions extends CommonPluginOptions {
    */
   insertGlobalScss?: boolean;
 }
+interface LibraryPluginOptions extends CommonPluginOptions {
+  /**
+   * 是否开启 DTS 输出
+   * @default true
+   * @description 生成 TypeScript 类型声明文件
+   */
+  dts?: boolean | PluginOptions;
+}
 type ApplicationOptions = ApplicationPluginOptions;
 type DefineApplicationOptions = (config?: ConfigEnv) => Promise<{
   application?: ApplicationOptions;
+  vite?: UserConfig;
+}>;
+type LibraryOptions = LibraryPluginOptions;
+type DefineLibraryOptions = (config?: ConfigEnv) => Promise<{
+  library?: LibraryOptions;
   vite?: UserConfig;
 }>;
 /**
  * 配置定义类型
  * @description 应用或库的配置定义
  */
-type DefineConfig = DefineApplicationOptions;
+type DefineConfig = DefineApplicationOptions | DefineLibraryOptions;
 export type {
   DefineApplicationOptions,
+  DefineLibraryOptions,
   ConditionPlugin,
   CommonPluginOptions,
   ApplicationPluginOptions,
   DefineConfig,
+  LibraryPluginOptions,
 };

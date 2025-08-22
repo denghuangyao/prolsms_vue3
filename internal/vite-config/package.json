@@ -29,7 +29,8 @@
     "@vitejs/plugin-vue": "catalog:",
     "tsup": "catalog:",
     "vite": "catalog:",
-    "vite-plugin-mock": "catalog:",
-    "vite-plugin-html": "catalog:"
+    "vite-plugin-dts": "catalog:",
+    "vite-plugin-html": "catalog:",
+    "vite-plugin-mock": "catalog:"
   }
 }
