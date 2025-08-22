@@ -26,6 +26,7 @@
   "dependencies": {
     "@manypkg/get-packages": "catalog:",
     "execa": "catalog:",
-    "find-up": "catalog:"
+    "find-up": "catalog:",
+    "pkg-types": "catalog:"
   }
 }
