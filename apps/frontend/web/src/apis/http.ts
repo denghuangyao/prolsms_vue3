@@ -15,6 +15,14 @@ type ApiResponse<T = any> = {
   code: string | number;
   message: string;
 };
+
+// 扩展 AxiosRequestConfig 以包含 startTime
+declare module 'axios' {
+  export interface AxiosRequestConfig {
+    startTime?: number; // 请求开始时间，用于计算响应时间
+  }
+}
+
 const app = axios.create({
   timeout: 30000,
   baseURL: '/', //mock环境改成“/”
@@ -31,6 +39,7 @@ const app = axios.create({
 });
 app.interceptors.request.use(
   (config) => {
+    config.startTime = performance.now(); //在请求拦截器中记录开始时间
     //请求带token
     const token = useAccessStore().accessToken;
     if (token) {
@@ -58,6 +67,10 @@ app.interceptors.request.use(
 app.interceptors.response.use(
   (response) => {
     console.log('response-拦截-', response);
+    //在响应拦截器中记录结束时间并计算耗时
+    const duration = performance.now() - (response.config.startTime ?? 0);
+    console.log(`Request to ${response.config.url} took ${duration} milliseconds.`);
+
     let code = response.data?.code;
     if (code !== 0) {
       return Promise.reject(response);

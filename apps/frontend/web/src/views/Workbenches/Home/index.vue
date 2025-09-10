@@ -4,6 +4,9 @@ const isLoading = refAutoReset(false, 3000);
 const openLoading = () => {
   isLoading.value = true;
 };
+const handleSubmit = () => {
+  console.log('点击提交按钮--');
+};
 </script>
 <template>
   <div>
@@ -13,7 +16,12 @@ const openLoading = () => {
       <template #header>VSpinner</template>
       <div class="loading-box" v-spinning="{ spinning: isLoading, minLoadingTime: 100 }"></div>
     </el-card>
-    <button class="text-white px-4 sm:px-8 bg-sky-700 hover:bg-sky-800 py-2 sm:py-3">Submit</button>
+    <button
+      v-throttle="handleSubmit"
+      class="bg-sky-700 px-4 py-2 text-white hover:bg-sky-800 sm:px-8 sm:py-3"
+    >
+      Submit
+    </button>
   </div>
 </template>
 <style lang="scss">
