@@ -48,7 +48,7 @@ function defineApplicationConfig(UserConfigPromise?: DefineApplicationOptions) {
         host: true,
         port,
         warmup: {
-          clientFiles: ['./index.html', './src/{views,router,stores}/*'],
+          clientFiles: ['./index.html', './src/bootstrap.ts', './src/{views,router,stores}/*'],
         },
       },
     };

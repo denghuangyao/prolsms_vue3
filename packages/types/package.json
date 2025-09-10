@@ -22,7 +22,6 @@
     }
   },
   "scripts": {
-    "stub": "pnpm unbuild --stub",
     "build": "pnpm unbuild"
   },
   "keywords": [],

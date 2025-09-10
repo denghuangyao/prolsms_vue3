@@ -10,7 +10,6 @@
     "build": "turbo build",
     "build:web": "pnpm run build --filter=web",
     "preview": "vite preview",
-    "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
@@ -44,7 +43,7 @@
     "qs": "catalog:",
     "secure-ls": "catalog:",
     "tailwindcss": "catalog:",
-    "vue": "^3.5.18",
+    "vue": "catalog:",
     "vue-router": "catalog:"
   },
   "devDependencies": {

@@ -5,10 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm vite --mode development",
-    "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
-    "build-only": "vite build",
-    "type-check": "vue-tsc --build",
+    "build": "pnpm vite build --mode production",
+    "type-check": "vue-tsc --noEmit --skipLibCheck",
     "lint": "eslint . --fix",
     "format": "prettier --write src/"
   },

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import { type FormInstance, type FormRules } from 'element-plus';
-import { Lock, Iphone } from '@element-plus/icons-vue';
-import IconEpUser from '~icons/ep/user';
+import { Lock, Iphone, User } from '@element-plus/icons-vue';
+// import IconEpUser from '~icons/ep/user';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores';
 import type { AuthApi } from '@/apis';
@@ -89,7 +89,7 @@ let handleLogin = async () => {
                 v-model="loginForm.username"
                 autoComplete="on"
                 placeholder="请输入用户名"
-                :prefix-icon="IconEpUser"
+                :prefix-icon="User"
               >
               </el-input>
               <div class="iconFormItem">

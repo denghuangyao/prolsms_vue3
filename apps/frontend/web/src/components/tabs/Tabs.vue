@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, watch, ref, useSlots, type SetupContext } from 'vue';
+import { computed, ref, useSlots, type SetupContext } from 'vue';
 import type { TabsProps } from './types';
 import type { Recordable, TabConfig } from '@dhy/types';
 const slots: SetupContext['slots'] = useSlots();
@@ -36,15 +36,28 @@ const handleChange = (tabKey: any) => {
 const tabRefs = ref<Recordable>({});
 </script>
 <template>
-  <el-tabs :model-value="active" type="border-card" class="tabsCard" :addable="isAddIcon" closable
-    @tab-remove="handleRemove" @tab-change="handleChange">
+  <el-tabs
+    :model-value="active"
+    type="border-card"
+    class="tabsCard"
+    :addable="isAddIcon"
+    closable
+    @tab-remove="handleRemove"
+    @tab-change="handleChange"
+  >
     <template v-for="item in tabbarSlots" #[item]>
       <slot :name="item"></slot>
     </template>
-    <el-tab-pane :ref="(el) => {
-        if (el) tabRefs[item.key] = el;
-      }
-      " v-for="item in tabsView" :key="item.key" :name="item.key">
+    <el-tab-pane
+      :ref="
+        (el: any) => {
+          if (el) tabRefs[item.key] = el;
+        }
+      "
+      v-for="item in tabsView"
+      :key="item.key"
+      :name="item.key"
+    >
       <template #label>
         <svg-icon class="tab-icon" v-if="item.icon" :name="item.icon"></svg-icon>
         <span>{{ item.label }}</span>
@@ -103,7 +116,7 @@ const tabRefs = ref<Recordable>({});
         opacity: 0;
       }
 
-      &+.el-tabs__item {
+      & + .el-tabs__item {
         &::before {
           opacity: 0;
         }
@@ -120,7 +133,7 @@ const tabRefs = ref<Recordable>({});
           opacity: 0;
         }
 
-        &+.el-tabs__item {
+        & + .el-tabs__item {
           &::before {
             opacity: 0;
           }

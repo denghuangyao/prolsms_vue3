@@ -11,7 +11,7 @@ export const viteMockPlugin = async ({
     console.log(`Package ${mockPath} not found. Skip mock server.`);
     return;
   }
-  console.log('-viteMockPlugin-', join(pkg.dir, 'mock'));
+  // console.log('-viteMockPlugin-', join(pkg.dir, 'mock'));
   return viteMockServe({
     mockPath: join(pkg.dir, 'mock'), // mock文件存放目录
     logger, // 是否在控制台显示请求日志

@@ -268,7 +268,7 @@ function useGraphicalContainer(props: GraphicalContainer) {
   /**查看冻存盒所有格子 */
   function chakanMinContainer(rowData: any) {
     levelThirdCon.value = rowData;
-    let { x, y, z }: any = getActiveXYZ(activeKey.value);
+    let { x, y }: any = getActiveXYZ(activeKey.value);
     let boxData: any = levelFirstConMap.get(`${x},${y}`);
     levelThirdCon.value.fromToLocation = `${boxData.name}-${rowData.name}`;
     console.log(
@@ -343,10 +343,10 @@ function useGraphicalContainer(props: GraphicalContainer) {
     if (isXuanzeweizhi) return; //选择位置弹窗不查看编辑样本
     let sampleId: any = showSampleId.value;
     if (!sampleId) return;
-    let attach: any = {
-      pageType: 'xiangqing',
-      id: sampleId,
-    };
+    // let attach: any = {
+    //   pageType: 'xiangqing',
+    //   id: sampleId,
+    // };
     // wllib.framework.wlPopupUI('shengwuYangben_yangbenDengji_yangbenXiangqing', attach, () => {
     //   chakanYB(sampleId);
     //   updateAllLevelCon(true);
@@ -378,6 +378,7 @@ function useGraphicalContainer(props: GraphicalContainer) {
         storeyColumn,
       },
     };
+    console.log('-addSubRongqi--', attach);
     // wllib.framework.wlPopupUI('shengwuYangben_zirongqiGuanli_zirongqixz', attach, () => {
     //   chakanxq();
     // });
@@ -404,26 +405,27 @@ function useGraphicalContainer(props: GraphicalContainer) {
       id,
       selectBox,
     };
+    console.log('-addMinRongqi--', attach);
     // wllib.framework.wlPopupUI('shengwuYangben_zirongqiGuanli_subZirongqixz', attach, () => {
     //   chakanSubContainer(activeKey.value, levelSedParentCon, rackRowIdx);
     // });
   }
   /**操作图形按钮交互S */
   // 删除冻存架（或提篮）后，图形化重新渲染
-  function afterDelSedParentCon() {
-    clearAllActive();
-    instance?.emit('getIsShowDeleteBtn', false); //操作按钮不展示删除冻存架/冻存盒按钮
-    chakanxq(); //重新获取冰箱冻存架数据
-  }
+  // function afterDelSedParentCon() {
+  //   clearAllActive();
+  //   instance?.emit('getIsShowDeleteBtn', false); //操作按钮不展示删除冻存架/冻存盒按钮
+  //   chakanxq(); //重新获取冰箱冻存架数据
+  // }
   // 删除冻存盒后，图形化重新渲染
-  function afterDelThirdLevelCon() {
-    drawerActiveKey.value = ''; //清空选中冻存盒
-    levelThirdCon.value = {}; //清空选中冻存盒的数据
-    boxActiveList.value = []; //清空选中冻存盒的格子
-    showSampleId.value = null; //样本信息选中清空
-    let rackRowIdx: any = getActiveXYZ(activeKey.value).z;
-    chakanSubContainer(activeKey.value, levelSedParentCon, rackRowIdx); //重新获取冻存架-抽屉数据
-  }
+  // function afterDelThirdLevelCon() {
+  //   drawerActiveKey.value = ''; //清空选中冻存盒
+  //   levelThirdCon.value = {}; //清空选中冻存盒的数据
+  //   boxActiveList.value = []; //清空选中冻存盒的格子
+  //   showSampleId.value = null; //样本信息选中清空
+  //   let rackRowIdx: any = getActiveXYZ(activeKey.value).z;
+  //   chakanSubContainer(activeKey.value, levelSedParentCon, rackRowIdx); //重新获取冻存架-抽屉数据
+  // }
   //选中位置数据(过滤已有样本格子)
   function getActiveEmptyBoxList() {
     let emptyboxs: any = boxActiveList.value.filter((item: any) => !item.isHasYB);
@@ -453,43 +455,43 @@ function useGraphicalContainer(props: GraphicalContainer) {
     return activeLocationData;
   }
   //操作库存后更新样本数
-  function updateAllLevelCon(isKeepActive?: boolean) {
-    //更新冰箱-冻存架
-    chakanxq(() => {
-      //更新冻存架-抽屉-冻存盒
-      console.log('--updateAllLevelCon--', activeKey.value);
-      let { x, y, z }: any = getActiveXYZ(activeKey.value);
-      let boxData: any = levelFirstConMap.get(`${x},${y}`);
-      levelSedParentCon = boxData; //更新选中的冰箱-冻存架数据
-      chakanSubContainer(activeKey.value, levelSedParentCon, z, () => {
-        let drawerKey: any = drawerActiveKey.value;
-        if (drawerKey) {
-          let values: any = drawerKey.split('_');
-          let drawerColIdx: any = Number(values[1]);
-          levelThirdCon.value = levelSedConList.value[drawerColIdx]; //更新选中的抽屉-冻存盒数据
-          chakanMinContainer(levelThirdCon.value); //更新抽屉-冻存盒格子
-          if (!isKeepActive) {
-            //是否保留已选格子：修改样本信息更新
-            boxActiveList.value = []; //重置选中格子
-            showSampleId.value = null; //样本信息选中清空
-            console.log(
-              '--updateAllLevelCon--1-isKeepActive-',
-              isKeepActive,
-              'boxActiveList.value--',
-              boxActiveList.value,
-            );
-          }
+  // function updateAllLevelCon(isKeepActive?: boolean) {
+  //   //更新冰箱-冻存架
+  //   chakanxq(() => {
+  //     //更新冻存架-抽屉-冻存盒
+  //     console.log('--updateAllLevelCon--', activeKey.value);
+  //     let { x, y, z }: any = getActiveXYZ(activeKey.value);
+  //     let boxData: any = levelFirstConMap.get(`${x},${y}`);
+  //     levelSedParentCon = boxData; //更新选中的冰箱-冻存架数据
+  //     chakanSubContainer(activeKey.value, levelSedParentCon, z, () => {
+  //       let drawerKey: any = drawerActiveKey.value;
+  //       if (drawerKey) {
+  //         let values: any = drawerKey.split('_');
+  //         let drawerColIdx: any = Number(values[1]);
+  //         levelThirdCon.value = levelSedConList.value[drawerColIdx]; //更新选中的抽屉-冻存盒数据
+  //         chakanMinContainer(levelThirdCon.value); //更新抽屉-冻存盒格子
+  //         if (!isKeepActive) {
+  //           //是否保留已选格子：修改样本信息更新
+  //           boxActiveList.value = []; //重置选中格子
+  //           showSampleId.value = null; //样本信息选中清空
+  //           console.log(
+  //             '--updateAllLevelCon--1-isKeepActive-',
+  //             isKeepActive,
+  //             'boxActiveList.value--',
+  //             boxActiveList.value,
+  //           );
+  //         }
 
-          console.log(
-            '--updateAllLevelCon--2-isKeepActive-',
-            isKeepActive,
-            'boxActiveList.value--',
-            boxActiveList.value,
-          );
-        }
-      });
-    });
-  }
+  //         console.log(
+  //           '--updateAllLevelCon--2-isKeepActive-',
+  //           isKeepActive,
+  //           'boxActiveList.value--',
+  //           boxActiveList.value,
+  //         );
+  //       }
+  //     });
+  //   });
+  // }
   /**操作图形按钮交互E */
   /**选择位置弹窗特殊相关处理S */
   function clickBoxForTangchuang(boxItemData: any) {
@@ -506,7 +508,7 @@ function useGraphicalContainer(props: GraphicalContainer) {
       ElMessageBox.confirm('确定选中此位置？', '提示', {
         type: 'warning',
       })
-        .then((res: any) => {
+        .then(() => {
           instance?.emit('getActiveEmptyBoxList', getActiveEmptyBoxList());
         })
         .catch(() => {

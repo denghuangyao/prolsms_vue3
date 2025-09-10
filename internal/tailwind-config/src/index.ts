@@ -3,7 +3,7 @@ import { getPackagesSyncFunc, type Package } from '@dhy/node-utils';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 const { packages } = getPackagesSyncFunc(process.cwd());
-console.log('-packages--', packages);
+// console.log('-packages--', packages);
 const tailwindPackages: string[] = [];
 packages.forEach((pkg: Package) => {
   if (existsSync(path.join(pkg.dir, 'tailwind.config.mjs'))) {

@@ -67,7 +67,13 @@ function useMixedMenu() {
     //头部菜单点击：获取侧边菜单，并跳转至默认侧边菜单
     const rootMenu = menus.value.find((item) => item.path === key);
     const _splitSideMenus = rootMenu?.children ?? [];
-    console.log('-handleMenuSelect-', rootMenu, _splitSideMenus, _splitSideMenus.length);
+    console.log(
+      '-handleMenuSelect-',
+      rootMenu,
+      _splitSideMenus,
+      _splitSideMenus.length,
+      getActivePath(key),
+    );
     splitSideMenus.value = _splitSideMenus;
     if (_splitSideMenus.length === 0) {
       navigation(key);
@@ -80,7 +86,8 @@ function useMixedMenu() {
     }
   };
   const getActivePath = (permissionKey: string) => {
-    // userStore.userInfo?.menuEntry[permissionKey]
+    let path = userStore.userInfo?.menuEntry?.[permissionKey];
+    return path;
   };
   // 初始化计算侧边菜单
   onBeforeMount(() => {

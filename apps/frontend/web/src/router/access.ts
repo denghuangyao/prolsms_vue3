@@ -3,7 +3,7 @@ import { generateRoutesByFrontend, generateMenus } from '@dhy/utils';
 import { cloneDeep } from '@dhy/shared/utils';
 import type { RouteRecordRaw } from 'vue-router';
 
-const forbiddenComponent = () => import('@/views/Fallback/Forbidden.vue');
+// const forbiddenComponent = () => import('@/views/Fallback/Forbidden.vue');
 export const generateAccess = (options: GenerateRoutesOptions) => {
   const modules = import.meta.glob(['@/views/**/*.vue', '!@/views/**/components/*.vue'], {
     eager: true,
