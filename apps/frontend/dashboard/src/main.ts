@@ -1,4 +1,6 @@
-import { createApp } from 'vue';
-import App from './App.vue';
+async function initApplication() {
+  const { bootstrap } = await import('./bootstrap');
+  await bootstrap();
+}
 
-createApp(App).mount('#app');
+initApplication();
