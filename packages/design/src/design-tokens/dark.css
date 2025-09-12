@@ -1,0 +1,27 @@
+/*主题色定义css变量*/
+.dark {
+  color-scheme: dark;
+  /* 主体区域背景色 */
+  --background-deep: hsl(224 71.4% 4.1%);
+  --overlay-content: hsl(0deg 0% 0% / 40%);
+  --font-color: hsl(210 20% 98% /80%);
+  --accent-font-color: hsl(210 20% 98%);
+  --siderbar-bg: hsl(224 71.4% 4.1%);
+  --menu-item-hover-bg-color: hsl(217.2 32.6% 17.5%);
+  --menu-item-hover-color: hsl(210 20% 98%);
+  --menu-item-active-background-color: hsl(215 27.9% 16.9%);
+  --menu-scrollbar-bg-color: hsl(219, 8%, 35%);
+  --menu-scrollbar-hover-bg-color: #a3a6ad;
+  --background: hsl(222.2 84% 4.9%);
+  --accent-hover: hsl(216 5% 24%);
+  --accent: hsl(215 27.9% 16.9%);
+  --foreground: hsl(210 20% 98%);
+  --border: hsl(215 27.9% 16.9%);
+  --header: hsl(224 71.4% 4.1%);
+  --scroll-shadow: hsl(224 71.4% 4.1%);
+  --tab-item-hover-bg-color: var(--border);
+  --tab-item-active-bg-color: var(--menu-item-active-background-color);
+  --tab-item-active-color: #ffffff;
+  --tab-item-icon-bg-color: hsl(220 5.91% 29.78%);
+  --icon-btn-hover-bg-color: var(--accent);
+}

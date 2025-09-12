@@ -1,0 +1,29 @@
+:root {
+  color-scheme: light;
+  /* 主体区域背景色 */
+  --background-deep: hsl(216 20.11% 95.47%);
+  --foreground-hsl: 224 71.4% 4.1%;
+  /*加载器背景色*/
+  --overlay-content: #f6f3f4;
+  --font-color: #181f47;
+  --accent-font-color: #fff;
+  --siderbar-bg: var(--primary-color);
+  /*头部菜单*/
+  --menu-item-hover-bg-color: hsl(210 40% 96.1%);
+  --menu-item-active-background-color: var(--primary-color);
+  --menu-item-hover-color: var(--primary-color);
+  /*侧边菜单滚动条*/
+  --menu-scrollbar-bg-color: #cad6fe;
+  --menu-scrollbar-hover-bg-color: #7d99f3;
+  --background: hsl(0 0% 100%);
+  --accent-hover: hsl(200 10% 90%);
+  --accent: hsl(220 14.3% 95.9%);
+  --border: hsl(220 13% 91%);
+  --header: hsl(0 0 100%);
+  --scroll-shadow: var(--siderbar-bg);
+  --tab-item-hover-bg-color: #e6e8eb;
+  --tab-item-active-bg-color: var(--el-color-primary-light-7);
+  --tab-item-active-color: var(--primary-color);
+  --tab-item-icon-bg-color: var(--el-color-info-light-9);
+  --icon-btn-hover-bg-color: #ebf0ff;
+}

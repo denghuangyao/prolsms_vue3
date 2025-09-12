@@ -3,7 +3,10 @@ import type { DefineApplicationOptions } from '../typing';
 import { loadApplicationPlugins } from '../plugins';
 import { loadAndConvertEnv } from '../utils/env';
 import { getCommonConfig } from './common';
+import path from 'node:path';
+import { findMonorepoRoot } from '@dhy/node-utils';
 function createCssOptions(insertGlobalScss = true) {
+  const root = findMonorepoRoot();
   return {
     //安装对应的scss npm i sass sass-loader -D
     // @import 已经被弃用 改用 @use
@@ -11,13 +14,24 @@ function createCssOptions(insertGlobalScss = true) {
       ? {
           scss: {
             //建议只用来嵌入 SCSS 的变量声明文件
-            additionalData: `
-          @use "@/styles/variables.scss" as *;
-          @use "@/styles/element/el-mixin.scss" as el;
-        `,
+            additionalData: (content: string, filepath: string) => {
+              const relativePath = path.relative(root, filepath);
+              console.log('additionalData---', relativePath, filepath);
+              if (relativePath.startsWith(`apps${path.sep}`)) {
+                return `@use "@dhy/styles/global" as *;\n${content}`;
+              }
+              return content;
+            },
           },
         }
-      : {},
+      : {
+          scss: {
+            additionalData: `
+                @use "@/styles/variables.scss" as *;
+                @use "@/styles/element/el-mixin.scss" as el;
+              `,
+          },
+        },
   };
 }
 function defineApplicationConfig(UserConfigPromise?: DefineApplicationOptions) {

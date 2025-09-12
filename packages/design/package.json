@@ -1,0 +1,27 @@
+{
+  "name": "@dhy/design",
+  "version": "1.0.0",
+  "description": "公共的css样式库",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm vite build",
+    "prepublishOnly": "npm run build"
+  },
+  "main": "./dist/index.es.js",
+  "module": "./dist/index.es.js",
+  "exports": {
+    "./vars": {
+      "development": "./src/scss-vars/constants.scss",
+      "default": "./dist/constants.scss"
+    },
+    ".": {
+      "types": "./src/index.ts",
+      "development": "./src/index.ts",
+      "default": "./dist/design.css"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.4"
+}
