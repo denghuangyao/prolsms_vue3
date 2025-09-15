@@ -23,13 +23,13 @@ const { message = '暂无数据' } = defineProps<{
   animation: fadeIn 0.5s ease-in-out;
 }
 .no-data-text {
-  font-size: 16px;
+  font-size: pxTovw(16);
   color: #909399;
 }
 @keyframes fadeIn {
   0% {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(#{pxTovw(20)});
   }
   100% {
     opacity: 1;

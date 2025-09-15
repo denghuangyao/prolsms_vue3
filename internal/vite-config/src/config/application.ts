@@ -16,7 +16,7 @@ function createCssOptions(insertGlobalScss = true) {
             //建议只用来嵌入 SCSS 的变量声明文件
             additionalData: (content: string, filepath: string) => {
               const relativePath = path.relative(root, filepath);
-              console.log('additionalData---', relativePath, filepath);
+              // console.log('additionalData---', relativePath, filepath);
               if (relativePath.startsWith(`apps${path.sep}`)) {
                 return `@use "@dhy/styles/global" as *;\n${content}`;
               }

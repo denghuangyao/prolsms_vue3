@@ -11,7 +11,9 @@ import IconsResolver from 'unplugin-icons/resolver';
 import RadixVueResolver from 'radix-vue/resolver';
 export default defineConfig(async () => {
   return {
-    application: {},
+    application: {
+      insertGlobalScss: false,
+    },
     vite: {
       plugins: [
         // 自动导入api

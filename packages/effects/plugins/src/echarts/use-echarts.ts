@@ -1,6 +1,5 @@
 import { computed, nextTick, watch, type Ref } from 'vue';
 import {
-  useElementSize,
   tryOnUnmounted,
   useDebounceFn,
   useTimeoutFn,
@@ -13,6 +12,7 @@ import type { EChartsOption } from 'echarts';
 export type EchartsUIType = typeof EchartsUI | undefined;
 type EchartsThemeType = 'dark' | 'light' | null;
 export function useEcharts(chartRef: Ref<EchartsUIType>) {
+  console.log('useEcharts', chartRef?.value);
   let chartInstance: echarts.ECharts | null = null; //echarts实例
   let cacheOptions: EChartsOption = {}; //缓存配置项，用于重绘（响应式更新）
   const isDark = computed(() => false); //主题色切换
@@ -23,7 +23,7 @@ export function useEcharts(chartRef: Ref<EchartsUIType>) {
   }); //主题色切换，暗黑色配置设置
   const initEcharts = (t?: EchartsThemeType) => {
     const el = chartRef?.value?.$el as HTMLElement;
-    console.log('el-initEcharts', el, chartRef.value);
+    // console.log('el-initEcharts', el, chartRef.value);
     if (!el) {
       return;
     }
@@ -56,8 +56,8 @@ export function useEcharts(chartRef: Ref<EchartsUIType>) {
   const renderChart = (options: EChartsOption) => {
     chartInstance?.setOption(options, true);
   };
-  watch([width, height], (vals) => {
-    console.log('vals-watch', vals);
+  watch([width, height], () => {
+    // console.log('vals-watch', vals);
     resizeHandler?.();
   });
   watch(isDark, () => {

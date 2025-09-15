@@ -1,0 +1,56 @@
+// -------黑色大屏-----------
+
+// 背景
+.daping-bg {
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: url(~@/assets/imgs/daping-bg.png);
+  background-size: 100% 100%;
+
+  // 头部
+  .dp-header {
+    width: 100vw;
+    padding-bottom: 1%;
+  }
+
+  // 图表区
+  .full-view {
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    margin-top: pxTovw(12);
+    background: rgba(17, 105, 128, 0.2);
+  }
+}
+
+::-webkit-scrollbar {
+  /*滚动条整体部分，其中的属性有width,height,background,border等（就和一个块级元素一样）（位置1）*/
+  width: pxTovw(8);
+  height: pxTovw(8);
+  border: none;
+  scrollbar-width: thin;
+  // 兼容火狐浏览器
+  scrollbar-color: rgba(255, 255, 255, 0.15);
+  &:hover {
+    scrollbar-color: #c8cdd4bb;
+  }
+}
+
+::-webkit-scrollbar-thumb {
+  /*滚动条里面可以拖动的那部分（位置5）*/
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: pxTovw(20);
+
+  &:hover {
+    background: #c8cdd4bb;
+  }
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
