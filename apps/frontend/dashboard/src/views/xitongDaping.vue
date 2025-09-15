@@ -27,17 +27,7 @@ let shijugaikuangData: GaikuangDataConfig = {
 </script>
 <template>
   <div class="daping-bg">
-    <dp-header class="daping-header" title="数据监控平台大屏" :isShowLogo="false">
-      <template slot="header_slot">
-        <div class="header-slot-box">
-          <!-- <div class="btn" @click.stop="openEdit">
-            <img class="btn-img" src="@assets/images/largeScreen/xtdp/bj.png" />
-            <span class="btn-text">编辑</span>
-          </div> -->
-          <img class="header-logo-img" src="@assets/images/largeScreen/logo.png" />
-        </div>
-      </template>
-    </dp-header>
+    <dp-header class="daping-header" title="数据监控平台大屏"> </dp-header>
     <div class="main-container flexRowCon">
       <!-- 普通图表显示：区域1，2，3 -->
       <div class="content-block flexColumnCon">
@@ -50,7 +40,7 @@ let shijugaikuangData: GaikuangDataConfig = {
         <!-- 数据概况 -->
         <shujugaikuang class="content-shujugaikuang" :data="shijugaikuangData" />
         <!-- 特殊图表显示 -->
-        <stackedLineChart class="content-item" />
+        <stackedLineChart class="content-bottom" />
       </div>
       <!-- 普通图表显示：区域4，5，6 -->
       <div class="content-block flexColumnCon">

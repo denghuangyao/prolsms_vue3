@@ -33,7 +33,6 @@ onMounted(() => {
     <empty :isEmpty="!chartList.length">
       <EchartsUI class="chart-container" ref="lineChartRef"></EchartsUI>
     </empty>
-    />
   </div>
 </template>
 <style lang="scss" scoped>

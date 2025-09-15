@@ -3,6 +3,7 @@ interface Props {
   height?: string;
   width?: string;
 }
+// 13.5417vw
 const { height = '100%', width = '100%' } = defineProps<Props>();
 </script>
 <template>

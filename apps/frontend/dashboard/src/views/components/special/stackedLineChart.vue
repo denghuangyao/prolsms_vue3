@@ -35,7 +35,6 @@ onMounted(() => {
     <empty :isEmpty="!chartList.length">
       <EchartsUI class="chart-container" ref="stackedLineChartRef"></EchartsUI>
     </empty>
-    />
   </div>
 </template>
 <style lang="scss" scoped>
@@ -43,8 +42,6 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   height: 100%;
-  flex: 1;
-  margin-top: pxTovw(10);
   .chart-container {
     flex: 1;
   }

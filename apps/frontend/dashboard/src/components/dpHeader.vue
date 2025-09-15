@@ -2,9 +2,7 @@
   <div class="header">
     <img class="titleImgBg" src="@assets/images/largeScreen/titlebg.png" />
     <div class="text-view">
-      <div class="t-left" @click="handleScreenFull">
-        <img v-if="isShowLogo" class="logo" src="@assets/images/largeScreen/logo.png" />
-      </div>
+      <div class="t-left" @click="handleScreenFull"></div>
       <div class="title" @click="handleScreenFull">{{ title }}</div>
       <div class="t-right">
         <div v-if="isShowTime" class="time">{{ currentTime }}</div>
@@ -31,7 +29,6 @@ import { useFullscreen, useDateFormat, useNow } from '@vueuse/core';
 let { toggle } = useFullscreen();
 interface Props {
   title: string;
-  isShowLogo: boolean;
   isShowTime?: boolean;
   shwoPicker?: boolean; //是否显示时间选择器
   dateObj?: {
@@ -44,7 +41,6 @@ interface Props {
 }
 const {
   title = '数据监控平台大屏',
-  isShowLogo = true,
   isShowTime = true,
   shwoPicker = false,
   dateObj = {
