@@ -1,10 +1,10 @@
 //将px转成vw
-export const $pxTovw = function ($px) {
+export const $pxTovw = function ($px: number) {
   let designWidth = 1920;
   return `${($px / designWidth) * 100}vw`;
 };
 //将px或无单位数值根据1920比例缩放转换
-export const $pxByScreenW = function (width) {
+export const $pxByScreenW = function (width: number) {
   let currentWidth =
     window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   if (!currentWidth) return width;

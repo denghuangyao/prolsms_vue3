@@ -12,6 +12,7 @@ import {
   DatasetComponent,
   // 内置数据转换器组件 (filter, sort)
   TransformComponent,
+  DataZoomComponent, // 数据区域缩放组件
 } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -50,6 +51,7 @@ echarts.use([
   GridComponent,
   DatasetComponent,
   TransformComponent,
+  DataZoomComponent, // 数据区域缩放组件
   PieChart,
   BarChart,
   LineChart,

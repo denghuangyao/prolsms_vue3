@@ -7,5 +7,10 @@ interface Props {
 const { height = '100%', width = '100%' } = defineProps<Props>();
 </script>
 <template>
-  <div v-bind="$attrs" :style="{ height, width }"></div>
+  <div class="wl-echarts" v-bind="$attrs" :style="{ height, width }"></div>
 </template>
+<style scoped lang="scss">
+.wl-echarts {
+  overflow: hidden;
+}
+</style>

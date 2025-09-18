@@ -1,13 +1,21 @@
 // 图表数据适配器，适配echarts图表数据格式
 
 import { type ECOption, echarts } from '@dhy/plugins/echarts';
-import { changeStrBychar, randomHexColor } from './chartHelper';
-import { getTheme, type ThemeType } from './chartTheme';
+import {
+  changeStrBychar,
+  multipleSeriesData,
+  randomHexColor,
+  generateDataSet,
+  randomHexAndRgbaColor,
+} from './chartHelper';
+import { getTheme, type ThemeType, seriesLineColor } from './chartTheme';
+import { $pxByScreenW } from './screen';
 // 统一适配图表数据格式，后续根据图表类型进行适配
 type ChartDataType<T> = {
   list: T[]; //图表数据
   nameKey?: string; //图表名称字段
   valueKey?: string; //图表值字段
+  seriesName?: string; //图表系列名称,多条线图用逗号分隔
 };
 //图表配置项: 图表类型、数据、主题配置项 + echarts基础配置项
 type ChartOptions<T> = {
@@ -16,9 +24,20 @@ type ChartOptions<T> = {
   theme: ThemeType; //图表主题
 } & ECOption;
 //提示信息框的符号标记(小方框)
-const TooltipMarkerHTML = (name: string, value: string): string => {
-  let marker: any = `<span class="wl-custom-tooltip-markerStyle" style="background:linear-gradient( 180deg, #00BFDC 16%, #009EDC 100%);"></span>`;
+const TooltipMarkerHTML = (name: string, value: string, color?: string): string => {
+  let markerColor = color || 'linear-gradient( 180deg, #00BFDC 16%, #009EDC 100%)';
+  let marker: any = `<span class="wl-custom-tooltip-markerStyle" style="background:${markerColor};"></span>`;
   return `<div class="wl-custom-tooltip-namestyle">${marker}${name}</div><div class="wl-custom-tooltip-valuestyle wl-pl16">${value}</div>`;
+};
+const TooltipMultiMarkerHTML = (name: string, params: any[]): string => {
+  if (params.length === 0) return '';
+  //每一列称为一个『维度』。encode: { x: [0], y: [1] }//x轴对应dataset第一列（0维度），y轴对应dataset第二列（1维度）
+  let contentHTML: any = `<div class="wl-custom-tooltip-namestyle">${name}</div>`;
+  params.forEach((item: any) => {
+    let marker: any = `<span class="wl-custom-tooltip-markerStyle" style="background:${item.color};"></span>`;
+    contentHTML += `<div class="wl-custom-tooltip-valuestyle">${marker}${item.seriesName}：${item.data[item.encode.y]}</div>`;
+  });
+  return contentHTML;
 };
 /**
  * 抽取基础项配置,统一图表样式
@@ -30,19 +49,33 @@ function generateBaseOption(options: ECOption = {}): ECOption {
   // const { title = '', xAxisName = '', yAxisName = '', theme = {} } = options;
   // 基础配置，后续根据图表类型进行适配
   return {
+    ...options,
     tooltip: {
       confine: true, //是否将 tooltip 框限制在图表的区域内。
       transitionDuration: 0, //提示框浮层的移动动画过渡时间,单位s
       textStyle: {
         //设置图例文字样式
-        fontSize: 14,
+        fontSize: $pxByScreenW(14),
       },
       renderMode: 'html',
       padding: [9, 16],
       extraCssText: 'box-shadow: inset 0px 0px 4px 0px #66DFF4;border-radius:4px',
       backgroundColor: '#001C32',
       borderColor: '#66DFF4',
-      borderWidth: 1,
+      borderWidth: $pxByScreenW(1),
+    },
+    legend: {
+      icon: 'roundRect',
+      itemWidth: $pxByScreenW(9),
+      itemHeight: $pxByScreenW(8),
+      textStyle: {
+        //设置图例文字样式
+        fontSize: $pxByScreenW(14),
+        color: '#CDCDCD',
+        padding: [0, 0, 0, $pxByScreenW(2)],
+        lineHeight: $pxByScreenW(14), //防止图例文字被挡一部分
+      },
+      selectedMode: true,
     },
   };
 }
@@ -53,78 +86,65 @@ function generateBaseOption(options: ECOption = {}): ECOption {
  * @returns
  */
 const adaptLineChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}): ECOption => {
-  let { list = [], nameKey = 'name', valueKey = 'value' } = data;
-  let xAxisData: string[] = [];
-  let seriesData: ECOption[] = [];
-  if (valueKey.includes(',')) {
-    let valueKeys = valueKey.split(',');
-    //多条线图适配(堆叠图)
-    // [{x,y1:'',y2:'',y3:'',...},{x,y1:'',y2:'',y3:'',...}]
-    let result: any = list.reduce((acc: any, item: any) => {
-      xAxisData.push(item[nameKey]);
-      valueKeys.forEach((yAxisKey: any) => {
-        if (acc[yAxisKey]) {
-          acc[yAxisKey].push(item[yAxisKey]);
-        } else {
-          acc[yAxisKey] = [item[yAxisKey]];
-        }
+  let { list = [], nameKey = 'name', valueKey = 'value', seriesName = '未知' } = data;
+
+  let seriesNum = valueKey.split(',').length;
+  let colorList: any = [seriesLineColor.cyan, seriesLineColor.blue, seriesLineColor.green];
+  if (colorList.length < seriesNum) {
+    //颜色不够用随机生成
+    let { hexColor, rgbaColor } = randomHexAndRgbaColor();
+    list.forEach(() => {
+      colorList.push({
+        lineColor: hexColor,
+        areaColor: rgbaColor,
       });
-      return acc;
-    }, {}); //[[...y1],[...y2],[...y3],...]
-    seriesData = Object.values(result).map((data: any) => generateSeriesData(data));
-  } else {
-    xAxisData = list.map((i: any) => i[nameKey]);
-    seriesData = [generateSeriesData(list.map((i: any) => i[valueKey]))];
+    });
   }
-  function generateSeriesData(data: any[]) {
-    return {
+  let dataset = generateDataSet(list, nameKey, valueKey, seriesName);
+  console.log('dataset-adaptLineChart', dataset);
+  let seriesData: ECOption[] = [];
+  for (let i = 0; i < seriesNum; i++) {
+    seriesData.push({
+      // name: '32423',
       type: 'line',
       symbol: 'emptyCircle',
-      symbolSize: 6,
+      symbolSize: $pxByScreenW(6),
       smooth: true,
       animation: true, // 开启动画
       animationDuration: 5000, //从左到右动画
       itemStyle: {
-        color: {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [
-            {
-              offset: 0,
-              color: '#00BFDC', // 0% 处的颜色
-            },
-            {
-              offset: 1,
-              color: '#009EDC', // 100% 处的颜色
-            },
-          ],
-        },
+        color: colorList[i].lineColor,
       },
       areaStyle: {
-        color: 'rgba(47,211,248,0.3)',
+        color: colorList[i].areaColor,
       },
-      data,
-    };
+    });
   }
   let baseOptions = generateBaseOption(options);
   let customOptions = {
     tooltip: {
       trigger: 'axis',
       axisPointer: {
-        type: 'none',
+        type: seriesNum > 1 ? 'line' : 'none',
+        lineStyle: {
+          color: '#329abe',
+          type: 'solid',
+          width: $pxByScreenW(1),
+        },
       },
       formatter(params: any) {
         const item = params[0];
-        let name = item.axisValue;
-        let value = item.value;
-        return TooltipMarkerHTML(name, value);
+        return params.length > 1
+          ? TooltipMultiMarkerHTML(item.name, params)
+          : TooltipMarkerHTML(item.axisValue, item.data[item.encode.y]);
       },
     },
+    dataset,
     legend: {
-      show: false,
+      show: seriesNum > 1, //多条线图时显示图例
+      right: $pxByScreenW(16),
+      top: '4%',
+      itemGap: $pxByScreenW(20),
     },
     grid: {
       // containLabel: true修改写法改为
@@ -138,7 +158,6 @@ const adaptLineChart = <T = any>(data: ChartDataType<T>, options: ECOption = {})
     },
     xAxis: {
       type: 'category',
-      data: xAxisData,
       boundaryGap: false, //两边留白策略
       axisTick: {
         show: true, //刻度线
@@ -149,9 +168,9 @@ const adaptLineChart = <T = any>(data: ChartDataType<T>, options: ECOption = {})
       },
       axisLabel: {
         //x轴文字的配置
-        margin: 10, //刻度标签与轴线之间的距离
+        margin: $pxByScreenW(10), //刻度标签与轴线之间的距离
         color: '#CDCDCD',
-        fontSize: 14,
+        fontSize: $pxByScreenW(14),
       },
       axisLine: {
         lineStyle: {
@@ -168,10 +187,10 @@ const adaptLineChart = <T = any>(data: ChartDataType<T>, options: ECOption = {})
         show: false, //轴线
       },
       axisLabel: {
-        margin: 10, //刻度标签与轴线之间的距离
+        margin: $pxByScreenW(10), //刻度标签与轴线之间的距离
         //y轴文字的配置
         color: '#CDCDCD',
-        fontSize: 14,
+        fontSize: $pxByScreenW(14),
       },
       splitLine: {
         //网格线
@@ -182,7 +201,7 @@ const adaptLineChart = <T = any>(data: ChartDataType<T>, options: ECOption = {})
       },
     },
     series: seriesData,
-  };
+  } as ECOption;
   return echarts.util.merge(baseOptions, customOptions);
 };
 /**
@@ -193,10 +212,44 @@ const adaptLineChart = <T = any>(data: ChartDataType<T>, options: ECOption = {})
  */
 const adaptBarChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}): any => {
   let { list = [], nameKey = 'name', valueKey = 'value' } = data;
-  let xAxisData: any = list.map((i: any) => i[nameKey]);
-  let seriesData: any = list.map((i: any) => i[valueKey]);
+  let { xAxisData, seriesData } = multipleSeriesData(list, nameKey, valueKey, generateSeriesData);
+
+  // let xAxisData: any = list.map((i: any) => i[nameKey]);
+  // let seriesData: any = list.map((i: any) => i[valueKey]);
+  function generateSeriesData(data: any[]) {
+    console.log('data-adaptBarChart-generateSeriesData', data);
+    return {
+      type: 'bar',
+      barWidth: $pxByScreenW(28),
+      animationDuration: 10000, //柱状图缓缓上升效果
+      stack: 'total', //堆叠柱状图
+      emphasis: {
+        focus: 'series',
+      },
+      itemStyle: {
+        color: {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: $pxByScreenW(1),
+          colorStops: [
+            {
+              offset: 0,
+              color: '#00BFDC', // 亮色
+            },
+            {
+              offset: 1,
+              color: '#009EDC', // 暗色
+            },
+          ],
+        },
+      },
+      data,
+    };
+  }
   let baseOptions = generateBaseOption(options);
-  console.log('baseOptions', baseOptions, xAxisData, seriesData);
+  console.log('baseOptions-adaptBarChart', baseOptions, xAxisData, seriesData);
   let customOptions: ECOption = {
     tooltip: {
       trigger: 'axis',
@@ -234,7 +287,7 @@ const adaptBarChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
         },
         axisLabel: {
           //x轴文字的配置
-          margin: 10, //刻度标签与轴线之间的距离
+          margin: $pxByScreenW(10), //刻度标签与轴线之间的距离
           interval: 0,
           formatter(params: any) {
             if (params.length > 6) {
@@ -245,9 +298,9 @@ const adaptBarChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
             }
             return params;
           },
-          fontSize: 14,
+          fontSize: $pxByScreenW(14),
           color: '#CDCDCD',
-          lineHeight: 18,
+          lineHeight: $pxByScreenW(18),
         },
         boundaryGap: true,
       },
@@ -262,10 +315,10 @@ const adaptBarChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
           show: false, //轴线
         },
         axisLabel: {
-          margin: 10, //刻度标签与轴线之间的距离
+          margin: $pxByScreenW(10), //刻度标签与轴线之间的距离
           //y轴文字的配置
           color: '#CDCDCD',
-          fontSize: 14,
+          fontSize: $pxByScreenW(14),
         },
         splitLine: {
           //网格线
@@ -276,37 +329,7 @@ const adaptBarChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
         },
       },
     ],
-    series: [
-      {
-        type: 'bar',
-        barWidth: 28,
-        animationDuration: 10000, //柱状图缓缓上升效果
-        emphasis: {
-          focus: 'series',
-        },
-        itemStyle: {
-          color: {
-            type: 'linear',
-            x: 0,
-            y: 0,
-            x2: 0,
-            y2: 1,
-            colorStops: [
-              {
-                offset: 0,
-                color: '#00BFDC', // 亮色
-              },
-              {
-                offset: 1,
-                color: '#009EDC', // 暗色
-              },
-            ],
-            global: false, // 缺省为 false
-          },
-        },
-        data: seriesData,
-      },
-    ],
+    series: seriesData as never[],
   };
   return echarts.util.merge(baseOptions, customOptions);
 };
@@ -316,7 +339,6 @@ const adaptBarChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
  */
 const adaptPieChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}): ECOption => {
   let { color }: any = options;
-  console.log('adaptPieChart,--theme', color);
   let { list, nameKey = 'name', valueKey = 'value' } = data;
   let seriesData = list.map((i: any) => {
     return {
@@ -328,7 +350,7 @@ const adaptPieChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
   seriesData.forEach((i: any, idx: any) => {
     i.name = `${i.name}_idx_${idx}`;
   });
-  let isShowLegend = list.length < 5; //数据少于5时需要显示图例;
+  let isShowLegend = list.length <= 5; //数据少于5时需要显示图例;
   let colorList = color || [];
   if (colorList.length < list.length) {
     list.forEach(() => {
@@ -341,18 +363,19 @@ const adaptPieChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
     tooltip: {
       trigger: 'item',
       formatter(params: any) {
+        console.log('params-formatter-adaptPieChart', params);
         const item = params;
         let idx = item.data.name.lastIndexOf('_idx_');
         let _name = item.data.name.slice(0, idx);
         let value = item.data.value;
-        return TooltipMarkerHTML(_name, value);
+        return TooltipMarkerHTML(_name, value, item.color);
       },
     },
     color: colorList,
     legend: {
       show: isShowLegend,
-      selectedMode: false,
-      icon: 'roundRect',
+      // selectedMode: false,
+
       type: 'scroll',
       pageIconColor: '#CDCDCD',
       pageTextStyle: {
@@ -362,16 +385,7 @@ const adaptPieChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
       orient: 'horizontal',
       bottom: '3%',
       width: '90%',
-      itemGap: 10,
-      itemWidth: 9,
-      itemHeight: 8,
-      textStyle: {
-        //设置图例文字样式
-        fontSize: 14,
-        color: '#CDCDCD',
-        padding: [0, 0, 0, 2],
-        lineHeight: 14, //防止图例文字被挡一部分
-      },
+      itemGap: $pxByScreenW(10),
       formatter: (paramName: any) => {
         // console.log("-params-legend-",paramName)
         let idx = paramName.lastIndexOf('_idx_');
@@ -383,23 +397,36 @@ const adaptPieChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
     series: [
       {
         type: 'pie',
+        radius: ['35%', '58%'], //圆环图设置
         avoidLabelOverlap: true,
         center: isShowLegend ? ['50%', '43%'] : ['50%', '50%'],
-        minAngle: 15, //最小角度
-        startAngle: 100, //起始角度
-        animationDuration: 5000, //慢慢转动效果
+        minAngle: $pxByScreenW(15), //最小角度
+        startAngle: $pxByScreenW(100), //起始角度
+        animationDuration: $pxByScreenW(5000), //慢慢转动效果
         stillShowZeroSum: false,
         labelLine: {
-          length: 5,
+          length: $pxByScreenW(5),
         },
         label: {
-          fontSize: 14,
-          width: 5,
+          // show: true,
+          // position: 'outside',
+          fontSize: $pxByScreenW(14),
           ellipsis: '...',
           overflow: 'truncate',
+          rich: {
+            value: {
+              color: '#FFFFFF',
+              fontSize: $pxByScreenW(14),
+              lineHeight: $pxByScreenW(14),
+            },
+            name: {
+              color: '#FFFFFF',
+              fontSize: $pxByScreenW(14),
+              lineHeight: $pxByScreenW(14),
+            },
+          },
           formatter: (params: any) => {
             const item = params;
-            // console.log("--formatter-params",params)
             let idx = item.data.name.lastIndexOf('_idx_');
             let name = item.data.name.slice(0, idx);
             let _name = changeStrBychar(name, 18);
@@ -410,23 +437,11 @@ const adaptPieChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
             let value = item.data.value;
             return `{name|${_name}} {value|${value}}`;
           },
-          rich: {
-            value: {
-              color: '#FFFFFF',
-              fontSize: 14,
-              lineHeight: 14,
-            },
-            name: {
-              color: '#FFFFFF',
-              fontSize: 14,
-              lineHeight: 14,
-            },
-          },
         },
-        emphasis: {
-          disabled: false, //是否关闭扇区高亮效果
-          scale: false, //扇区是否缩放
-        },
+        // emphasis: {
+        //   disabled: false, //是否关闭扇区高亮效果
+        //   scale: false, //扇区是否缩放
+        // },
         itemStyle: {
           borderWidth: 0,
           borderColor: 'transparent',
@@ -459,9 +474,11 @@ export function adapterChart<T = any>(options: ChartOptions<T>) {
     // 获取主题和适配器
     const themeConfig = getTheme(theme);
     // 合并配置选项
-    const chartOptions = { ...otherOptions, ...themeConfig };
+    const chartOptions = echarts.util.merge(otherOptions, themeConfig);
+    console.log('chartOptions', chartOptions);
     // 使用适配器生成Echarts配置
     const ecOption = adapter(data, chartOptions);
+    // console.log('返回Echarts配置对象', chartOptions, ecOption);
     return ecOption;
   } else {
     throw new Error(`No adapter found for chart type: ${type}`);
