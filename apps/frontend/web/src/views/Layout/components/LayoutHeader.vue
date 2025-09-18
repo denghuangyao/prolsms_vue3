@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { IconButton } from '@/components/icons';
 import { useAuthStore } from '@/stores';
+import { ElDropdownItem, ElDropdownMenu, ElDropdown } from 'element-plus';
 const authStore = useAuthStore();
 enum dropdownCommand {
   personalCenter = '1',
@@ -17,7 +18,6 @@ const handleCommand = (command: any) => {
   <header class="app-head-box">
     <div class="app_title">
       <div>
-        <!-- <img class="img" src="@assets/images/layout/navmenu_logo.png" /> -->
         <div class="app_name">实验室综合管理系统</div>
       </div>
     </div>

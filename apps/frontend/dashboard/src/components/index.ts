@@ -3,6 +3,7 @@ import dpHeader from './dpHeader.vue';
 import blockTitle from './blockTitle.vue';
 import titleTab from './titleTab.vue';
 import rankBar from './rankBar/rankBar.vue';
+import scrollTable from './scrollTable.vue';
 import gaikuangbox from './gaikuangbox.vue';
 import empty from './empty.vue';
 export default {
@@ -13,6 +14,7 @@ export default {
     app.component('title-tab', titleTab);
     app.component('gaikuangbox', gaikuangbox);
     app.component('rank-bar', rankBar);
+    app.component('scroll-table', scrollTable);
     app.component('empty', empty);
   },
 };

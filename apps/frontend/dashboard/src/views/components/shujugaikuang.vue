@@ -60,13 +60,13 @@ function getActiveDataConf(conf: PositionDataType[] = [], data: DataType[] = [])
   return result;
 }
 function selectTabChange(key: any) {
-  console.log('XTDP_shujugaikuang-selectTabChange----', key);
-  // 输出日志信息
-  console.log('XTDP_shujugaikuang-selectTabChange----', key);
   // 更新activeKey的值为key
   activeKey.value = key;
 }
-onMounted(() => {});
+onMounted(() => {
+  //console.log('XTDP_shujugaikuang-onMounted----', Object.keys(data));
+  activeKey.value = Object.keys(data)[0];
+});
 </script>
 <template>
   <div class="middle-container">

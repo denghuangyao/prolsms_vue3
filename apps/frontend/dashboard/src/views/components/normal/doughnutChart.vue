@@ -19,7 +19,7 @@ let chartList = ref<any>([
   { name: '行政部', value: 500 },
 ]);
 function selectTabChange(key: any) {
-  console.log('whp_shuliangpaihang-selectChange----', key);
+  // console.log('whp_shuliangpaihang-selectChange----', key);
   activeKey.value = key;
 }
 function createPieChart() {

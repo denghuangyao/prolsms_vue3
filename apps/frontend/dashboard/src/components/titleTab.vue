@@ -37,7 +37,6 @@ onMounted(() => {
       } else {
         index++;
       }
-      console.log(index);
       let key = menuCopy[index].key;
       emit('handleSelect', key);
     }, carouselTime);

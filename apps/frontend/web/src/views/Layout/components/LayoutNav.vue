@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { ElDropdownItem, ElDropdownMenu, ElDropdown } from 'element-plus';
 import type { MenuRecordRaw } from '@dhy/types';
 import type { MenuProps } from '@/components/menu';
 import { TOPMENU_MAXNUM } from '@dhy/constants';
@@ -21,8 +22,13 @@ const handleSelect = (menu: any) => {
 </script>
 <template>
   <nav class="top-menu-box">
-    <div class="menu-item" v-for="(firstItem, index) in showFirstMenu" :key="index"
-      :class="{ activeTopMenu: defaultActive == firstItem.path }" @click="handleSelect(firstItem)">
+    <div
+      class="menu-item"
+      v-for="(firstItem, index) in showFirstMenu"
+      :key="index"
+      :class="{ activeTopMenu: defaultActive == firstItem.path }"
+      @click="handleSelect(firstItem)"
+    >
       <svg-icon :name="firstItem.icon" class="menu-icon" />
       {{ firstItem.label }}
     </div>
@@ -31,9 +37,14 @@ const handleSelect = (menu: any) => {
         <span class="moretext">更多</span><i class="el-icon-arrow-down el-icon--right"></i>
       </div>
       <el-dropdown-menu class="wl-dropdown-item" slot="dropdown">
-        <el-dropdown-item :class="{ activeItem: defaultActive == item.path }" :command="item"
-          v-for="item in moreFirstMenu" :key="item.path">
-          {{ item.label }}</el-dropdown-item>
+        <el-dropdown-item
+          :class="{ activeItem: defaultActive == item.path }"
+          :command="item"
+          v-for="item in moreFirstMenu"
+          :key="item.path"
+        >
+          {{ item.label }}</el-dropdown-item
+        >
       </el-dropdown-menu>
     </el-dropdown>
   </nav>

@@ -23,6 +23,7 @@
     width: 100%;
     height: 100%;
     flex: 1;
+    overflow: auto;
     margin-top: pxTovw(12);
     background: rgba(17, 105, 128, 0.2);
   }
@@ -54,3 +55,24 @@
 ::-webkit-scrollbar-button {
   display: none;
 }
+// 自定义图表提示框样式
+.wl-custom-tooltip-namestyle {
+  font-weight: 400;
+}
+
+.wl-custom-tooltip-valuestyle {
+  margin-top: pxTovw(5);
+  font-weight: 700;
+}
+
+.wl-pl16 {
+  padding-left: pxTovw(16);
+}
+.wl-custom-tooltip-markerStyle {
+  display: inline-block;
+  margin-right: pxTovw(5);
+  border-radius: pxTovw(2);
+  width: pxTovw(9);
+  height: pxTovw(8);
+}
+// -------黑色大屏-----------

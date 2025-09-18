@@ -12,5 +12,8 @@
   "dependencies": {
     "@dhy/plugins": "workspace:*",
     "@dhy/styles": "workspace:*"
+  },
+  "devDependencies": {
+    "unplugin-element-plus": "^0.10.0"
   }
 }
