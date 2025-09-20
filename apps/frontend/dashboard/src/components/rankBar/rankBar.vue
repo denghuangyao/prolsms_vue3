@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { onMounted, useTemplateRef, watch, toRefs } from 'vue';
-import { useScroll, useIntervalFn, useTimeoutFn } from '@vueuse/core';
+import { useScroll, useIntervalFn, useTimeoutFn, type Fn } from '@vueuse/core';
 import { type ProgressBarConfig, useProgressbarGrid } from './use-progressbar-grid';
-import progressBar from './progress-bar.vue';
+// import progressBar from './progress-bar.vue';
 interface Props {
   dataList: any[];
   nameKey?: string;
@@ -17,7 +17,7 @@ const {
   dataList = [],
   nameKey = 'label',
   valueKey = 'value',
-  isAutoScroll = false,
+  isAutoScroll = true,
   bar = {
     num: 48,
     radius: 0,
@@ -29,28 +29,30 @@ const {
 } = defineProps<Props>();
 const { renderBack, renderProgressBar, perGridWidth } = useProgressbarGrid(bar);
 const tableContainerEl = useTemplateRef<HTMLElement>('tableContainer');
-console.log('tableContainerEl--', tableContainerEl);
-const { y, arrivedState } = useScroll(tableContainerEl, {
-  offset: { bottom: 5 },
-});
-const { bottom } = toRefs(arrivedState);
-const { pause, resume } = useIntervalFn(() => {
-  // console.log('滚动--', bottom.value, y);
-  if (bottom.value) {
-    pause();
-    useTimeoutFn(() => {
-      y.value = 0;
-      resume();
-    }, 1000);
-  }
-  y.value = y.value + 1;
-}, 30);
+let pause: Fn = () => {},
+  resume: Fn = () => {};
+const openScroll = () => {
+  const { y, arrivedState } = useScroll(tableContainerEl, {
+    offset: { bottom: 5 },
+  });
+  const { bottom } = toRefs(arrivedState);
+  let intervalFn = useIntervalFn(() => {
+    // console.log('滚动--', bottom.value, y.value);
+    if (bottom.value) {
+      pause();
+      useTimeoutFn(() => {
+        y.value = 0;
+        resume();
+      }, 1000);
+    }
+    y.value = y.value + 1;
+  }, 30);
+  pause = intervalFn.pause; // 暂停滚动
+  resume = intervalFn.resume; // 开始滚动
+};
 onMounted(() => {
-  console.log('dataList-rankbar-', dataList);
   if (isAutoScroll) {
-    pause();
-  } else {
-    resume();
+    openScroll();
   }
 });
 // 数据处理— —没有实现排序，需要后台返回有序数组(从大到小)

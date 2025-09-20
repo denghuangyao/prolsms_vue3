@@ -3,12 +3,12 @@
 import { type ECOption, echarts } from '@dhy/plugins/echarts';
 import {
   changeStrBychar,
-  multipleSeriesData,
   randomHexColor,
   generateDataSet,
   randomHexAndRgbaColor,
+  getLinearGradient,
 } from './chartHelper';
-import { getTheme, type ThemeType, seriesLineColor } from './chartTheme';
+import { getTheme, type ThemeType, seriesLineColor, seriesBarColor } from './chartTheme';
 import { $pxByScreenW } from './screen';
 // 统一适配图表数据格式，后续根据图表类型进行适配
 type ChartDataType<T> = {
@@ -211,14 +211,21 @@ const adaptLineChart = <T = any>(data: ChartDataType<T>, options: ECOption = {})
  * @returns
  */
 const adaptBarChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}): any => {
-  let { list = [], nameKey = 'name', valueKey = 'value' } = data;
-  let { xAxisData, seriesData } = multipleSeriesData(list, nameKey, valueKey, generateSeriesData);
-
-  // let xAxisData: any = list.map((i: any) => i[nameKey]);
-  // let seriesData: any = list.map((i: any) => i[valueKey]);
-  function generateSeriesData(data: any[]) {
-    console.log('data-adaptBarChart-generateSeriesData', data);
-    return {
+  let { list = [], nameKey = 'name', valueKey = 'value', seriesName = '未知' } = data;
+  let seriesNum = valueKey.split(',').length;
+  let colorList: any = [seriesBarColor.cyan, seriesBarColor.blue, seriesBarColor.purple];
+  if (colorList.length < seriesNum) {
+    //颜色不够用随机生成
+    let { rgbaColor, hexColor } = randomHexAndRgbaColor(0.7);
+    list.forEach(() => {
+      colorList.push(getLinearGradient(hexColor, rgbaColor));
+    });
+  }
+  let dataset = generateDataSet(list, nameKey, valueKey, seriesName);
+  console.log('dataset-adaptBarChart', dataset);
+  let seriesData: ECOption[] = [];
+  for (let i = 0; i < seriesNum; i++) {
+    seriesData.push({
       type: 'bar',
       barWidth: $pxByScreenW(28),
       animationDuration: 10000, //柱状图缓缓上升效果
@@ -227,29 +234,12 @@ const adaptBarChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
         focus: 'series',
       },
       itemStyle: {
-        color: {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: $pxByScreenW(1),
-          colorStops: [
-            {
-              offset: 0,
-              color: '#00BFDC', // 亮色
-            },
-            {
-              offset: 1,
-              color: '#009EDC', // 暗色
-            },
-          ],
-        },
+        color: colorList[i],
       },
-      data,
-    };
+    });
   }
   let baseOptions = generateBaseOption(options);
-  console.log('baseOptions-adaptBarChart', baseOptions, xAxisData, seriesData);
+  console.log('baseOptions-adaptBarChart', baseOptions, seriesData);
   let customOptions: ECOption = {
     tooltip: {
       trigger: 'axis',
@@ -258,9 +248,9 @@ const adaptBarChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
       },
       formatter(params: any) {
         const item = params[0];
-        let name = item.axisValue;
-        let value = item.value;
-        return TooltipMarkerHTML(name, value);
+        return params.length > 1
+          ? TooltipMultiMarkerHTML(item.name, params)
+          : TooltipMarkerHTML(item.axisValue, item.data[item.encode.y]);
       },
     },
     grid: {
@@ -272,10 +262,16 @@ const adaptBarChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
       bottom: '7%',
       right: '3%', //离容器右侧的距离。
     },
+    dataset,
+    legend: {
+      show: seriesNum > 1, //多条线图时显示图例
+      right: $pxByScreenW(16),
+      top: '4%',
+      itemGap: $pxByScreenW(20),
+    },
     xAxis: [
       {
         type: 'category',
-        data: xAxisData,
         axisLine: {
           show: true,
           lineStyle: {
@@ -338,6 +334,7 @@ const adaptBarChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
  * @param data 数据源,对象数组 [{name: '', value: ''}])
  */
 const adaptPieChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}): ECOption => {
+  console.log('adaptPieChart-options', options?.legend);
   let { color }: any = options;
   let { list, nameKey = 'name', valueKey = 'value' } = data;
   let seriesData = list.map((i: any) => {
@@ -350,7 +347,10 @@ const adaptPieChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
   seriesData.forEach((i: any, idx: any) => {
     i.name = `${i.name}_idx_${idx}`;
   });
-  let isShowLegend = list.length <= 5; //数据少于5时需要显示图例;
+  let isShowLegend =
+    (Array.isArray(options?.legend)
+      ? options.legend[0]?.show
+      : (options?.legend as any)?.show) ?? list.length <= 5; //数据少于5时需要显示图例;
   let colorList = color || [];
   if (colorList.length < list.length) {
     list.forEach(() => {
@@ -363,7 +363,6 @@ const adaptPieChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
     tooltip: {
       trigger: 'item',
       formatter(params: any) {
-        console.log('params-formatter-adaptPieChart', params);
         const item = params;
         let idx = item.data.name.lastIndexOf('_idx_');
         let _name = item.data.name.slice(0, idx);
@@ -374,8 +373,6 @@ const adaptPieChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
     color: colorList,
     legend: {
       show: isShowLegend,
-      // selectedMode: false,
-
       type: 'scroll',
       pageIconColor: '#CDCDCD',
       pageTextStyle: {
@@ -408,8 +405,6 @@ const adaptPieChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
           length: $pxByScreenW(5),
         },
         label: {
-          // show: true,
-          // position: 'outside',
           fontSize: $pxByScreenW(14),
           ellipsis: '...',
           overflow: 'truncate',
@@ -455,13 +450,6 @@ const adaptPieChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
   };
   return echarts.util.merge(baseOptions, customOptions);
 };
-
-// const adaptStackedLineChart = <T = any>(
-//   data: ChartDataType<T>,
-//   options: ECOption = {},
-// ): ECOption => {
-//   return {};
-// };
 const adapterMap = {
   line: adaptLineChart,
   bar: adaptBarChart,

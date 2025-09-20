@@ -1,4 +1,4 @@
-import type { ECOption } from '@dhy/plugins/echarts';
+import { echarts } from '@dhy/plugins/echarts';
 
 /**
  * 根据最大字节长度截断字符串
@@ -101,7 +101,6 @@ export function generateDataSet(
   valueKey: string = 'value',
   seriesName?: string | string[],
 ) {
-  console.log(chartList, 'generateDataSet');
   let source: any[] = [];
   if (valueKey.includes(',')) {
     let valueKeys = valueKey.split(',');
@@ -131,46 +130,10 @@ export function generateDataSet(
   }); //单条线图适配
   return { source };
 }
-/**
- * 堆叠图数据处理
- * @param chartList  [{x,y1:'',y2:'',y3:'',...},{x,y1:'',y2:'',y3:'',...}]
- * @param nameKey  x轴key
- * @param valueKey y轴key,支持多个y轴key，用逗号分隔
- */
-export function multipleSeriesData(
-  chartList: any[],
-  nameKey: string = 'name',
-  valueKey: string = 'value',
-  generateSeriesData: (data: any, index?: number) => ECOption = (data: any) => ({ data }),
-) {
-  let xAxisData: string[] = [];
-  let seriesData: ECOption[] = [];
-  if (valueKey.includes(',')) {
-    let valueKeys = valueKey.split(',');
-    //多条线图适配(堆叠图)
-    // [{x,y1:'',y2:'',y3:'',...},{x,y1:'',y2:'',y3:'',...}]
-    let result: any = chartList.reduce((acc: any, item: any) => {
-      xAxisData.push(item[nameKey]);
-      valueKeys.forEach((yAxisKey: any) => {
-        if (acc[yAxisKey]) {
-          acc[yAxisKey].push(item[yAxisKey]);
-        } else {
-          acc[yAxisKey] = [item[yAxisKey]];
-        }
-      });
-      return acc;
-    }, {}); //[[...y1],[...y2],[...y3],...]
-    seriesData = Object.values(result).map((data: any, index: number) =>
-      generateSeriesData(data, index),
-    );
-  } else {
-    xAxisData = chartList.map((i: any) => i[nameKey]);
-    seriesData = [
-      generateSeriesData(
-        chartList.map((i: any) => i[valueKey]),
-        0,
-      ),
-    ]; //单条线图适配
-  }
-  return { xAxisData, seriesData };
+export function getLinearGradient(...colors: string[]): echarts.graphic.LinearGradient {
+  let colorStops = colors.map((color, index) => ({
+    offset: index / (colors.length - 1),
+    color: color,
+  }));
+  return new echarts.graphic.LinearGradient(0, 0, 0, 1, colorStops);
 }

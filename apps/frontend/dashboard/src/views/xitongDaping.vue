@@ -35,7 +35,7 @@ let shijugaikuangData: GaikuangDataConfig = {
       <div class="content-block flexColumnCon">
         <!-- 普通图表S -->
         <stackedBarChart class="content-item" />
-        <doughnutChart class="content-item" />
+        <barChart class="content-item" />
         <lineChart class="content-item" />
       </div>
       <div class="content-middle flexColumnCon">

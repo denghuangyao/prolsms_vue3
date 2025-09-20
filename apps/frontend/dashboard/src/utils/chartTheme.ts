@@ -1,61 +1,19 @@
-import { echarts } from '@dhy/plugins/echarts';
+import { getLinearGradient } from './chartHelper';
+
+const normalBarColor = getLinearGradient('#00BFDC', '#009EDC');
+const cyanBarColor = getLinearGradient('#2FD3F9', '#0086BB');
+const blueBarColor = getLinearGradient('#50A5FF', '#007BFF');
+const purpleBarColor = getLinearGradient('#89A8FF', '#4F57E8');
+
 //蓝色渐变色
-const blueLinearGradientColor = new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-  {
-    offset: 0,
-    color: '#216BC6',
-  },
-  {
-    offset: 0.35,
-    color: '#124B99',
-  },
-  {
-    offset: 0.7,
-    color: '#093377',
-  },
-  {
-    offset: 1,
-    color: 'transparent',
-  },
-]);
+const blueLineColor = getLinearGradient('#216BC6', '#124B99', '#093377', 'transparent');
+
 //青色渐变色
-const cyanLinearGradientColor = new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-  {
-    offset: 0,
-    color: '#1679B3',
-  },
-  {
-    offset: 0.35,
-    color: '#15629B',
-  },
-  {
-    offset: 0.7,
-    color: '#135089',
-  },
-  {
-    offset: 1,
-    color: 'transparent',
-  },
-]);
+const cyanLineColor = getLinearGradient('#1679B3', '#15629B', '#135089', 'transparent');
+
 //绿色渐变色
-const greenLinearGradientColor = new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-  {
-    offset: 0,
-    color: '#2AA179',
-  },
-  {
-    offset: 0.35,
-    color: '#228282',
-  },
-  {
-    offset: 0.7,
-    color: '#175983',
-  },
-  {
-    offset: 1,
-    color: 'transparent',
-  },
-]);
+const greenLineColor = getLinearGradient('#2AA179', '#228282', '#175983', 'transparent');
+
 const dataScreenTheme = {
   color: ['#005CFA', '#A3FDB0', '#0CD9B5', '#F9C65A', '#335F6A', '#1BE0FE', '#617589', '#2E7EF8'],
 };
@@ -74,14 +32,20 @@ export const getTheme = (theme: ThemeType) => {
 export const seriesLineColor = {
   blue: {
     lineColor: '#216BC6',
-    areaColor: blueLinearGradientColor,
+    areaColor: blueLineColor,
   },
   green: {
     lineColor: '#2AA179',
-    areaColor: greenLinearGradientColor,
+    areaColor: greenLineColor,
   },
   cyan: {
     lineColor: '#1679B3',
-    areaColor: cyanLinearGradientColor,
+    areaColor: cyanLineColor,
   },
+};
+export const seriesBarColor = {
+  normal: normalBarColor,
+  cyan: cyanBarColor,
+  blue: blueBarColor,
+  purple: purpleBarColor,
 };

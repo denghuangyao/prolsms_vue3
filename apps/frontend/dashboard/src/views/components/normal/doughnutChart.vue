@@ -1,26 +1,57 @@
 <script setup lang="ts">
 import { EchartsUI, type EchartsUIType, useEcharts } from '@dhy/plugins/echarts';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { adapterChart } from '@/utils/chartAdapter';
 const pieChartRef = ref<EchartsUIType>();
 
-let activeKey = ref('CAIGOUPAIHANG');
+let activeKey = ref('HUANJINGJIANCE');
 let menuList = ref<any>([
-  { label: '采购', key: 'CAIGOUPAIHANG', labelKey: '' },
-  { label: '库存', key: 'KUCUNPAIHANG', labelKey: '' },
-  { label: '入库', key: 'RUKUPAIHANG', labelKey: '' },
-  { label: '出库', key: 'CHUKUPAIHANG', labelKey: '' },
+  { label: '环境监测', key: 'HUANJINGJIANCE', labelKey: '' },
+  { label: 'AI监测', key: 'AIJIANCE', labelKey: '' },
+  { label: '设备采购', key: 'SHEBEICAIGOU', labelKey: '' },
+  { label: '设备分布', key: 'SHEBEIFENBU', labelKey: '' },
 ]);
-let chartList = ref<any>([
-  { name: '技术部', value: 100 },
-  { name: '测试部', value: 200 },
-  { name: '产品部', value: 300 },
-  { name: '销售部', value: 400 },
-  { name: '行政部', value: 500 },
-]);
+let chartData = ref<any>({
+  HUANJINGJIANCE: [
+    { name: '在线', value: 200 },
+    { name: '故障', value: 150 },
+    { name: '离线', value: 120 },
+    { name: '报废', value: 50 },
+    { name: '维修中', value: 30 },
+    { name: '待维修', value: 20 },
+  ],
+  AIJIANCE: [
+    { name: '在线', value: 300 },
+    { name: '故障', value: 100 },
+    { name: '离线', value: 80 },
+    { name: '报废', value: 40 },
+    { name: '维修中', value: 20 },
+    { name: '待维修', value: 10 },
+  ],
+  SHEBEICAIGOU: [
+    { name: '在线', value: 400 },
+    { name: '故障', value: 200 },
+    { name: '离线', value: 160 },
+    { name: '报废', value: 70 },
+    { name: '维修中', value: 40 },
+    { name: '待维修', value: 30 },
+  ],
+  SHEBEIFENBU: [
+    { name: '在线', value: 500 },
+    { name: '故障', value: 300 },
+    { name: '离线', value: 240 },
+    { name: '报废', value: 100 },
+    { name: '维修中', value: 60 },
+    { name: '待维修', value: 50 },
+  ],
+});
+let chartList = computed(() => {
+  return chartData.value[activeKey.value] || [];
+});
+const { renderEcharts } = useEcharts(pieChartRef);
 function selectTabChange(key: any) {
-  // console.log('whp_shuliangpaihang-selectChange----', key);
   activeKey.value = key;
+  createPieChart();
 }
 function createPieChart() {
   // 合并配置选项
@@ -29,9 +60,11 @@ function createPieChart() {
     data: {
       list: chartList.value,
     },
+    legend: {
+      show: true,
+    },
     theme: 'data-screen-theme',
   });
-  const { renderEcharts } = useEcharts(pieChartRef);
   renderEcharts(chartOptions);
 }
 // 生命周期钩子
@@ -43,7 +76,7 @@ onMounted(() => {
   <div class="sub-container">
     <block-title
       autoCarousel
-      title="物资数量排行"
+      title="硬件概况"
       @selectTabChange="selectTabChange"
       :menuList="menuList"
       :activeKey="activeKey"

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ElTable, ElTag, ElTableColumn } from 'element-plus';
 import { onMounted, useTemplateRef, toRefs, type CSSProperties, onBeforeMount } from 'vue';
-import { useScroll, useIntervalFn, useTimeoutFn } from '@vueuse/core';
+import { useScroll, useIntervalFn, useTimeoutFn, type Fn } from '@vueuse/core';
 interface Props {
   isInfiniteScroll?: boolean; //是否无限滚动
   dataList: any[];
@@ -15,29 +15,33 @@ const {
   isAutoScroll = true,
   border = true,
 } = defineProps<Props>();
-const tableContainerEl = useTemplateRef<HTMLElement>('table_normal');
-console.log('表格--tableContainerEl--', tableContainerEl);
-const { y, arrivedState } = useScroll(tableContainerEl, {
-  offset: { bottom: 5 },
-});
-const { bottom } = toRefs(arrivedState);
-const { pause, resume } = useIntervalFn(() => {
-  // console.log('滚动-scrollTop-', bottom.value, y);
-  if (bottom.value) {
-    pause();
-    useTimeoutFn(() => {
-      // y.value = 0;
-      // resume();
-    }, 1000);
-  }
-  y.value = y.value + 1;
-}, 30);
+const elTableRef = useTemplateRef('table_normal');
+let pause: Fn = () => {},
+  resume: Fn = () => {};
+const openScroll = () => {
+  const elScrollBar = elTableRef.value?.scrollBarRef.wrapRef;
+  console.log('滚动-elScrollBar-', elScrollBar);
+  const { y, arrivedState } = useScroll(elScrollBar, {
+    offset: { bottom: 5 },
+  });
+  const { bottom } = toRefs(arrivedState);
+  let intervalFn = useIntervalFn(() => {
+    // console.log('滚动-scrollTop-', bottom.value, y.value);
+    if (bottom.value) {
+      pause();
+      useTimeoutFn(() => {
+        y.value = 0;
+        resume();
+      }, 1000);
+    }
+    y.value = y.value + 1;
+  }, 30);
+  pause = intervalFn.pause; // 暂停滚动
+  resume = intervalFn.resume; // 开始滚动
+};
 onMounted(() => {
-  console.log('dataList-scrollTable-', dataList);
   if (isAutoScroll) {
-    pause();
-  } else {
-    resume();
+    openScroll();
   }
 });
 onBeforeMount(() => {
@@ -47,6 +51,7 @@ onBeforeMount(() => {
 });
 //鼠标移入停止滚动
 function MouseEnter() {
+  console.log('鼠标移入停止滚动--');
   if (isAutoScroll) {
     pause();
   }
@@ -171,6 +176,9 @@ let cellStyle = (): CSSProperties => ({ 'text-align': 'left', height: '2.1875vw'
       background: linear-gradient(to bottom, rgba(45, 222, 236, 0.2), transparent 100%) !important;
     }
     .cell {
+      .cell_label {
+        cursor: pointer;
+      }
       .idx_label {
         color: #eee9e9;
         width: pxTovw(36);
