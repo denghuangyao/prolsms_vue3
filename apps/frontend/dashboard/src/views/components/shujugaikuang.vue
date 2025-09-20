@@ -163,21 +163,29 @@ onMounted(() => {
           transform: translateY(240%);
         }
       }
+      animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+      animation-duration: 3s;
+      animation-iteration-count: infinite;
+      animation-delay: 2s;
       &.left-top {
         left: 16%;
-        animation: bounce-top 3s infinite cubic-bezier(0.42, 0, 0.58, 1);
+        transform: translateY(61%);
+        animation-name: bounce-top;
       }
       &.left-bottom {
         left: 6.5%;
-        animation: bounce-bottom 3s infinite cubic-bezier(0.42, 0, 0.58, 1);
+        transform: translateY(210%);
+        animation-name: bounce-bottom;
       }
       &.right-top {
         right: 16%;
-        animation: bounce-top 3s infinite cubic-bezier(0.42, 0, 0.58, 1);
+        transform: translateY(61%);
+        animation-name: bounce-top;
       }
       &.right-bottom {
         right: 6.5%;
-        animation: bounce-bottom 3s infinite cubic-bezier(0.42, 0, 0.58, 1);
+        transform: translateY(210%);
+        animation-name: bounce-bottom;
       }
       &.small-circle {
         width: pxTovw(120);

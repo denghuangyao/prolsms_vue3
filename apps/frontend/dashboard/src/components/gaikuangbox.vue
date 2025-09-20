@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { ElTooltip } from 'element-plus';
+import { CountToAnimator } from '@dhy/shadcn-ui';
 interface Props {
   label: string;
-  value: string;
+  value: string | number;
   bgImg: string;
   isBigFont?: boolean;
 }
@@ -12,9 +12,9 @@ const { isBigFont = false, bgImg } = defineProps<Props>();
   <div class="item-box">
     <img class="item-img" :src="bgImg" />
     <div class="item-content">
-      <!-- <el-tooltip effect="light" :content="value" placement="top"> -->
-      <div class="item-value text-ellipsis" :class="{ bigFont: isBigFont }">{{ value }}</div>
-      <!-- </el-tooltip> -->
+      <div class="item-value text-ellipsis" :class="{ bigFont: isBigFont }">
+        <CountToAnimator :end-val="Number(value)"></CountToAnimator>
+      </div>
       <div class="item-label" :class="{ bigFont: isBigFont }" :title="label">{{ label }}</div>
     </div>
   </div>

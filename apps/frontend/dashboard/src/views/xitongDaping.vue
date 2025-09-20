@@ -34,9 +34,9 @@ let shijugaikuangData: GaikuangDataConfig = {
       <!-- 普通图表显示：区域1，2，3 -->
       <div class="content-block flexColumnCon">
         <!-- 普通图表S -->
-        <stackedBarChart class="content-item" />
+        <OnlineTable class="content-item" />
+        <doughnutChart class="content-item" />
         <barChart class="content-item" />
-        <lineChart class="content-item" />
       </div>
       <div class="content-middle flexColumnCon">
         <!-- 数据概况 -->
@@ -46,9 +46,9 @@ let shijugaikuangData: GaikuangDataConfig = {
       </div>
       <!-- 普通图表显示：区域4，5，6 -->
       <div class="content-block flexColumnCon">
+        <stackedBarChart class="content-item" />
+        <lineChart class="content-item" />
         <qualityRank class="content-item" />
-        <OnlineTable class="content-item" />
-        <doughnutChart class="content-item" />
       </div>
     </div>
   </div>
