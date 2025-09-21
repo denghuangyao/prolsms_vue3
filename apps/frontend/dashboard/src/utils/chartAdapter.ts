@@ -24,7 +24,7 @@ type ChartOptions<T> = {
   theme: ThemeType; //图表主题
 } & ECOption;
 //提示信息框的符号标记(小方框)
-const TooltipMarkerHTML = (name: string, value: string, color?: string): string => {
+export const TooltipMarkerHTML = (name: string, value: string | number, color?: string): string => {
   let markerColor = color || 'linear-gradient( 180deg, #00BFDC 16%, #009EDC 100%)';
   let marker: any = `<span class="wl-custom-tooltip-markerStyle" style="background:${markerColor};"></span>`;
   return `<div class="wl-custom-tooltip-namestyle">${marker}${name}</div><div class="wl-custom-tooltip-valuestyle wl-pl16">${value}</div>`;
@@ -348,9 +348,8 @@ const adaptPieChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
     i.name = `${i.name}_idx_${idx}`;
   });
   let isShowLegend =
-    (Array.isArray(options?.legend)
-      ? options.legend[0]?.show
-      : (options?.legend as any)?.show) ?? list.length <= 5; //数据少于5时需要显示图例;
+    (Array.isArray(options?.legend) ? options.legend[0]?.show : (options?.legend as any)?.show) ??
+    list.length <= 5; //数据少于5时需要显示图例;
   let colorList = color || [];
   if (colorList.length < list.length) {
     list.forEach(() => {

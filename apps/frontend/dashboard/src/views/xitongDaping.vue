@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import barChart from './components/normal/barChart.vue';
 import doughnutChart from './components/normal/doughnutChart.vue';
-import lineChart from './components/normal/lineChart.vue';
+// import lineChart from './components/normal/lineChart.vue';
 import stackedLineChart from './components/special/stackedLineChart.vue';
 import stackedBarChart from './components/special/stackedBarChart.vue';
 import { default as shujugaikuang, type GaikuangDataConfig } from './components/shujugaikuang.vue';
 import qualityRank from './components/qualityRank.vue';
 import OnlineTable from './components/onlineTable.vue';
+import Pie3DChart from '@/views/components/special/pie3DChart.vue';
 let shijugaikuangData: GaikuangDataConfig = {
   WHP: {
     compareList: [
@@ -47,7 +48,9 @@ let shijugaikuangData: GaikuangDataConfig = {
       <!-- 普通图表显示：区域4，5，6 -->
       <div class="content-block flexColumnCon">
         <stackedBarChart class="content-item" />
-        <lineChart class="content-item" />
+
+        <Pie3DChart class="content-item" />
+        <!-- <lineChart class="content-item" /> -->
         <qualityRank class="content-item" />
       </div>
     </div>

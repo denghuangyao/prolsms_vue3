@@ -145,6 +145,10 @@ onMounted(() => {
     .circlebox {
       position: absolute;
       transition: all 2s linear;
+      animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+      animation-duration: 3s;
+      animation-iteration-count: infinite;
+      animation-delay: 2s;
       @keyframes bounce-top {
         0%,
         100% {
@@ -163,10 +167,6 @@ onMounted(() => {
           transform: translateY(240%);
         }
       }
-      animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
-      animation-duration: 3s;
-      animation-iteration-count: infinite;
-      animation-delay: 2s;
       &.left-top {
         left: 16%;
         transform: translateY(61%);

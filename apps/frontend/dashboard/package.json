@@ -12,7 +12,8 @@
   "dependencies": {
     "@dhy/plugins": "workspace:*",
     "@dhy/shadcn-ui": "workspace:*",
-    "@dhy/styles": "workspace:*"
+    "@dhy/styles": "workspace:*",
+    "echarts-gl": "^2.0.9"
   },
   "devDependencies": {
     "unplugin-element-plus": "^0.10.0"
