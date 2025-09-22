@@ -100,7 +100,7 @@ export function generate3dBarSeries(source: any[], colorList: any[] = []) {
         const [w, h] = api.size([api.value(0), api.value(1)]);
 
         const { y: gridY, height: gridH } = params.coordSys;
-        console.log('--generate3dBarSeries-, params', params, colorList);
+        // console.log('--generate3dBarSeries-, params', params, colorList);
         // w 表示整个图像的宽度，理论上我们将立方体分为 LeftRectShape 和 RightRectShape，
         // 所以每个 rect 的宽度就是 w/2，
         const rectWidth = (w / 2) * FACTOR;

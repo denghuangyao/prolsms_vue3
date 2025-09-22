@@ -1,16 +1,9 @@
 import { TooltipMarkerHTML } from '@/utils/chartAdapter';
 import { hexToRgba, randomHexColor } from '@/utils/chartHelper';
 import { $pxByScreenW } from '@/utils/screen';
-import { echarts } from '@dhy/plugins/echarts';
+import { useEcharts } from '@dhy/plugins/echarts';
 import 'echarts-gl';
-const colorList = [
-  'rgba(76, 139, 241, 0.9)',
-  'rgba(101, 193, 241, 0.9)',
-  'rgba(249, 215, 114, 0.9)',
-  'rgba(179, 186, 195, 0.9)',
-  'rgba(255, 255, 255,  0.9)',
-  'rgba(145, 186, 217, 0.9)',
-];
+const colorList = ['#3090e9', '#e0b93d', '#0ed0c6', '#2FD3F9', '#80D1CD', '#9BD977', '#22beaf'];
 /**
  * 生成扇形的曲面参数方程，用于 series-surface.parametricEquation
  * @param startRatio :当前扇形起始比例，取值区间[0, endRatio)
@@ -447,9 +440,8 @@ function bindListen(myChart: any, option: any) {
 export function use3DChart(chartRef: any, data: any[], internalDiameterRatio = 0.7) {
   if (!chartRef) return;
   console.log('use3DChart-data', data);
-  let colorList = ['#3090e9', '#e0b93d', '#0ed0c6'];
   const paramsList = data.map((item, index) => {
-    let color = hexToRgba(colorList[index] || randomHexColor(), 0.9);
+    let color = colorList[index] || hexToRgba(randomHexColor(), 0.9);
     return {
       value: item.value,
       shading: 'realistic',
@@ -461,8 +453,8 @@ export function use3DChart(chartRef: any, data: any[], internalDiameterRatio = 0
     };
   });
   let option = getPie3D(paramsList, internalDiameterRatio);
-  const el = chartRef?.value?.$el as HTMLElement;
-  let chartInstance = echarts.init(el);
-  chartInstance.setOption(option);
-  bindListen(chartInstance, option);
+  const { renderEcharts } = useEcharts(chartRef);
+  renderEcharts(option).then((chartInstance) => {
+    bindListen(chartInstance, option);
+  });
 }
