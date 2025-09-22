@@ -2,7 +2,6 @@
 import { onMounted, useTemplateRef, watch, toRefs } from 'vue';
 import { useScroll, useIntervalFn, useTimeoutFn, type Fn } from '@vueuse/core';
 import { type ProgressBarConfig, useProgressbarGrid } from './use-progressbar-grid';
-// import progressBar from './progress-bar.vue';
 interface Props {
   dataList: any[];
   nameKey?: string;
@@ -111,13 +110,14 @@ function MouseLeave() {
                 class="grid-progress-bar"
                 v-for="i in bar.num"
                 :style="`--barRadius:${bar.radius}px;
-    --barWidth:${perGridWidth}%;
-    --barBackground:${renderBack(i, item.percentage)};
-    --barMarginLeft:${bar.distance}%;
-    background:${renderProgressBar(i)};
-    `"
+                --barWidth:${perGridWidth}%;
+                --barMarginLeft:${bar.distance}%;
+                --barBackground:${renderBack(i, item.percentage)}; 
+                --renderBarBackground:${renderProgressBar(i)};
+                --barBg:${bar.backColor};
+                animation-delay:${i * 0.05}s;
+                animation-duration:0.05s;`"
               ></div>
-              <!-- <progress-bar :bar="bar" /> -->
             </div>
           </div>
         </div>
@@ -127,17 +127,6 @@ function MouseLeave() {
 </template>
 
 <style scoped lang="scss">
-@keyframes fillProgress {
-  from {
-    width: 0%;
-  }
-
-  to {
-    width: calc(var(--percent) * 1%);
-    /* 动画结束时，宽度等于 CSS 变量 --progress */
-  }
-}
-
 .table-progress {
   padding: pxTovw(20);
   box-sizing: border-box;
@@ -153,12 +142,10 @@ function MouseLeave() {
         box-shadow: 0px 0px 4px 0px #66dff4;
       }
     }
-
     .title {
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       .index {
         color: #1be0fe;
         font-weight: bold;
@@ -206,8 +193,6 @@ function MouseLeave() {
       flex: 1;
       height: 100%;
       box-sizing: border-box;
-      // background: #0e3e63;
-      // border-radius: 0px pxTovw(10) pxTovw(10) 0px;
       display: flex;
       align-items: center;
       justify-content: space-around;
@@ -223,12 +208,14 @@ function MouseLeave() {
         height: 100%;
         width: var(--barWidth);
         border-radius: var(--barRadius);
-        transition: all 1s;
         position: relative;
         // margin-left: var(--barMarginLeft);
         // &:first-of-type {
         //   margin-left: 0;
         // }
+        animation-name: light-bar;
+        animation-fill-mode: forwards; //让动画停留在最后一帧
+        background: var(--barBg);
         &::before {
           position: absolute;
           content: '';
@@ -236,22 +223,17 @@ function MouseLeave() {
           width: 100%;
           background: var(--barBackground);
           border-radius: var(--barRadius);
-          transition: all 1s;
+        }
+        @keyframes light-bar {
+          from {
+            background: var(--barBg);
+          }
+          to {
+            background: var(--renderBarBackground);
+          }
         }
       }
-      // .bar {
-      //   // height: 100%;
-      //   // background: linear-gradient(270deg, #2fd3f9 16%, #0086bb 100%);
-      //   // border-radius: 0px pxTovw(10) pxTovw(10) 0px;
-      //   // width: calc(var(--percent) * 1%);
-      //   width: 0%;
-      //   /* 初始宽度为 0 */
-      //   animation: fillProgress 2s forwards;
-      //   background-color: transparent;
-      //   /* 动画名称，持续时间，以及让动画停留在最后一帧 */
-      // }
     }
-
     &:last-child {
       margin-bottom: 0;
     }

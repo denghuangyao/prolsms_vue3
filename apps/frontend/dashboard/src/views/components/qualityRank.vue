@@ -15,7 +15,7 @@ let dataList = useSorted(list.value, (a: any, b: any) => b.value - a.value);
 <template>
   <div class="sub-container">
     <block-title title="任务数量排行" />
-    <rank-bar class="chart-container" :dataList="dataList" isAutoScroll />
+    <rank-bar class="chart-container" :dataList="dataList" />
   </div>
 </template>
 <style lang="scss" scoped>
