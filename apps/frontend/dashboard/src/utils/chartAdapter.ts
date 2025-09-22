@@ -10,6 +10,8 @@ import {
 } from './chartHelper';
 import { getTheme, type ThemeType, seriesLineColor, seriesBarColor } from './chartTheme';
 import { $pxByScreenW } from './screen';
+import { generate3dBarSeries } from '@/components/echarts-gl/bar-3d-chart';
+
 // 统一适配图表数据格式，后续根据图表类型进行适配
 type ChartDataType<T> = {
   list: T[]; //图表数据
@@ -449,10 +451,114 @@ const adaptPieChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
   };
   return echarts.util.merge(baseOptions, customOptions);
 };
+const adapt3DBarChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}): ECOption => {
+  let { list = [], nameKey = 'name', valueKey = 'value', seriesName = '未知' } = data;
+  let seriesNum = valueKey.split(',').length;
+  let colorList: any = ['#2FD3F9', '#66C9F2', '#80D1CD', '#9BD977', '#22beaf'];
+  if (colorList.length < seriesNum) {
+    //颜色不够用随机生成
+    colorList.push(randomHexColor());
+  }
+  let dataset = generateDataSet(list, nameKey, valueKey, seriesName);
+  console.log('dataset-adapt3DBarChart', dataset);
+  let seriesData = generate3dBarSeries(dataset.source, colorList);
+  let baseOptions = generateBaseOption(options);
+  console.log('baseOptions-adapt3DBarChart', baseOptions, seriesData);
+  let customOptions: ECOption = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'none',
+      },
+      formatter(params: any) {
+        const item = params[0];
+        return params.length > 1
+          ? TooltipMultiMarkerHTML(item.name, params)
+          : TooltipMarkerHTML(item.axisValue, item.data[item.encode.y]);
+      },
+    },
+    grid: {
+      // containLabel: true修改写法调整
+      outerBoundsMode: 'same',
+      outerBoundsContain: 'axisLabel',
+      left: '3%', //相当于距离左边效果:padding-left
+      top: '15%', //相当于距离上边效果:padding-top
+      bottom: '7%',
+      right: '3%', //离容器右侧的距离。
+    },
+    legend: {
+      show: seriesNum > 1, //多条线图时显示图例
+      right: $pxByScreenW(16),
+      top: '4%',
+      itemGap: $pxByScreenW(20),
+    },
+    xAxis: [
+      {
+        type: 'category',
+        // data: xAxisData,
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: '#2F5A8D',
+          },
+        },
+        axisTick: {
+          show: false,
+        },
+        axisLabel: {
+          //x轴文字的配置
+          margin: $pxByScreenW(10), //刻度标签与轴线之间的距离
+          interval: 0,
+          formatter(params: any) {
+            if (params.length > 6) {
+              let str1 = params.substr(0, 6);
+              let len = params.length > 11 ? 11 : params.length;
+              let str2 = params.substr(5, len);
+              return len >= 11 ? str1 + `\n` + str2 + '...' : str1 + `\n` + str2;
+            }
+            return params;
+          },
+          fontSize: $pxByScreenW(14),
+          color: '#CDCDCD',
+          lineHeight: $pxByScreenW(18),
+        },
+        boundaryGap: true,
+      },
+    ],
+    yAxis: [
+      {
+        type: 'value',
+        axisTick: {
+          show: false, //刻度线
+        },
+        axisLine: {
+          show: false, //轴线
+        },
+        axisLabel: {
+          margin: $pxByScreenW(10), //刻度标签与轴线之间的距离
+          //y轴文字的配置
+          color: '#CDCDCD',
+          fontSize: $pxByScreenW(14),
+        },
+        splitLine: {
+          //网格线
+          lineStyle: {
+            type: 'dashed', //设置网格线类型 dotted：虚线 solid:实线
+            color: 'rgba(255,255,255,0.15)',
+          },
+        },
+      },
+    ],
+    series: seriesData as never[],
+    dataset,
+  };
+  return echarts.util.merge(baseOptions, customOptions);
+};
 const adapterMap = {
   line: adaptLineChart,
   bar: adaptBarChart,
   pie: adaptPieChart,
+  '3d-bar': adapt3DBarChart,
 };
 export function adapterChart<T = any>(options: ChartOptions<T>) {
   const { type = 'line', data, theme = 'bussiness-white', ...otherOptions } = options;

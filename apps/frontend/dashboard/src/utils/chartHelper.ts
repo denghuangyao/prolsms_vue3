@@ -40,7 +40,7 @@ export function randomHexColor() {
  * @param {number} [alpha] - 可选的透明度值（0-1），如果 hex 包含 AA 则忽略
  * @returns {string} RGBA 格式的颜色值
  */
-function hexToRgba(hex: string, alpha: number = 1): string {
+export function hexToRgba(hex: string, alpha: number = 1): string {
   // 去除 # 号并统一为小写
   hex = hex.replace(/^#/, '').toLowerCase();
 

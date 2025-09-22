@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import barChart from './components/normal/barChart.vue';
+// import barChart from './components/normal/barChart.vue';
 import doughnutChart from './components/normal/doughnutChart.vue';
 // import lineChart from './components/normal/lineChart.vue';
 import stackedLineChart from './components/special/stackedLineChart.vue';
@@ -8,6 +8,7 @@ import { default as shujugaikuang, type GaikuangDataConfig } from './components/
 import qualityRank from './components/qualityRank.vue';
 import OnlineTable from './components/onlineTable.vue';
 import Pie3DChart from '@/views/components/special/pie3DChart.vue';
+import bar3DChart from './components/special/bar3DChart.vue';
 let shijugaikuangData: GaikuangDataConfig = {
   WHP: {
     compareList: [
@@ -26,6 +27,23 @@ let shijugaikuangData: GaikuangDataConfig = {
     ],
     label: '危化品',
   },
+  YQYY: {
+    compareList: [
+      { label: '仪器总数', value: '', position: 'total' },
+      { label: '使用中', value: '', position: 'leftTop' },
+      { label: '超时未下机', value: '', position: 'rightTop' },
+      { label: '故障', value: '', position: 'leftBottom' },
+      { label: '停用', value: '', position: 'rightBottom' },
+    ],
+    list: [
+      { label: '仪器总数', value: '20000' },
+      { label: '使用中', value: '10000' },
+      { label: '超时未下机', value: '5' },
+      { label: '故障', value: '10' },
+      { label: '停用', value: '4' },
+    ],
+    label: '仪器预约',
+  },
 };
 </script>
 <template>
@@ -35,9 +53,10 @@ let shijugaikuangData: GaikuangDataConfig = {
       <!-- 普通图表显示：区域1，2，3 -->
       <div class="content-block flexColumnCon">
         <!-- 普通图表S -->
-        <OnlineTable class="content-item" />
+        <bar3DChart class="content-item" />
+        <qualityRank class="content-item" />
         <doughnutChart class="content-item" />
-        <barChart class="content-item" />
+        <!-- <barChart class="content-item" /> -->
       </div>
       <div class="content-middle flexColumnCon">
         <!-- 数据概况 -->
@@ -47,11 +66,10 @@ let shijugaikuangData: GaikuangDataConfig = {
       </div>
       <!-- 普通图表显示：区域4，5，6 -->
       <div class="content-block flexColumnCon">
-        <stackedBarChart class="content-item" />
-
         <Pie3DChart class="content-item" />
+        <stackedBarChart class="content-item" />
         <!-- <lineChart class="content-item" /> -->
-        <qualityRank class="content-item" />
+        <OnlineTable class="content-item" />
       </div>
     </div>
   </div>
