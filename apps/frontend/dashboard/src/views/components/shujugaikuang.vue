@@ -87,14 +87,12 @@ onMounted(() => {
         :value="activeData.leftTop.value"
         :label="activeData.leftTop.label"
         class="circlebox small-circle left-top"
-        :bgImg="`/src/assets/images/largeScreen/xtdp/circle_bg.png`"
       />
       <gaikuangbox
         v-if="activeData.leftBottom"
         :value="activeData.leftBottom.value"
         :label="activeData.leftBottom.label"
         class="circlebox small-circle left-bottom"
-        :bgImg="`/src/assets/images/largeScreen/xtdp/circle_bg.png`"
       />
       <gaikuangbox
         v-if="activeData.total"
@@ -102,21 +100,18 @@ onMounted(() => {
         :value="activeData.total.value"
         :label="activeData.total.label"
         class="circlebox big-circle"
-        :bgImg="`/src/assets/images/largeScreen/xtdp/border_circle_bg.png`"
       />
       <gaikuangbox
         v-if="activeData.rightTop"
         :value="activeData.rightTop.value"
         :label="activeData.rightTop.label"
         class="circlebox small-circle right-top"
-        :bgImg="`/src/assets/images/largeScreen/xtdp/circle_bg.png`"
       />
       <gaikuangbox
         v-if="activeData.rightBottom"
         :value="activeData.rightBottom.value"
         :label="activeData.rightBottom.label"
         class="circlebox small-circle right-bottom"
-        :bgImg="`/src/assets/images/largeScreen/xtdp/circle_bg.png`"
       />
     </div>
     <div class="middle-base">

@@ -10,6 +10,7 @@ interface Props {
   bar?: {
     height: number;
     radius?: number;
+    duration?: number;
   } & ProgressBarConfig;
 }
 const {
@@ -24,6 +25,7 @@ const {
     suffixColor: '#3affe4',
     backColor: '#0d4570',
     distance: 30, //栅格间距百分比，单位是%
+    duration: 0.05, //栅格动画时长，单位是s
   },
 } = defineProps<Props>();
 const { renderBack, renderProgressBar, perGridWidth } = useProgressbarGrid(bar);
@@ -51,7 +53,12 @@ const openScroll = () => {
 };
 onMounted(() => {
   if (isAutoScroll) {
-    openScroll();
+    useTimeoutFn(
+      () => {
+        openScroll();
+      },
+      bar.num * (bar.duration || 0.05) * 1000 + 500,
+    );
   }
 });
 // 数据处理— —没有实现排序，需要后台返回有序数组(从大到小)

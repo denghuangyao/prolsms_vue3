@@ -81,6 +81,7 @@ export function useEcharts(chartRef: Ref<EchartsUIType>) {
 
   tryOnUnmounted(() => {
     // 销毁实例，释放资源
+    console.log('useEcharts-tryOnUnmounted');
     chartInstance?.dispose();
   });
   return { initEcharts, renderEcharts };

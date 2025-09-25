@@ -6,12 +6,16 @@ interface Props {
   bgImg: string;
   isBigFont?: boolean;
 }
-const { isBigFont = false, bgImg } = defineProps<Props>();
+const { isBigFont = false } = defineProps<Props>();
 </script>
 <template>
   <div class="item-box">
-    <img class="item-img" :src="bgImg" />
-    <div class="item-content">
+    <img
+      class="item-img"
+      v-if="isBigFont"
+      src="@assets/images/largeScreen/xtdp/border_circle_bg.png"
+    />
+    <div class="item-content" :class="{ 'item-ball': !isBigFont }">
       <div class="item-value text-ellipsis" :class="{ bigFont: isBigFont }">
         <CountToAnimator :end-val="Number(value)"></CountToAnimator>
       </div>
@@ -89,6 +93,14 @@ const { isBigFont = false, bgImg } = defineProps<Props>();
         -webkit-background-clip: text; /*将设置的背景颜色限制在文字中*/
         -webkit-text-fill-color: transparent; /*给文字设置成透明*/
       }
+    }
+    &.item-ball {
+      border-radius: 50%;
+      border: pxTovw(2) solid #8bccfa;
+      background-color: #024178;
+      box-shadow:
+        inset 0px 0px pxTovw(10) #46aae1,
+        inset 0px 0px pxTovw(20) #3080a8;
     }
   }
 }

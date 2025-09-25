@@ -5,7 +5,8 @@
   "type": "module",
   "exports": {
     "./echarts": {
-      "import": "./src/echarts/index.ts"
+      "import": "./src/echarts/index.ts",
+      "types": "./src/echarts/index.ts"
     }
   },
   "scripts": {
@@ -16,7 +17,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.12.4",
   "dependencies": {
-    "echarts": "catalog:",
-    "@vueuse/core": "catalog:"
+    "@vueuse/core": "catalog:",
+    "echarts": "catalog:"
   }
 }

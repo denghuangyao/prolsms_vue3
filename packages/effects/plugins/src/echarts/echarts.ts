@@ -2,7 +2,7 @@
  * ECharts 官方示例：https://echarts.apache.org/handbook/zh/basics/import/
  */
 import * as echarts from 'echarts/core';
-import { BarChart, LineChart, PieChart } from 'echarts/charts';
+import { BarChart, LineChart, PieChart, CustomChart } from 'echarts/charts';
 import {
   TitleComponent,
   TooltipComponent,
@@ -55,6 +55,7 @@ echarts.use([
   PieChart,
   BarChart,
   LineChart,
+  CustomChart, // 自定义图表
   LabelLayout,
   UniversalTransition,
   CanvasRenderer,
