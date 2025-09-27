@@ -66,7 +66,7 @@ function MouseLeave() {
 let cellStyle = (): CSSProperties => ({ 'text-align': 'left', height: '2.1875vw' });
 </script>
 <template>
-  <div class="full-view">
+  <div class="tableContainer full-view">
     <el-table
       class="elTableContainer"
       ref="table_normal"
@@ -130,6 +130,9 @@ let cellStyle = (): CSSProperties => ({ 'text-align': 'left', height: '2.1875vw'
   </div>
 </template>
 <style lang="scss" scoped>
+.tableContainer {
+  height: 100%;
+}
 .elTableContainer {
   --el-table-bg-color: transparent !important;
   --el-table-tr-bg-color: transparent;

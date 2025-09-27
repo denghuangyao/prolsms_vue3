@@ -74,16 +74,16 @@ let dataList: any = ref([
 <template>
   <div class="sub-container">
     <block-title title="监测实时数据" />
-    <scroll-table :dataList="dataList" :tableHeaders="headerList" />
+    <scroll-table class="chart-container" :dataList="dataList" :tableHeaders="headerList" />
   </div>
 </template>
 <style lang="scss" scoped>
 .sub-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  max-height: 33%;
   .chart-container {
-    flex: 1;
+    height: calc(100% - #{pxTovw(52)});
   }
 }
 </style>

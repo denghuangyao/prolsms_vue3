@@ -24,5 +24,9 @@ $designWidth: 1920;
 $designHeight: 1080;
 //1920*1080设计稿，适配3840x2160分辨率，100px => vw(100)
 @function pxTovw($px) {
+  // @if ($designWidth<=1920) {
+  //   @return #{$px}px;
+  // } @else {
   @return calc($px / $designWidth) * 100vw;
+  // }
 }

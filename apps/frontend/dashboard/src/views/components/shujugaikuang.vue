@@ -82,37 +82,39 @@ onMounted(() => {
       />
     </div>
     <div class="main-box" v-if="activeData">
-      <gaikuangbox
-        v-if="activeData.leftTop"
-        :value="activeData.leftTop.value"
-        :label="activeData.leftTop.label"
-        class="circlebox small-circle left-top"
-      />
-      <gaikuangbox
-        v-if="activeData.leftBottom"
-        :value="activeData.leftBottom.value"
-        :label="activeData.leftBottom.label"
-        class="circlebox small-circle left-bottom"
-      />
-      <gaikuangbox
-        v-if="activeData.total"
-        isBigFont
-        :value="activeData.total.value"
-        :label="activeData.total.label"
-        class="circlebox big-circle"
-      />
-      <gaikuangbox
-        v-if="activeData.rightTop"
-        :value="activeData.rightTop.value"
-        :label="activeData.rightTop.label"
-        class="circlebox small-circle right-top"
-      />
-      <gaikuangbox
-        v-if="activeData.rightBottom"
-        :value="activeData.rightBottom.value"
-        :label="activeData.rightBottom.label"
-        class="circlebox small-circle right-bottom"
-      />
+      <div class="main-box-content">
+        <gaikuangbox
+          v-if="activeData.leftTop"
+          :value="activeData.leftTop.value"
+          :label="activeData.leftTop.label"
+          class="circlebox small-circle left-top"
+        />
+        <gaikuangbox
+          v-if="activeData.leftBottom"
+          :value="activeData.leftBottom.value"
+          :label="activeData.leftBottom.label"
+          class="circlebox small-circle left-bottom"
+        />
+        <gaikuangbox
+          v-if="activeData.total"
+          isBigFont
+          :value="activeData.total.value"
+          :label="activeData.total.label"
+          class="circlebox big-circle"
+        />
+        <gaikuangbox
+          v-if="activeData.rightTop"
+          :value="activeData.rightTop.value"
+          :label="activeData.rightTop.label"
+          class="circlebox small-circle right-top"
+        />
+        <gaikuangbox
+          v-if="activeData.rightBottom"
+          :value="activeData.rightBottom.value"
+          :label="activeData.rightBottom.label"
+          class="circlebox small-circle right-bottom"
+        />
+      </div>
     </div>
     <div class="middle-base">
       <img class="middle-base-img" src="@assets/images/largeScreen/xtdp/middle_base.png" />
@@ -124,74 +126,82 @@ onMounted(() => {
   margin-bottom: pxTovw(12);
 }
 @mixin bg {
-  background-image: url('@assets/images/largeScreen/xtdp/middle_bg.png');
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background: linear-gradient(180deg, #013654 10%, #021f38 37%, transparent 100%);
 }
 .middle-container {
-  height: pxTovw(540);
+  height: 100%;
   width: 100%;
   position: relative;
   .main-box {
     @include bg;
-    height: pxTovw(490);
-
-    position: relative;
-    .circlebox {
-      position: absolute;
-      transition: all 2s linear;
-      animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
-      animation-duration: 3s;
-      animation-iteration-count: infinite;
-      animation-delay: 2s;
-      @keyframes bounce-top {
-        0%,
-        100% {
-          transform: translateY(61%);
+    // height: calc(100% - #{pxTovw(50)});
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    .main-box-content {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      @media screen and (max-width: 576px) {
+        width: 60%;
+      }
+      .circlebox {
+        position: absolute;
+        transition: all 2s linear;
+        animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-delay: 2s;
+        @keyframes bounce-top {
+          0%,
+          100% {
+            transform: translateY(50%);
+          }
+          50% {
+            transform: translateY(80%);
+          }
         }
-        50% {
-          transform: translateY(91%);
+        @keyframes bounce-bottom {
+          0%,
+          100% {
+            transform: translateY(180%);
+          }
+          50% {
+            transform: translateY(210%);
+          }
         }
-      }
-      @keyframes bounce-bottom {
-        0%,
-        100% {
-          transform: translateY(210%);
+        &.left-top {
+          left: 16%;
+          transform: translateY(50%); //61%,+30%
+          animation-name: bounce-top;
         }
-        50% {
-          transform: translateY(240%);
+        &.left-bottom {
+          left: 6.5%;
+          transform: translateY(180%); //210%,240%
+          animation-name: bounce-bottom;
         }
-      }
-      &.left-top {
-        left: 16%;
-        transform: translateY(61%);
-        animation-name: bounce-top;
-      }
-      &.left-bottom {
-        left: 6.5%;
-        transform: translateY(210%);
-        animation-name: bounce-bottom;
-      }
-      &.right-top {
-        right: 16%;
-        transform: translateY(61%);
-        animation-name: bounce-top;
-      }
-      &.right-bottom {
-        right: 6.5%;
-        transform: translateY(210%);
-        animation-name: bounce-bottom;
-      }
-      &.small-circle {
-        width: pxTovw(120);
-        height: pxTovw(120);
-      }
-      &.big-circle {
-        width: pxTovw(218);
-        height: pxTovw(218);
-        left: 50%;
-        transform: translateX(-50%);
-        top: 15%;
+        &.right-top {
+          right: 16%;
+          transform: translateY(50%);
+          animation-name: bounce-top;
+        }
+        &.right-bottom {
+          right: 6.5%;
+          transform: translateY(180%);
+          animation-name: bounce-bottom;
+        }
+        &.small-circle {
+          width: pxTovw(120);
+          height: pxTovw(120);
+        }
+        &.big-circle {
+          width: pxTovw(218);
+          height: pxTovw(218);
+          left: 50%;
+          transform: translateX(-50%);
+          // top: 15%;
+          bottom: 49%;
+        }
       }
     }
   }
@@ -209,7 +219,7 @@ onMounted(() => {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: -3%;
+    bottom: -5%;
     .middle-base-img {
       width: pxTovw(517);
       height: pxTovw(219);

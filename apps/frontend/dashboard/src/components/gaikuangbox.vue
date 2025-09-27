@@ -3,7 +3,6 @@ import { CountToAnimator } from '@dhy/shadcn-ui';
 interface Props {
   label: string;
   value: string | number;
-  bgImg: string;
   isBigFont?: boolean;
 }
 const { isBigFont = false } = defineProps<Props>();

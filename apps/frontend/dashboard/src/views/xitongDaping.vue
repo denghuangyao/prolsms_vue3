@@ -93,17 +93,17 @@ body {
   padding: pxTovw(20);
   box-sizing: border-box;
   width: 100%;
-  flex: 1;
+  height: calc(100% - #{pxTovw(67)});
   .content-block {
-    width: pxTovw(520);
+    // width: pxTovw(520);
+    flex: 1;
+    box-sizing: border-box;
+
     .content-item {
       width: 100%;
-      height: pxTovw(310);
+      // min-height: pxTovw(310);
       box-sizing: border-box;
-      margin-bottom: pxTovw(15);
-      &:last-of-type {
-        margin-bottom: 0;
-      }
+      flex: 1;
     }
     .contentbox {
       display: flex;
@@ -111,17 +111,18 @@ body {
     }
   }
   .content-middle {
-    width: pxTovw(800);
-    margin: 0 pxTovw(18);
+    // width: pxTovw(800);
+    flex: 0 0 42.4%;
     box-sizing: border-box;
     .content-bottom {
       width: 100%;
-      height: pxTovw(410);
+      // height: pxTovw(410);
       box-sizing: border-box;
-      margin-top: pxTovw(10);
+      flex: 1;
     }
     .content-shujugaikuang {
-      height: pxTovw(540);
+      // height: pxTovw(540);
+      flex: 1.5;
       box-sizing: border-box;
     }
   }
@@ -129,10 +130,12 @@ body {
 .flexRowCon {
   display: flex;
   flex-direction: row;
+  column-gap: pxTovw(18);
 }
 .flexColumnCon {
   display: flex;
   flex-direction: column;
+  row-gap: pxTovw(15);
 }
 .daping-bg {
   // width: pxTovw(1920);
@@ -182,5 +185,37 @@ body {
   background: url('@assets/images/largeScreen/xtdp/dp_bg.png') no-repeat;
   background-size: 100% 100%;
   position: relative;
+}
+// 小屏幕下的样式
+@media (max-width: 576px) {
+  .daping-bg {
+    height: unset;
+    background: #000710;
+
+    .main-container {
+      flex-direction: column !important;
+      flex-wrap: wrap;
+
+      .content-block:first-child {
+        height: 930px !important;
+        order: 2 !important;
+        flex: 0 0 auto !important;
+      }
+      .content-bottom {
+        flex: 2;
+      }
+      .content-middle {
+        height: 500px !important;
+        order: 1;
+        flex: 0 0 auto !important;
+      }
+
+      .content-block:nth-child(3) {
+        order: 3 !important;
+        height: 930px !important;
+        flex: 0 0 auto !important;
+      }
+    }
+  }
 }
 </style>

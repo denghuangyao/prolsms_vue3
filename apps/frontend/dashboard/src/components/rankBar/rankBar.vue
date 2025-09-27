@@ -137,7 +137,7 @@ function MouseLeave() {
 .table-progress {
   padding: pxTovw(20);
   box-sizing: border-box;
-
+  height: 100%;
   .item {
     padding-bottom: pxTovw(20);
 
@@ -248,5 +248,6 @@ function MouseLeave() {
 }
 .table-container {
   overflow: auto;
+  height: 100%;
 }
 </style>

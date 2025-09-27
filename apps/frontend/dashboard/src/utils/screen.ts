@@ -7,7 +7,7 @@ export const $pxTovw = function ($px: number) {
 export const $pxByScreenW = function (width: number) {
   let currentWidth =
     window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-  if (!currentWidth) return width;
+  if (!currentWidth || currentWidth <= 1920) return width;
   let designWidth = 1920;
   let scale = currentWidth / designWidth;
   return Number((width * scale).toFixed(3));
