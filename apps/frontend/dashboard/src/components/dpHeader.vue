@@ -1,11 +1,12 @@
 <template>
   <div class="header">
-    <img class="titleImgBg" src="@assets/images/largeScreen/titlebg.png" />
     <div class="text-view">
-      <div class="t-left" @click="handleScreenFull"></div>
       <div class="title" @click="handleScreenFull">{{ title }}</div>
       <div class="t-right">
-        <div v-if="isShowTime" class="time">{{ currentTime }}</div>
+        <div v-if="isShowTime" class="time">
+          <span class="date-value">{{ date }}</span>
+          <span class="time-value">{{ time }}</span>
+        </div>
         <el-date-picker
           v-if="shwoPicker && dateObj"
           v-model="dateObj.time"
@@ -24,7 +25,7 @@
 </template>
 <script lang="ts" setup>
 import { ElDatePicker } from 'element-plus';
-import { nextTick } from 'vue';
+import { computed, nextTick } from 'vue';
 import { useFullscreen, useDateFormat, useNow } from '@vueuse/core';
 let { toggle } = useFullscreen();
 interface Props {
@@ -53,6 +54,12 @@ const emit = defineEmits<{
   changeTime: [date: Date | string];
 }>();
 const currentTime = useDateFormat(useNow(), 'YYYY-MM-DD HH:mm:ss');
+const date = computed(() => {
+  return currentTime.value?.split(' ')[0];
+});
+const time = computed(() => {
+  return currentTime.value?.split(' ')[1];
+});
 function handleChange(date: any) {
   emit('changeTime', date);
 }
@@ -65,43 +72,25 @@ function handleScreenFull() {
 <style scoped lang="scss">
 .header {
   width: 100%;
-  height: pxTovw(67);
+  height: clampPxCustom(22px, 67);
   position: relative;
   box-sizing: border-box;
 
-  .titleImgBg {
-    width: 100%;
-    display: block;
-    margin: 0 auto;
-  }
-
+  background: url('@assets/images/largeScreen/titlebg.png') 0% 0% / 100% 100% no-repeat;
   .text-view {
     position: absolute;
     top: 0;
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .t-left {
-      width: 20%;
-      text-align: left;
-
-      .logo {
-        width: pxTovw(247);
-        height: pxTovw(42);
-        margin-left: pxTovw(30);
-      }
-    }
-
     .title {
       flex: 1;
+      height: 100%;
+      line-height: 1.95;
       font-family:
         Source Han Sans,
         Source Han Sans;
       font-weight: 700;
-      font-size: pxTovw(34);
+      font-size: clampPxCustom(13px, 34);
       letter-spacing: pxTovw(3);
       text-align: center;
       background: linear-gradient(90deg, #ffffff 30%, #30d4f1 99%, #26d2f0 100%);
@@ -112,17 +101,14 @@ function handleScreenFull() {
     }
 
     .t-right {
-      width: 20%;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: flex-end;
       margin-right: pxTovw(30);
-
-      .time {
-        color: #fff;
-        font-size: pxTovw(18);
-      }
-
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
       // 月份选择器输入框
       :deep(.el-date-editor.el-input) {
         width: pxTovw(120);
@@ -149,6 +135,35 @@ function handleScreenFull() {
         color: #ffffffaa;
         border-radius: pxTovw(8);
       }
+      .time {
+        color: #fff;
+        font-size: clampPxCustom(12px, 18);
+        .time-value {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 2%;
+        }
+
+        .date-value {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 6%;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 600px) {
+  .header .text-view .t-right {
+    .date-value {
+      right: unset;
+      left: 5%;
+    }
+    .time-value {
+      left: unset;
+      right: 5% !important;
     }
   }
 }

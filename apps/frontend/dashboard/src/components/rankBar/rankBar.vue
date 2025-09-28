@@ -156,9 +156,9 @@ function MouseLeave() {
       .index {
         color: #1be0fe;
         font-weight: bold;
-        font-size: pxTovw(14);
-        width: pxTovw(36);
-        height: pxTovw(26);
+        font-size: clampPx(14);
+        width: clampPx(36);
+        height: clampPx(26);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -174,7 +174,7 @@ function MouseLeave() {
 
       .dt {
         flex: 1;
-        font-size: pxTovw(14);
+        font-size: clampPx(14);
         color: #cdcdcd;
         margin: 0 pxTovw(10);
         text-overflow: ellipsis;
@@ -184,17 +184,17 @@ function MouseLeave() {
 
       .dd {
         color: #cdcdcd;
-        font-size: pxTovw(14);
+        font-size: clampPx(14);
       }
     }
     .progress-container {
-      margin-top: pxTovw(10);
-      border: solid pxTovw(1) #3790d4;
+      margin-top: clampPx(10);
+      border: solid clampPx(1) #3790d4;
       display: flex;
       align-items: center;
-      padding: pxTovw(3) pxTovw(5);
+      padding: clampPx(3) clampPx(5);
       box-sizing: border-box;
-      height: pxTovw(15);
+      height: clampPx(15);
     }
     .progress-box {
       flex: 1;

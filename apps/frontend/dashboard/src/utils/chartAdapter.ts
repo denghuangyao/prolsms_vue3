@@ -67,6 +67,8 @@ function generateBaseOption(options: ECOption = {}): ECOption {
       borderWidth: $pxByScreenW(1),
     },
     legend: {
+      type: 'scroll',
+      width: '80%', //图例组件的图形宽度
       icon: 'roundRect',
       itemWidth: $pxByScreenW(9),
       itemHeight: $pxByScreenW(8),
@@ -268,7 +270,7 @@ const adaptBarChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}):
     legend: {
       show: seriesNum > 1, //多条线图时显示图例
       right: $pxByScreenW(16),
-      top: '4%',
+      top: '2.8%',
       itemGap: $pxByScreenW(20),
     },
     xAxis: [
@@ -554,11 +556,134 @@ const adapt3DBarChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}
   };
   return echarts.util.merge(baseOptions, customOptions);
 };
+const adaptScatterChart = <T = any>(data: ChartDataType<T>, options: ECOption = {}): ECOption => {
+  let { list = [], nameKey = 'name', valueKey = 'value', seriesName = '未知' } = data;
+  let temp = '';
+  let graphData: any = list.map((i: any) => {
+    temp = i[nameKey];
+    return [i[nameKey], Number(i[valueKey])];
+  });
+  let dataNumber: any = list.map((item: any) => {
+    return Number(item[valueKey]);
+  });
+  let max = dataNumber[0];
+  dataNumber.forEach((item: any) => {
+    if (max < item) {
+      max = item;
+    }
+  });
+  let riliRange = temp.split('-')[0] + '-' + temp.split('-')[1];
+  console.log('riliRange', riliRange, max, graphData);
+  let baseOptions = generateBaseOption(options);
+  let customOptions = {
+    tooltip: {
+      position: 'top',
+      formatter(params: any) {
+        console.log('params--riliRange', params);
+        let { data, encode } = params;
+        let name = data[encode.time];
+        let value = data[encode.value];
+        return TooltipMarkerHTML(name, value);
+      },
+    },
+    // tooltip: {
+    //   trigger: 'axis',
+    //   axisPointer: {
+    //     type: 'none',
+    //   },
+    //   formatter(params: any) {
+    //     const item = params[0];
+    //     console.log('params--riliRange', params);
+    //     return params.length > 1
+    //       ? TooltipMultiMarkerHTML(item.name, params)
+    //       : TooltipMarkerHTML(item.axisValue, item.data[item.encode.y]);
+    //   },
+    // },
+    visualMap: [
+      {
+        min: 0,
+        max: 1000,
+        calculable: true,
+        orient: 'horizontal',
+        right: 0,
+        bottom: 0,
+        show: false,
+        inRange: {
+          color: ['#d5796e', '#bf444c'],
+        },
+      },
+    ],
+    calendar: [
+      {
+        silent: true,
+
+        orient: 'vertical',
+        top: '15%',
+        dayLabel: {
+          firstDay: 7,
+          nameMap: 'ZH',
+          fontSize: $pxByScreenW(14),
+          color: '#CDCDCD',
+          lineHeight: $pxByScreenW(16),
+          margin: $pxByScreenW(6),
+          fontFamily: 'Courier New',
+        },
+        yearLabel: {
+          show: false,
+        },
+        monthLabel: {
+          show: true,
+        },
+        cellSize: [$pxByScreenW(84), $pxByScreenW(52)], //单元格大小，行列数，[宽,高]
+        left: '1%',
+        right: '1%',
+        range: riliRange,
+        itemStyle: {
+          borderColor: '#1bd9f8',
+          borderWidth: $pxByScreenW(1),
+          // opacity: 0
+          color: 'transparent',
+        },
+        splitLine: {
+          lineStyle: {
+            color: '#1bd9f8',
+          },
+        },
+      },
+    ],
+    series: [
+      {
+        label: {
+          show: true,
+          formatter: function (params: any) {
+            return `${params.dataIndex + 1}`;
+          },
+          offset: [$pxByScreenW(32), $pxByScreenW(20)],
+          fontSize: $pxByScreenW(12),
+          color: '#0B4075',
+          lineHeight: $pxByScreenW(12),
+        },
+        type: 'effectScatter',
+        coordinateSystem: 'calendar',
+        symbolSize: (val: any) => {
+          // console.log('热力图的数据大小回调',val)
+          return max == 0 ? 0 : (val[1] * $pxByScreenW(22)) / max;
+        },
+        data: graphData,
+        itemStyle: {
+          // borderColor: '#1bd9f8',
+        },
+      },
+    ],
+  };
+  return echarts.util.merge(baseOptions, customOptions);
+};
 const adapterMap = {
   line: adaptLineChart,
   bar: adaptBarChart,
   pie: adaptPieChart,
   '3d-bar': adapt3DBarChart,
+  effectScatter: adaptScatterChart, //散点图
 };
 export function adapterChart<T = any>(options: ChartOptions<T>) {
   const { type = 'line', data, theme = 'bussiness-white', ...otherOptions } = options;

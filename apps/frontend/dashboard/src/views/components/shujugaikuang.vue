@@ -29,7 +29,7 @@ const { data } = defineProps<{
 }>();
 let activeKey = ref<keyof GaikuangDataConfig | ''>('');
 let activeData = computed<GaikuangData | null>(() => {
-  if (!activeKey.value) return null;
+  if (!activeKey.value || activeKey.value === 'YQYY') return null;
   let { list, compareList } = data[activeKey.value];
 
   return { ...getActiveDataConf(compareList, list) };
@@ -81,7 +81,10 @@ onMounted(() => {
         :maxlen="7"
       />
     </div>
-    <div class="main-box" v-if="activeData">
+    <div v-if="activeKey === 'YQYY'" class="middle-body">
+      <slot name="middle_body"></slot>
+    </div>
+    <div class="main-box" v-else-if="activeData">
       <div class="main-box-content">
         <gaikuangbox
           v-if="activeData.leftTop"
@@ -116,7 +119,7 @@ onMounted(() => {
         />
       </div>
     </div>
-    <div class="middle-base">
+    <div class="middle-base" v-if="activeKey !== 'YQYY'">
       <img class="middle-base-img" src="@assets/images/largeScreen/xtdp/middle_base.png" />
     </div>
   </div>
@@ -132,6 +135,9 @@ onMounted(() => {
   height: 100%;
   width: 100%;
   position: relative;
+  .middle-body {
+    height: calc(100% - #{clampPxCustom(38px, 52)});
+  }
   .main-box {
     @include bg;
     // height: calc(100% - #{pxTovw(50)});
@@ -143,7 +149,7 @@ onMounted(() => {
       height: 100%;
       width: 100%;
       @media screen and (max-width: 576px) {
-        width: 60%;
+        width: 100%;
       }
       .circlebox {
         position: absolute;
@@ -191,12 +197,12 @@ onMounted(() => {
           animation-name: bounce-bottom;
         }
         &.small-circle {
-          width: pxTovw(120);
-          height: pxTovw(120);
+          width: clampPxCustom(65px, 120);
+          height: clampPxCustom(65px, 120);
         }
         &.big-circle {
-          width: pxTovw(218);
-          height: pxTovw(218);
+          width: clampPxCustom(130px, 218);
+          height: clampPxCustom(130px, 218);
           left: 50%;
           transform: translateX(-50%);
           // top: 15%;
@@ -221,11 +227,17 @@ onMounted(() => {
     transform: translateX(-50%);
     bottom: -5%;
     .middle-base-img {
-      width: pxTovw(517);
-      height: pxTovw(219);
+      width: auto;
+      height: clampPxCustom(155px, 219);
       display: block;
       margin: 0 auto;
     }
   }
 }
+// @media screen and (max-width: 576px) {
+//   .middle-base-img {
+//     width: 20% !important;
+//     height: auto !important;
+//   }
+// }
 </style>

@@ -2,7 +2,7 @@
  * ECharts 官方示例：https://echarts.apache.org/handbook/zh/basics/import/
  */
 import * as echarts from 'echarts/core';
-import { BarChart, LineChart, PieChart, CustomChart } from 'echarts/charts';
+import { BarChart, LineChart, PieChart, CustomChart, EffectScatterChart } from 'echarts/charts';
 import {
   TitleComponent,
   TooltipComponent,
@@ -13,6 +13,8 @@ import {
   // 内置数据转换器组件 (filter, sort)
   TransformComponent,
   DataZoomComponent, // 数据区域缩放组件
+  VisualMapComponent, // 视觉映射组件
+  CalendarComponent, // 日历组件
 } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -21,6 +23,7 @@ import type {
   BarSeriesOption,
   LineSeriesOption,
   PieSeriesOption,
+  EffectScatterSeriesOption,
 } from 'echarts/charts';
 import type {
   // 组件类型的定义后缀都为 ComponentOption
@@ -34,6 +37,7 @@ import type { ComposeOption } from 'echarts/core';
 
 // 通过 ComposeOption 来组合出一个只有必须组件和图表的 Option 类型
 export type ECOption = ComposeOption<
+  | EffectScatterSeriesOption
   | BarSeriesOption
   | LineSeriesOption
   | PieSeriesOption
@@ -56,6 +60,9 @@ echarts.use([
   BarChart,
   LineChart,
   CustomChart, // 自定义图表
+  EffectScatterChart, //散点图特效
+  VisualMapComponent, // 视觉映射组件
+  CalendarComponent, // 日历组件
   LabelLayout,
   UniversalTransition,
   CanvasRenderer,

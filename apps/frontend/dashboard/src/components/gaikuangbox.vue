@@ -49,7 +49,7 @@ const { isBigFont = false } = defineProps<Props>();
     justify-content: center;
     flex-direction: column;
     .item-value {
-      font-size: pxTovw(22);
+      font-size: clampPxCustom(12px, 22);
       font-family:
         Source Han Sans,
         Source Han Sans;
@@ -71,7 +71,7 @@ const { isBigFont = false } = defineProps<Props>();
         text-overflow: ellipsis;
       }
       &.bigFont {
-        font-size: pxTovw(24);
+        font-size: clampPxCustom(14px, 24);
       }
     }
     .item-label {
@@ -79,13 +79,13 @@ const { isBigFont = false } = defineProps<Props>();
         Source Han Sans,
         Source Han Sans;
       font-weight: 400;
-      font-size: pxTovw(14);
+      font-size: clampPxCustom(9px, 14);
       color: #cdcdcd;
       white-space: pre-wrap;
       width: 80%;
       text-align: center;
       &.bigFont {
-        font-size: pxTovw(18);
+        font-size: clampPxCustom(12px, 18);
         font-weight: 700;
         background: linear-gradient(to bottom, #ffffff 30%, #30d4f1 99%, #26d2f0 100%);
         background-clip: text;

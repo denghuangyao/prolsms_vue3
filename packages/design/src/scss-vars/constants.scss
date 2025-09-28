@@ -25,8 +25,14 @@ $designHeight: 1080;
 //1920*1080设计稿，适配3840x2160分辨率，100px => vw(100)
 @function pxTovw($px) {
   // @if ($designWidth<=1920) {
-  //   @return #{$px}px;
+  //   // @return #{calc($px)}px;
   // } @else {
   @return calc($px / $designWidth) * 100vw;
   // }
+}
+@function clampPx($px) {
+  @return clamp(#{$px}px, #{pxTovw($px)}, #{pxTovw($px)});
+}
+@function clampPxCustom($minPx, $px) {
+  @return clamp($minPx, #{pxTovw($px)}, #{pxTovw($px)});
 }

@@ -8,11 +8,11 @@ const linkStatusEnum = ref({
   未连接: 'warning',
 });
 let headerList: any = ref([
-  { label: '排行', prop: 'idx', width: '70', type: 'idx' },
-  { label: '房间名称', prop: 'fangjianName' },
-  { label: '探头名称', prop: 'mingcheng' },
-  { label: '连接状态', prop: 'lianjie', width: '90', type: 'tag', enum: linkStatusEnum.value },
-  { label: '实时数据', prop: 'shuju', width: '120' },
+  { label: '排行', prop: 'idx', type: 'idx', width: '55' },
+  { label: '房间名称', prop: 'fangjianName', width: '85' },
+  { label: '探头名称', prop: 'mingcheng', width: '85' },
+  { label: '连接状态', prop: 'lianjie', width: '85', type: 'tag', enum: linkStatusEnum.value },
+  { label: '实时数据', prop: 'shuju', width: '135' },
 ]);
 let dataList: any = ref([
   {
@@ -83,7 +83,7 @@ let dataList: any = ref([
   flex-direction: column;
   max-height: 33%;
   .chart-container {
-    height: calc(100% - #{pxTovw(52)});
+    height: calc(100% - #{clampPx(40)} - #{clampPx(12)});
   }
 }
 </style>

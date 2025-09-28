@@ -9,6 +9,7 @@ import qualityRank from './components/qualityRank.vue';
 import OnlineTable from './components/onlineTable.vue';
 import Pie3DChart from '@/views/components/special/pie3DChart.vue';
 import bar3DChart from './components/special/bar3DChart.vue';
+import ScatterChart from './components/normal/scatterChart.vue';
 let shijugaikuangData: GaikuangDataConfig = {
   WHP: {
     compareList: [
@@ -42,7 +43,7 @@ let shijugaikuangData: GaikuangDataConfig = {
       { label: '故障', value: '10' },
       { label: '停用', value: '4' },
     ],
-    label: '仪器预约',
+    label: '仪器用电量',
   },
 };
 </script>
@@ -60,7 +61,11 @@ let shijugaikuangData: GaikuangDataConfig = {
       </div>
       <div class="content-middle flexColumnCon">
         <!-- 数据概况 -->
-        <shujugaikuang class="content-shujugaikuang" :data="shijugaikuangData" />
+        <shujugaikuang class="content-shujugaikuang" :data="shijugaikuangData">
+          <template #middle_body>
+            <ScatterChart />
+          </template>
+        </shujugaikuang>
         <!-- 特殊图表显示 -->
         <stackedLineChart class="content-bottom" />
       </div>
@@ -96,7 +101,7 @@ body {
   height: calc(100% - #{pxTovw(67)});
   .content-block {
     // width: pxTovw(520);
-    flex: 1;
+    // flex: 1;
     box-sizing: border-box;
 
     .content-item {
@@ -112,7 +117,6 @@ body {
   }
   .content-middle {
     // width: pxTovw(800);
-    flex: 0 0 42.4%;
     box-sizing: border-box;
     .content-bottom {
       width: 100%;
@@ -200,20 +204,38 @@ body {
         height: 930px !important;
         order: 2 !important;
         flex: 0 0 auto !important;
+        width: 100%;
       }
       .content-bottom {
-        flex: 2;
+        flex: 1;
       }
       .content-middle {
-        height: 500px !important;
+        height: 650px !important;
         order: 1;
         flex: 0 0 auto !important;
+        width: 100%;
       }
 
       .content-block:nth-child(3) {
         order: 3 !important;
         height: 930px !important;
         flex: 0 0 auto !important;
+        width: 100%;
+      }
+    }
+  }
+}
+// 小屏幕下的样式
+@media (min-width: 576px) {
+  .daping-bg {
+    .main-container {
+      .content-block {
+        flex: 0 0 27.8%;
+        max-width: 27.8%;
+      }
+      .content-middle {
+        flex: 0 0 42.4%;
+        max-width: 42.4%;
       }
     }
   }

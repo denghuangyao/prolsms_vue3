@@ -51,18 +51,18 @@
 }
 
 .wl-custom-tooltip-valuestyle {
-  margin-top: pxTovw(5);
+  margin-top: clampPx(5);
   font-weight: 700;
 }
 
 .wl-pl16 {
-  padding-left: pxTovw(16);
+  padding-left: clampPx(16);
 }
 .wl-custom-tooltip-markerStyle {
   display: inline-block;
-  margin-right: pxTovw(5);
-  border-radius: pxTovw(2);
-  width: pxTovw(9);
-  height: pxTovw(8);
+  margin-right: clampPx(5);
+  border-radius: clampPx(2);
+  width: clampPx(9);
+  height: clampPx(8);
 }
 // -------黑色大屏-----------

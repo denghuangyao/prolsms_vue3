@@ -84,7 +84,7 @@ let cellStyle = (): CSSProperties => ({ 'text-align': 'left', height: '2.1875vw'
         v-for="(item, index) in tableHeaders"
         :prop="item.prop"
         :label="item.label"
-        :width="item.width"
+        :min-width="item.width"
         :key="index"
         show-overflow-tooltip
         ><template #default="scope">
@@ -140,7 +140,7 @@ let cellStyle = (): CSSProperties => ({ 'text-align': 'left', height: '2.1875vw'
   --el-table-row-hover-bg-color: transparent !important;
   --el-table-header-text-color: #eee9e9 !important;
   --el-table-header-bg-color: transparent !important;
-  font-size: pxTovw(14);
+  font-size: clampPxCustom(14px, 14);
   .el-table__body-wrapper {
     .el-table__empty-block {
       .el-table__empty-text {
@@ -156,7 +156,7 @@ let cellStyle = (): CSSProperties => ({ 'text-align': 'left', height: '2.1875vw'
         Source Han Sans,
         Source Han Sans;
       font-weight: 400;
-      font-size: pxTovw(14);
+      font-size: clampPx(14);
       padding: pxTovw(10);
       text-align: left;
       font-style: normal;
@@ -177,6 +177,7 @@ let cellStyle = (): CSSProperties => ({ 'text-align': 'left', height: '2.1875vw'
     }
     :deep(.el-table__header-wrapper .table-header) {
       background: linear-gradient(to bottom, rgba(45, 222, 236, 0.2), transparent 100%) !important;
+      height: pxTovw(45);
     }
     .cell {
       .cell_label {
@@ -184,17 +185,17 @@ let cellStyle = (): CSSProperties => ({ 'text-align': 'left', height: '2.1875vw'
       }
       .idx_label {
         color: #eee9e9;
-        width: pxTovw(36);
-        height: pxTovw(26);
+        width: clampPx(36);
+        height: clampPx(26);
         text-align: center;
-        font-size: pxTovw(14);
+        font-size: clampPx(14);
         box-sizing: border-box;
         &.idx_row_top {
           display: flex;
           align-items: center;
           justify-content: center;
           padding-right: pxTovw(6);
-          font-size: pxTovw(13);
+          font-size: clampPx(13);
           font-weight: bold;
           font-family: 'NotoSans';
           color: #fff;
@@ -205,10 +206,10 @@ let cellStyle = (): CSSProperties => ({ 'text-align': 'left', height: '2.1875vw'
     }
   }
   .el-tag {
-    border-radius: pxTovw(4);
-    padding: pxTovw(4) pxTovw(6);
-    line-height: pxTovw(12);
-    font-size: pxTovw(12);
+    border-radius: clampPx(4);
+    padding: clampPx(4) clampPx(6);
+    line-height: clampPx(12);
+    font-size: clampPx(12);
     border: none;
     &.el-tag--primary {
       background: rgba(24, 144, 255, 0.2);

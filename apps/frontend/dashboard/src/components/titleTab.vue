@@ -99,7 +99,7 @@ function handleCommand(key: any) {
     cursor: pointer;
     padding: pxTovw(12) pxTovw(15);
     font-weight: 400;
-    font-size: pxTovw(14);
+    font-size: clampPxCustom(12px, 14);
     color: #cdcdcd;
     &:hover {
       color: #1be0fe;

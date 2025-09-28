@@ -91,7 +91,8 @@ function handleChange(date: any) {
   &.titleImgBg {
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    height: pxTovw(40);
+    // height: pxTovw(40);
+    height: clampPxCustom(35px, 40);
     background-image: url('@assets/images/largeScreen/block_titlebg.png');
   }
 
@@ -100,9 +101,9 @@ function handleChange(date: any) {
       Source Han Sans,
       Source Han Sans;
     font-weight: 700;
-    font-size: pxTovw(16);
+    font-size: clampPxCustom(14px, 16);
     color: #ffffff;
-    padding-left: pxTovw(26);
+    padding-left: clampPxCustom(22.8px, 26);
     box-sizing: border-box;
   }
 
